@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="208dp">
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/test_01"
+                android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="24dp"
+                android:gravity="center">
+                <View
+                    android:layout_width="16.5dp"
+                    android:layout_height="13.5dp"
+                    android:background="@drawable/icon_comment"></View>
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:text="565768"
+                    android:textColor="#fff"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="87dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_news1"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="20dp">
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2014/08/30"
+                    android:textSize="13.33sp"
+                    android:textColor="#fff"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="12dp"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="17dp"
+                android:background="@drawable/bg_news2"/>
+
+            <TextView
+                android:id="@id/title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="精彩音乐汇-暑期特辑精彩音乐汇精彩暑期特辑精彩音乐汇精彩"
+                android:textColor="#000"
+                android:textSize="17sp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="9dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineSpacingExtra="3dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>
