@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#50000000"
+    android:id="@+id/popupWindow">
+
+    <LinearLayout
+        android:id="@+id/popup"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#fff">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享到："
+            android:textColor="#2f2f2f"
+            android:textSize="13.5sp"
+            android:paddingLeft="25dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/bg_line2"
+            android:layout_marginLeft="25dp"
+            android:layout_marginBottom="25dp"></View>
+
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="4"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center"></GridView>
+
+        <TextView
+            android:id="@+id/close"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="取消"
+            android:background="@drawable/btn_gray"
+            android:gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="#2f2f2f"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
