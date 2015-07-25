@@ -3,9 +3,10 @@ package com.cctv.music.cctv15.model;
 
 import com.cctv.music.cctv15.utils.DateUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Content {
+public class Content implements Serializable{
     //categoryid=1
     private int categoryid;
     //categoryname=新闻

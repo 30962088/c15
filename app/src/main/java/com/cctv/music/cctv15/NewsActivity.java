@@ -1,6 +1,8 @@
 package com.cctv.music.cctv15;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.cctv.music.cctv15.adapter.NewsAdapter;
 import com.cctv.music.cctv15.model.Content;
@@ -11,7 +13,7 @@ import com.cctv.music.cctv15.ui.BaseListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsActivity extends BaseActivity implements BaseListView.OnLoadListener{
+public class NewsActivity extends BaseActivity implements BaseListView.OnLoadListener,AdapterView.OnItemClickListener{
 
     private List<Content> list = new ArrayList<>();
 
@@ -24,6 +26,7 @@ public class NewsActivity extends BaseActivity implements BaseListView.OnLoadLis
         BaseListView listView = (BaseListView)findViewById(R.id.listview);
         adapter = new NewsAdapter(this,list);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
         listView.setOnLoadListener(this);
         listView.load(true);
     }
@@ -60,5 +63,11 @@ public class NewsActivity extends BaseActivity implements BaseListView.OnLoadLis
     @Override
     public BaseListView.Type getRequestType() {
         return BaseListView.Type.PAGE;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Content content = list.get(position - 1);
+        NewsDetailActivity.open(this,content);
     }
 }

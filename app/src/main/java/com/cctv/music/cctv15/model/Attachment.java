@@ -2,9 +2,10 @@ package com.cctv.music.cctv15.model;
 
 import com.cctv.music.cctv15.utils.DateUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Attachment {
+public class Attachment implements Serializable{
     //attachmentdate=/Date(1428566663000)/
     private String attachmentdate;
     //attachmentformat=.jpg

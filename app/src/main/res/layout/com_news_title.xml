@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="126dp"
+        android:background="@drawable/bg_hd"
+        android:paddingLeft="12.5dp"
+        android:paddingRight="12.5dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="16dp">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="精彩音乐汇-暑期特辑精彩音乐汇精彩音乐汇-暑期特辑精彩音"
+            android:textColor="#fff"
+            android:lineSpacingExtra="5dp"
+            android:textSize="21sp"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2014/08/30"
+            android:textSize="14.34sp"
+            android:textColor="#80ffffff"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+</merge>

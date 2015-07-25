@@ -2,9 +2,10 @@ package com.cctv.music.cctv15.model;
 
 import com.cctv.music.cctv15.utils.DateUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class NewsDescription {
+public class NewsDescription implements Serializable{
 
     //commentcount=5
 
