@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#f0f0f0">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -10,6 +11,7 @@
         android:background="#fff">
 
         <RelativeLayout
+            android:id="@+id/back"
             android:layout_width="49dp"
             android:layout_height="match_parent">
 

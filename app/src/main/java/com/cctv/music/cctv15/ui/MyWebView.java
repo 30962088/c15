@@ -22,10 +22,12 @@ public class MyWebView extends WebView {
     }
 
     private void init() {
-        getSettings().setJavaScriptEnabled(true);
-        getSettings().setLoadWithOverviewMode(true);
-        getSettings().setUseWideViewPort(true);
-        getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        if(!isInEditMode()){
+            getSettings().setJavaScriptEnabled(true);
+            getSettings().setLoadWithOverviewMode(true);
+            getSettings().setUseWideViewPort(true);
+            getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        }
     }
 
 }

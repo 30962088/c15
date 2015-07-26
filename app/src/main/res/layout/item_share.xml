@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
+            android:layout_width="26dp"
+            android:layout_height="26dp"/>
 
         <TextView
             android:id="@+id/label"
@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:text="QQ好友"
             android:gravity="center"
-            android:textColor="#000"
-            android:textSize="14sp"/>
+            android:textColor="#828282"
+            android:textSize="12.3sp"/>
 
     </LinearLayout>
 

@@ -4,6 +4,7 @@ package com.cctv.music.cctv15;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -16,13 +17,14 @@ import com.cctv.music.cctv15.ui.CommentPublishView;
 import com.cctv.music.cctv15.ui.CommentView;
 import com.cctv.music.cctv15.ui.MyWebView;
 import com.cctv.music.cctv15.ui.NewsTitleView;
+import com.cctv.music.cctv15.ui.SharePopup;
 import com.cctv.music.cctv15.utils.HtmlUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-public class NewsDetailActivity extends BaseActivity{
+public class NewsDetailActivity extends BaseActivity implements View.OnClickListener{
 
     public static void open(Context context, Content content) {
 
@@ -32,6 +34,22 @@ public class NewsDetailActivity extends BaseActivity{
 
         context.startActivity(intent);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.comemntcount:
+                oncomment();
+                break;
+            case R.id.back:
+                finish();
+                break;
+        }
+    }
+
+    private void oncomment() {
+        CommentActivity.open(this,content);
     }
 
     private class ViewHolder{
@@ -47,6 +65,17 @@ public class NewsDetailActivity extends BaseActivity{
             publishview = (CommentPublishView) findViewById(R.id.publishview);
             container = (ViewGroup) findViewById(R.id.container);
             comemntcount = (TextView) findViewById(R.id.comemntcount);
+            publishview.setModel(new CommentPublishView.OnPublishListener() {
+                @Override
+                public void onshare() {
+                    SharePopup.shareContent(NewsDetailActivity.this);
+                }
+
+                @Override
+                public void onsend(String text) {
+
+                }
+            });
         }
     }
 
@@ -59,9 +88,11 @@ public class NewsDetailActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         content = (Content) getIntent().getSerializableExtra("content");
         setContentView(R.layout.activity_news_detail);
+        findViewById(R.id.back).setOnClickListener(this);
         holder = new ViewHolder();
         holder.titleview.setModel(content);
         holder.comemntcount.setText("" + content.getCommentcount());
+        holder.comemntcount.setOnClickListener(this);
         request();
     }
 

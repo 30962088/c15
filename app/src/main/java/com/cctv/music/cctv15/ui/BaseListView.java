@@ -109,14 +109,9 @@ public class BaseListView extends PullToRefreshListView {
 			}
 		});
 	}
-	
-	public void load2(){
-		_load(true);
-	}
 
 	public void load(boolean refresh){
 		setRefreshing(true);
-		_load(true);
 	}
 	
 	private void _load(boolean refresh) {

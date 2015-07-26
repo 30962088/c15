@@ -13,7 +13,7 @@ import com.cctv.music.cctv15.ui.BaseListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsActivity extends BaseActivity implements BaseListView.OnLoadListener,AdapterView.OnItemClickListener{
+public class NewsActivity extends BaseActivity implements BaseListView.OnLoadListener,AdapterView.OnItemClickListener,View.OnClickListener{
 
     private List<Content> list = new ArrayList<>();
 
@@ -23,6 +23,7 @@ public class NewsActivity extends BaseActivity implements BaseListView.OnLoadLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
+        findViewById(R.id.back).setOnClickListener(this);
         BaseListView listView = (BaseListView)findViewById(R.id.listview);
         adapter = new NewsAdapter(this,list);
         listView.setAdapter(adapter);
@@ -69,5 +70,14 @@ public class NewsActivity extends BaseActivity implements BaseListView.OnLoadLis
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Content content = list.get(position - 1);
         NewsDetailActivity.open(this,content);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.back:
+                finish();
+                break;
+        }
     }
 }

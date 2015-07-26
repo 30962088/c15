@@ -29,15 +29,15 @@
             android:layout_height="1dp"
             android:background="@drawable/bg_line2"
             android:layout_marginLeft="25dp"
-            android:layout_marginBottom="25dp"></View>
+            android:layout_marginRight="25dp"></View>
 
         <GridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:numColumns="4"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:padding="10dp"
+            android:clipToPadding="true"
             android:gravity="center"></GridView>
 
         <TextView

@@ -8,9 +8,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.cctv.music.cctv15.R;
-import com.cctv.music.cctv15.model.Content;
 
-public class CommentPublishView extends FrameLayout {
+public class CommentPublishView extends FrameLayout implements View.OnClickListener{
 
     public CommentPublishView(Context context) {
         super(context);
@@ -27,6 +26,29 @@ public class CommentPublishView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         init();
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.share:
+                onshare();
+                break;
+        }
+    }
+
+    private void onshare() {
+        if(onPublishListener != null){
+            onPublishListener.onshare();
+        }
+
+    }
+
+    public static interface OnPublishListener{
+        public void onshare();
+        public void onsend(String text);
+    }
+
+    private OnPublishListener onPublishListener;
 
     private class ViewHolder{
         private EditText text;
@@ -45,10 +67,13 @@ public class CommentPublishView extends FrameLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.com_comment_publish, this);
         hoder = new ViewHolder();
+        hoder.share.setOnClickListener(this);
     }
 
-    public void setModel(Content content){
 
+
+    public void setModel(OnPublishListener onPublishListener){
+        this.onPublishListener = onPublishListener;
     }
 
 }
