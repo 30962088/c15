@@ -7,11 +7,13 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.cctv.music.cctv15.utils.AppConfig;
 import com.loopj.android.http.*;
 
 public abstract class BaseClient implements HttpResponseHandler {
 
-	public static final String HOST = "http://music.1du1du.com";
+	protected final String HOST = AppConfig.getInstance().getHost();
 	
 	private static AsyncHttpClient client = new AsyncHttpClient();
 
@@ -49,11 +51,12 @@ public abstract class BaseClient implements HttpResponseHandler {
 		@Override
 		public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 			String str = new String(arg2);
-			try {
-				JSONObject object = new JSONObject(str);
-				int result = object.getInt("result");
-				if(result != 1000){
-					requestHandler.onComplete();
+			if(getURL().indexOf(AppConfig.getInstance().getHost()) != -1){
+				try {
+					JSONObject object = new JSONObject(str);
+					int result = object.getInt("result");
+					if(result != 1000){
+						requestHandler.onComplete();
 					/*if((getURL().indexOf(APP.getAppConfig().getRequest_news()) != -1 && result == 1010)||(getURL().indexOf(APP.getAppConfig().getRequest_user()) != -1 && result == 1011)){
 
 						Utils.tip(context, "登录过期，请重新登录");
@@ -67,15 +70,15 @@ public abstract class BaseClient implements HttpResponseHandler {
 					}else{*/
 						requestHandler.onError(result, "请求失败");
 						handler.onError(result, "请求失败");
-					//}
+						//}
 
-					return;
+						return;
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-
 			requestHandler.onSuccess(handler.onSuccess(str));
 			requestHandler.onComplete();
 

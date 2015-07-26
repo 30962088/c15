@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:paddingLeft="11dp">
+
+        <RelativeLayout
+            android:id="@+id/bg1"
+            android:layout_width="76dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_c1"
+            android:gravity="center_vertical">
+
+            <View
+                android:id="@+id/play"
+                android:layout_marginTop="3dp"
+                android:layout_width="9dp"
+                android:layout_height="11dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/icon_play"></View>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="08:30"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"/>
+
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/bg2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_c4">
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="中国音乐电视(27)"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:textColor="#fff"
+                android:textSize="14sp"></TextView>
+        </FrameLayout>
+
+
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -2,6 +2,7 @@ package com.cctv.music.cctv15;
 
 import android.app.Application;
 
+import com.cctv.music.cctv15.utils.AppConfig;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -30,5 +31,6 @@ public class App extends Application{
                 .tasksProcessingOrder(QueueProcessingType.LIFO).build();
         // 初始化ImageLoader的与配置。
         mImageLoader.init(config);
+        AppConfig.init(this);
     }
 }
