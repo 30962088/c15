@@ -76,6 +76,7 @@ public class VoteActivity extends BaseActivity implements BaseListView.OnLoadLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Vote vote = list.get(position - 1);
+        VoteDetailActivity.open(this,vote.getDetailUrl());
     }
 
     @Override

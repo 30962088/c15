@@ -71,4 +71,9 @@ public class Vote implements Serializable{
     public int getVoteusercount() {
         return voteusercount;
     }
+
+    public String getDetailUrl(){
+        return templeteurl+"?voteid="+voteid;
+    }
+
 }
