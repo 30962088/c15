@@ -9,7 +9,7 @@ import com.cctv.music.cctv15.adapter.ProgramAdapter;
 import com.cctv.music.cctv15.model.Program;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.ProgramRequest;
-import com.cctv.music.cctv15.ui.BaseListView;
+import com.cctv.music.cctv15.utils.Utils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
@@ -52,7 +52,7 @@ public class LiveActivity extends BaseActivity implements View.OnClickListener,P
 
     @Override
     public void onComplete() {
-
+        listView.onRefreshComplete();
     }
 
     @Override
@@ -64,16 +64,16 @@ public class LiveActivity extends BaseActivity implements View.OnClickListener,P
             listView.getRefreshableView().post(new Runnable() {
                 @Override
                 public void run() {
-                    listView.getRefreshableView().smoothScrollToPosition(result.getCurrent()+1);
+                    listView.getRefreshableView().smoothScrollToPosition(result.getCurrent() + 1);
                 }
             });
 
         }
-        listView.onRefreshComplete();
+
     }
 
     @Override
     public void onError(int error, String msg) {
-
+        Utils.tip(this,"列表加载失败");
     }
 }

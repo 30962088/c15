@@ -20,6 +20,7 @@
     <style name="listViewStyle" parent="@android:style/Widget.ListView">
         <item name="android:divider">@null</item>
         <item name="android:dividerHeight">0dp</item>
+        <item name="android:listSelector">#00000000</item>
     </style>
 
     <style name="AnimationActivity" mce_bogus="1" parent="@android:style/Animation.Activity">
