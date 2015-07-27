@@ -12,8 +12,19 @@ import java.util.Date;
 
 public class ProgramRequest extends BaseClient{
 
-    public ProgramRequest(Context context) {
+    public static class Params{
+        protected Date date;
+
+        public Params(Date date) {
+            this.date = date;
+        }
+    }
+
+    private Params params;
+
+    public ProgramRequest(Context context, Params params) {
         super(context);
+        this.params = params;
     }
 
     public static class Result{
@@ -42,7 +53,7 @@ public class ProgramRequest extends BaseClient{
         RequestParams params = new RequestParams();
         params.add("serviceId","cbox");
         params.add("c","cctv15");
-        params.add("d",new SimpleDateFormat("yyyyMMdd").format(new Date()));
+        params.add("d",new SimpleDateFormat("yyyyMMdd").format(this.params.date));
         return params;
     }
 

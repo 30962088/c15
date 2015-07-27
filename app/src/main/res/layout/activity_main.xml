@@ -1,16 +1,52 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+    android:background="@drawable/icon_bg3">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="108.5dp"
+        android:background="@drawable/icon_hd2"></View>
+
+    <View
+        android:id="@+id/kedu"
+        android:layout_width="315dp"
+        android:layout_height="315dp"
+        android:background="@drawable/icon_kedu"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="43dp"></View>
+
+    <View
+        android:id="@+id/guang"
+        android:layout_width="318dp"
+        android:layout_height="190.5dp"
+        android:background="@drawable/icon_guang"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/clock"
+        android:layout_marginTop="-160dp"></View>
+
+    <com.cctv.music.cctv15.ui.ClockView
+        android:id="@+id/clock"
+        android:layout_width="217dp"
+        android:layout_height="227.5dp"
+        android:background="@drawable/icon_clock"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp"></com.cctv.music.cctv15.ui.ClockView>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="184dp"
+        android:layout_height="184dp"
+        android:background="@drawable/icon_circle_line"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="112dp"></View>
+
+    
+
 
 </RelativeLayout>

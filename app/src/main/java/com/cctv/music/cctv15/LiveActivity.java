@@ -14,6 +14,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LiveActivity extends BaseActivity implements View.OnClickListener,PullToRefreshBase.OnRefreshListener<ListView>,BaseClient.RequestHandler {
@@ -46,7 +47,7 @@ public class LiveActivity extends BaseActivity implements View.OnClickListener,P
         String label = DateUtils.formatDateTime(this, System.currentTimeMillis(),
                 DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
         refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-        ProgramRequest request = new ProgramRequest(this);
+        ProgramRequest request = new ProgramRequest(this,new ProgramRequest.Params(new Date()));
         request.request(this);
     }
 
@@ -58,8 +59,8 @@ public class LiveActivity extends BaseActivity implements View.OnClickListener,P
     @Override
     public void onSuccess(Object object) {
         final ProgramRequest.Result result = (ProgramRequest.Result)object;
-        listView.setAdapter(new ProgramAdapter(this, result.getCctv15()));
         Integer current = result.getCurrent();
+        listView.setAdapter(new ProgramAdapter(this, result.getCctv15().getProgram(),current));
         if(current != null){
             listView.getRefreshableView().post(new Runnable() {
                 @Override

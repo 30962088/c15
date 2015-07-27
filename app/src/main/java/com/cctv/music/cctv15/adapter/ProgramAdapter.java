@@ -9,29 +9,33 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.cctv.music.cctv15.R;
-import com.cctv.music.cctv15.model.CCTV15;
 import com.cctv.music.cctv15.model.Program;
+
+import java.util.List;
 
 
 public class ProgramAdapter extends BaseAdapter {
 
     private Context context;
 
-    private CCTV15 cctv15;
+    private List<Program> list;
 
-    public ProgramAdapter(Context context, CCTV15 cctv15) {
+    private Integer selected;
+
+    public ProgramAdapter(Context context, List<Program> list, Integer selected) {
         this.context = context;
-        this.cctv15 = cctv15;
+        this.list = list;
+        this.selected = selected;
     }
 
     @Override
     public int getCount() {
-        return cctv15.getProgram().size();
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return cctv15.getProgram().get(position);
+        return list.get(position);
     }
 
     @Override
@@ -42,7 +46,7 @@ public class ProgramAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        Program program = cctv15.getProgram().get(position);
+        Program program = list.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(
                     R.layout.item_program, null);
@@ -60,7 +64,8 @@ public class ProgramAdapter extends BaseAdapter {
             holder.bg1.setBackgroundResource(R.drawable.bg_c2);
             holder.bg2.setBackgroundResource(R.drawable.bg_c4);
         }
-        if(program.getSt() == cctv15.getLiveSt()){
+
+        if(selected != null && position == selected){
             holder.bg2.setBackgroundColor(Color.WHITE);
             holder.content.setTextColor(Color.BLACK);
             holder.play.setVisibility(View.VISIBLE);
