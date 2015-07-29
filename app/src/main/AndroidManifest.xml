@@ -82,13 +82,22 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AlbumSongActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
 
 
 
         <!--config-->
         <meta-data
             android:name="network_host"
-            android:value="http://music.1du1du.com" />
+            android:value="http://cctv15.1du1du.com" />
 
     </application>
 

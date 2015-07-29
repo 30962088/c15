@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.cctv.music.cctv15.ui.SquareRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="30dp"
+            android:layout_height="103.5dp"
+            android:background="@drawable/icon_disk"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"></View>
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/test_01"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8.5dp"
+            android:layout_marginLeft="8.5dp"
+            android:scaleType="centerCrop"/>
+
+
+
+        <TextView
+            android:id="@+id/singer"
+            android:layout_alignLeft="@+id/img"
+            android:layout_alignRight="@+id/img"
+            android:layout_alignBottom="@+id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="19.5dp"
+            android:text="歌手"
+            android:textColor="#ffffff"
+            android:textSize="12.17sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:background="#4d000000"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_s"></View>
+
+        <TextView
+            android:id="@+id/rank"
+            android:layout_width="39.5dp"
+            android:layout_height="53dp"
+            android:text="1"
+            android:textSize="17.5sp"
+            android:textColor="#fff"
+            android:background="@drawable/bg_red"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_alignTop="@+id/img"
+            android:layout_alignLeft="@+id/img"
+            android:layout_marginTop="5dp"/>
+
+    </com.cctv.music.cctv15.ui.SquareRelativeLayout>
+
+    <TextView
+        android:id="@+id/songname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="云水禅心"
+        android:textColor="#fff"
+        android:textSize="14dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="8dp"
+        android:singleLine="true"
+        android:ellipsize="end" />
+
+</LinearLayout>
