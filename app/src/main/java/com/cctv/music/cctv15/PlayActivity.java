@@ -1,7 +1,10 @@
 package com.cctv.music.cctv15;
 
 
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Point;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -11,10 +14,11 @@ import android.widget.TextView;
 import com.cctv.music.cctv15.ui.PercentView;
 import com.cctv.music.cctv15.utils.Utils;
 
-public class PlayActivity extends BaseActivity implements View.OnClickListener,View.OnTouchListener{
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
-
-
+public class PlayActivity extends BaseActivity implements View.OnClickListener,View.OnTouchListener,MediaPlayer.OnPreparedListener,MediaPlayer.OnCompletionListener {
 
     private class ViewHolder{
         private View btn_play;
@@ -41,7 +45,13 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
         }
     }
 
+    private Timer timer;
+
+
+
     private ViewHolder holder;
+
+    private MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +59,72 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
         setContentView(R.layout.activity_play);
         holder = new ViewHolder();
         initEvent();
+        initPlayer();
+        start("test.mp3");
+    }
 
+    private void stopTimer(){
+        timer.cancel();
+        timer = null;
+    }
 
+    private void startTimer() {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateTimer();
+                    }
+                });
 
+            }
+        }, 0, 1000);
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        holder.btn_play.setSelected(false);
+        stopTimer();
+        seekTo(0);
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        holder.label.setText(Utils.formatTimer(mp.getCurrentPosition()) + " / " + Utils.formatTimer(mp.getDuration()));
+        onplay();
+    }
+
+    private void initPlayer() {
+        player = new MediaPlayer();
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        player.setOnPreparedListener(this);
+        player.setOnCompletionListener(this);
+    }
+
+    private void start(String url){
+        try {
+            AssetFileDescriptor descriptor = getAssets().openFd(url);
+            player.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
+            descriptor.close();
+            player.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopTimer();
+        super.onDestroy();
+        if(player!=null){
+            player.stop();
+            player.release();
+            player = null;
+        }
     }
 
     private void initEvent() {
@@ -92,25 +165,34 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
     }
 
     private void onContainerUp(View v, MotionEvent event) {
-       calculate(event);
+        int percent = calculate(event);
+        seekTo(percent);
     }
 
     private void onContainerMove(View v, MotionEvent event) {
-        calculate(event);
+        int percent = calculate(event);
+        holder.percent.setPercent(percent);
     }
 
-    private void calculate(MotionEvent event){
+    private int calculate(MotionEvent event){
         float dw = event.getX()-last.x,dh = event.getY()-last.y;
         double tan = Math.atan2(dh,dw);
         percent = (int)((tan*(180 / Math.PI) *2)/360*100);
         if(percent<0){
-            percent = 180-percent;
+            percent = 100-percent;
         }
         if(percent>100){
             percent=0;
         }
-        holder.percent.setPercent(percent);
-        Log.d("zzm","x:"+dw+",y:"+dh+",percent:"+percent);
+
+        Log.d("zzm", "x:" + dw + ",y:" + dh + ",percent:" + percent);
+        return percent;
+    }
+
+    private void seekTo(int percent) {
+        double p = (double)percent/(double)100;
+        player.seekTo((int)(player.getDuration()*p));
+        updateTimer();
     }
 
     private int percent = 0;
@@ -118,9 +200,9 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
     private Point last;
 
     private boolean onContainerDown(View v, MotionEvent event) {
+        int dis = Utils.dpToPx(this,40);
         last = new Point(v.getWidth()/2,0);
         boolean res = false;
-        int dis = Utils.dpToPx(this,40);
         float viewX = event.getX() - v.getLeft();
         float viewY = event.getY() - v.getTop();
         if(viewX < dis || v.getWidth()-viewX<dis){
@@ -152,18 +234,35 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
     }
 
     private void onstar() {
+
     }
 
     private void onnext() {
-
+        start("test.mp3");
     }
 
     private void onprev() {
+        start("test.mp3");
+    }
 
+    private void updateTimer() {
+        player.getDuration();
+        holder.label.setText(Utils.formatTimer(player.getCurrentPosition()) + " / " + Utils.formatTimer(player.getDuration()));
+        int percent = (int)((double)player.getCurrentPosition()/(double)player.getDuration()*100);
+        holder.percent.setPercent(percent);
     }
 
     private void onplay() {
+        boolean selected = holder.btn_play.isSelected();
+        if(!selected){
+            player.start();
+            startTimer();
+        }else{
+            player.pause();
+            stopTimer();
 
+        }
+        holder.btn_play.setSelected(!selected);
     }
 
 }

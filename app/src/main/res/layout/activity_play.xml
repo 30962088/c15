@@ -48,7 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="73dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
 
             <RelativeLayout
@@ -78,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="21dp"
-                android:text="03:23 / 06:26"
+                android:text="00:00 / 00:00"
                 android:textColor="#fff"
                 android:textSize="33.33sp" />
 
@@ -101,7 +102,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="40dp"
-            android:background="@drawable/btn_play"></View>
+            android:background="@drawable/btn_play_selector"></View>
 
         <View
             android:id="@+id/btn_prev"

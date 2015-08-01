@@ -20,6 +20,21 @@ public class Utils {
         });
 
     }
+
+    public static String formatTimer(int milliseconds){
+
+        int second = milliseconds/1000;
+
+        return _formatTimer(second/60)+":"+_formatTimer(second%60);
+    }
+
+    private static String _formatTimer(int count){
+        if(count < 10){
+            return "0"+count;
+        }
+        return ""+count;
+    }
+
     public static int dpToPx(Context context, int dp) {
         return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
