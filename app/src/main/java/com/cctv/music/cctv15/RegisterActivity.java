@@ -1,16 +1,26 @@
 package com.cctv.music.cctv15;
 
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class ZoneActivity extends BaseActivity implements View.OnClickListener{
+public class RegisterActivity extends BaseActivity implements View.OnClickListener{
+
+    public static void open(Context context) {
+
+        Intent intent = new Intent(context, RegisterActivity.class);
+
+        context.startActivity(intent);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_zone);
+        setContentView(R.layout.activity_register);
         findViewById(R.id.back).setOnClickListener(this);
-        findViewById(R.id.login_btn).setOnClickListener(this);
     }
 
     @Override
@@ -19,10 +29,6 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener{
             case R.id.back:
                 finish();
                 break;
-            case R.id.login_btn:
-                LoginActivity.open(this);
-                break;
         }
-
     }
 }
