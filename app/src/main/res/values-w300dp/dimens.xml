@@ -1,0 +1,7 @@
+<resources>
+
+    <dimen name="play_label">20.22sp</dimen>
+    <dimen name="btn_play_size">93.33dp</dimen>
+    <dimen name="btn_prev_size">46dp</dimen>
+    <dimen name="disk_size">190dp</dimen>
+</resources>

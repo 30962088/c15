@@ -44,24 +44,25 @@
 
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="73dp"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
 
             <RelativeLayout
                 android:id="@+id/container"
-                android:layout_width="215dp"
-                android:layout_height="215dp">
+                android:layout_width="@dimen/disk_size"
+                android:layout_height="@dimen/disk_size">
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:layout_margin="5dp"
                     android:id="@+id/avatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="5dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/test_01"
                     app:riv_oval="true"></com.makeramen.roundedimageview.RoundedImageView>
@@ -81,7 +82,7 @@
                 android:layout_marginTop="21dp"
                 android:text="00:00 / 00:00"
                 android:textColor="#fff"
-                android:textSize="33.33sp" />
+                android:textSize="@dimen/play_label" />
 
         </LinearLayout>
 
@@ -97,8 +98,8 @@
 
         <View
             android:id="@+id/btn_play"
-            android:layout_width="100.5dp"
-            android:layout_height="100.5dp"
+            android:layout_width="@dimen/btn_play_size"
+            android:layout_height="@dimen/btn_play_size"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="40dp"
@@ -106,8 +107,8 @@
 
         <View
             android:id="@+id/btn_prev"
-            android:layout_width="48dp"
-            android:layout_height="49dp"
+            android:layout_width="@dimen/btn_prev_size"
+            android:layout_height="@dimen/btn_prev_size"
             android:layout_alignBottom="@+id/btn_play"
             android:layout_alignLeft="@+id/btn_play"
             android:layout_marginBottom="20dp"
@@ -116,13 +117,28 @@
 
         <View
             android:id="@+id/btn_next"
-            android:layout_width="48dp"
-            android:layout_height="49dp"
+            android:layout_width="@dimen/btn_prev_size"
+            android:layout_height="@dimen/btn_prev_size"
             android:layout_alignBottom="@+id/btn_play"
             android:layout_alignRight="@+id/btn_play"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="-83dp"
             android:background="@drawable/btn_next"></View>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/btn_star"
+            android:layout_alignTop="@+id/btn_star"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="40dp">
+
+            <com.cctv.music.cctv15.ui.MyRatingbar
+                android:id="@+id/ratebar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"></com.cctv.music.cctv15.ui.MyRatingbar>
+        </FrameLayout>
 
         <View
             android:id="@+id/btn_star"
@@ -132,6 +148,9 @@
             android:layout_marginRight="11dp"
             android:layout_marginTop="17dp"
             android:background="@drawable/btn_star_selector"></View>
+
+
+
 
     </RelativeLayout>
 

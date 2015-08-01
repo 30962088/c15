@@ -39,6 +39,10 @@ public class Utils {
         return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
 
+    public static int dpToPx(Context context, float dp) {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
+    }
+
     public static boolean setListViewHeightBasedOnItems(ListView listView) {
 
         ListAdapter listAdapter = listView.getAdapter();

@@ -11,16 +11,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cctv.music.cctv15.ui.MyRatingbar;
 import com.cctv.music.cctv15.ui.PercentView;
+import com.cctv.music.cctv15.utils.AnimUtils;
 import com.cctv.music.cctv15.utils.Utils;
 
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PlayActivity extends BaseActivity implements View.OnClickListener,View.OnTouchListener,MediaPlayer.OnPreparedListener,MediaPlayer.OnCompletionListener {
+public class PlayActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MyRatingbar.OnRateListener {
 
-    private class ViewHolder{
+
+    private class ViewHolder {
         private View btn_play;
         private View btn_next;
         private View btn_prev;
@@ -30,6 +33,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
         private TextView label;
         private PercentView percent;
         private View container;
+        private MyRatingbar ratebar;
 
         public ViewHolder() {
             container = findViewById(R.id.container);
@@ -41,12 +45,11 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
             songname = (TextView) findViewById(R.id.songname);
             label = (TextView) findViewById(R.id.label);
             percent = (PercentView) findViewById(R.id.percent);
-
+            ratebar = (MyRatingbar) findViewById(R.id.ratebar);
         }
     }
 
     private Timer timer;
-
 
 
     private ViewHolder holder;
@@ -63,9 +66,14 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
         start("test.mp3");
     }
 
-    private void stopTimer(){
+    private void stopTimer() {
         timer.cancel();
         timer = null;
+    }
+
+    @Override
+    public void onrate(int rate) {
+        holder.btn_star.setSelected(true);
     }
 
     private void startTimer() {
@@ -104,7 +112,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
         player.setOnCompletionListener(this);
     }
 
-    private void start(String url){
+    private void start(String url) {
         try {
             AssetFileDescriptor descriptor = getAssets().openFd(url);
             player.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
@@ -120,7 +128,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
     protected void onDestroy() {
         stopTimer();
         super.onDestroy();
-        if(player!=null){
+        if (player != null) {
             player.stop();
             player.release();
             player = null;
@@ -134,21 +142,22 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
         holder.btn_next.setOnClickListener(this);
         holder.btn_star.setOnClickListener(this);
         holder.container.setOnTouchListener(this);
-
+        holder.ratebar.setOnRateListener(this);
+        findViewById(R.id.back).setOnClickListener(this);
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         boolean res = true;
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.container:
-                res = onContainerTouch(v,event);
+                res = onContainerTouch(v, event);
                 break;
         }
         return res;
     }
 
-    public boolean onContainerTouch(View v,MotionEvent event){
+    public boolean onContainerTouch(View v, MotionEvent event) {
         boolean res = true;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -174,15 +183,15 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
         holder.percent.setPercent(percent);
     }
 
-    private int calculate(MotionEvent event){
-        float dw = event.getX()-last.x,dh = event.getY()-last.y;
-        double tan = Math.atan2(dh,dw);
-        percent = (int)((tan*(180 / Math.PI) *2)/360*100);
-        if(percent<0){
-            percent = 100-percent;
+    private int calculate(MotionEvent event) {
+        float dw = event.getX() - last.x, dh = event.getY() - last.y;
+        double tan = Math.atan2(dh, dw);
+        percent = (int) ((tan * (180 / Math.PI) * 2) / 360 * 100);
+        if (percent < 0) {
+            percent = 100 - percent;
         }
-        if(percent>100){
-            percent=0;
+        if (percent > 100) {
+            percent = 0;
         }
 
         Log.d("zzm", "x:" + dw + ",y:" + dh + ",percent:" + percent);
@@ -190,8 +199,8 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
     }
 
     private void seekTo(int percent) {
-        double p = (double)percent/(double)100;
-        player.seekTo((int)(player.getDuration()*p));
+        double p = (double) percent / (double) 100;
+        player.seekTo((int) (player.getDuration() * p));
         updateTimer();
     }
 
@@ -200,15 +209,15 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
     private Point last;
 
     private boolean onContainerDown(View v, MotionEvent event) {
-        int dis = Utils.dpToPx(this,40);
-        last = new Point(v.getWidth()/2,0);
+        int dis = Utils.dpToPx(this, 40);
+        last = new Point(v.getWidth() / 2, 0);
         boolean res = false;
         float viewX = event.getX() - v.getLeft();
         float viewY = event.getY() - v.getTop();
-        if(viewX < dis || v.getWidth()-viewX<dis){
+        if (viewX < dis || v.getWidth() - viewX < dis) {
             res = true;
         }
-        if(viewY < dis || v.getHeight()-viewY<dis){
+        if (viewY < dis || v.getHeight() - viewY < dis) {
             res = true;
         }
 
@@ -217,7 +226,10 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
+            case R.id.back:
+                finish();
+                break;
             case R.id.btn_play:
                 onplay();
                 break;
@@ -233,8 +245,17 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
         }
     }
 
-    private void onstar() {
+    private boolean starShow = false;
 
+    private void onstar() {
+        View ratebar = holder.ratebar;
+        if (!starShow) {
+            AnimUtils.expandOrCollapse(ratebar, "expand");
+            starShow = true;
+        } else {
+            AnimUtils.expandOrCollapse(ratebar, "collapse");
+            starShow = false;
+        }
     }
 
     private void onnext() {
@@ -248,16 +269,16 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener,V
     private void updateTimer() {
         player.getDuration();
         holder.label.setText(Utils.formatTimer(player.getCurrentPosition()) + " / " + Utils.formatTimer(player.getDuration()));
-        int percent = (int)((double)player.getCurrentPosition()/(double)player.getDuration()*100);
+        int percent = (int) ((double) player.getCurrentPosition() / (double) player.getDuration() * 100);
         holder.percent.setPercent(percent);
     }
 
     private void onplay() {
         boolean selected = holder.btn_play.isSelected();
-        if(!selected){
+        if (!selected) {
             player.start();
             startTimer();
-        }else{
+        } else {
             player.pause();
             stopTimer();
 
