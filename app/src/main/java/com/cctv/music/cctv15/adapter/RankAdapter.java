@@ -55,6 +55,7 @@ public class RankAdapter extends BaseAdapter {
         }
         holder.score.setText(""+item.getTotal_score());
         holder.name.setText(""+item.getUsername());
+        holder.rank.setText(""+(position+1));
         ImageLoader.getInstance().displayImage(item.getLoginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
         return convertView;
     }
@@ -62,12 +63,15 @@ public class RankAdapter extends BaseAdapter {
     private static class ViewHolder {
         private ImageView avatar;
         private TextView name;
-        private TextView score;;
+        private TextView score;
+        private TextView rank;
 
         public ViewHolder(View view) {
             avatar = (ImageView) view.findViewById(R.id.avatar);
             name = (TextView) view.findViewById(R.id.name);
             score = (TextView) view.findViewById(R.id.score);
+            rank = (TextView) view.findViewById(R.id.rank);
+
         }
     }
 

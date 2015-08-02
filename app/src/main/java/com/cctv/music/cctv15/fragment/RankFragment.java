@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.cctv.music.cctv15.R;
 import com.cctv.music.cctv15.adapter.RankAdapter;
+import com.cctv.music.cctv15.model.MyRank;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.RankListRequest;
 import com.cctv.music.cctv15.utils.DisplayOptions;
@@ -19,10 +20,14 @@ import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class RankFragment extends BaseFragment implements BaseClient.RequestHandler {
+public class RankFragment extends BaseFragment{
 
-    public static RankFragment newInstance() {
-        return new RankFragment();
+    public static RankFragment newInstance(MyRank myRank) {
+        RankFragment fragment = new RankFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("rank",myRank);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     private class ViewHolder {
@@ -48,6 +53,14 @@ public class RankFragment extends BaseFragment implements BaseClient.RequestHand
 
     private ViewHolder holder;
 
+    private MyRank rank;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        rank = (MyRank) getArguments().getSerializable("rank");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,29 +76,11 @@ public class RankFragment extends BaseFragment implements BaseClient.RequestHand
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RankListRequest request = new RankListRequest(getActivity(), new RankListRequest.Params(Preferences.getInstance().getUid()));
-        request.request(this);
-    }
-
-
-    @Override
-    public void onComplete() {
-
-    }
-
-    @Override
-    public void onSuccess(Object object) {
-        RankListRequest.Result result = (RankListRequest.Result) object;
-        ImageLoader.getInstance().displayImage(result.getMyloginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
-        holder.name.setText("" + result.getMyusername());
-        holder.rank.setText("" + result.getMyranking());
-        holder.score.setText("" + result.getMyscore());
-        holder.listview.setAdapter(new RankAdapter(getActivity(), result.getRanklist()));
-    }
-
-    @Override
-    public void onError(int error, String msg) {
-        Utils.tip(getActivity(), "我的排名加载失败");
+        ImageLoader.getInstance().displayImage(rank.getMyloginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
+        holder.name.setText("" + rank.getMyusername());
+        holder.rank.setText("" + rank.getMyranking());
+        holder.score.setText("" + rank.getMyscore());
+        holder.listview.setAdapter(new RankAdapter(getActivity(), rank.getRanklist()));
     }
 
 }
