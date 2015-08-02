@@ -43,6 +43,26 @@ public class Preferences {
         return preferences.getString("weibo_access_token",null);
     }
 
+    public void setUid(String sid){
+        preferences.edit().putString("uid", sid).commit();
+    }
+
+    public String getUid(){
+        return "170";
+        //return preferences.getString("uid",null);
+    }
+
+    public boolean isLogin(){
+        /*if(getPkey() != null && getSid() != null){
+            return true;
+        }*/
+
+        if(getUid() != null){
+            return true;
+        }
+        return false;
+    }
+
     public void clearWeibo(){
         setWeiboAccessToken(null);
         setWeiboUid(null);

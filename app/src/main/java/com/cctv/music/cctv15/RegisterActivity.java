@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.cctv.music.cctv15.fragment.SigninFragment;
+
 public class RegisterActivity extends BaseActivity implements View.OnClickListener{
 
     public static void open(Context context) {
@@ -20,7 +22,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        findViewById(R.id.btn_confirm).setOnClickListener(this);
         findViewById(R.id.back).setOnClickListener(this);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container,
+                        SigninFragment.newInstance())
+                .addToBackStack("singin").commit();
     }
 
     @Override
@@ -29,6 +37,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             case R.id.back:
                 finish();
                 break;
+
         }
     }
+
+
+
+
 }

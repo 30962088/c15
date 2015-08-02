@@ -40,6 +40,7 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener,B
         findViewById(R.id.back).setOnClickListener(this);
         findViewById(R.id.btn_clear).setOnClickListener(this);
         findViewById(R.id.btn_weibo).setOnClickListener(this);
+        findViewById(R.id.btn_app).setOnClickListener(this);
         holder.btn_login.setOnClickListener(this);
         holder.btn_about.setOnClickListener(this);
     }
@@ -62,6 +63,9 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener,B
                 break;
             case R.id.btn_weibo:
                 bindingWeibo(this);
+                break;
+            case R.id.btn_app:
+                AppListActivity.open(this);
                 break;
         }
 
@@ -110,4 +114,6 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener,B
 
         }.execute(this);
     }
+
+
 }

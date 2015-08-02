@@ -2,6 +2,7 @@ package com.cctv.music.cctv15.utils;
 
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,16 @@ public class Utils {
             }
         });
 
+    }
+
+    public static boolean isPackageInstalled(String packagename, Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     public static String formatTimer(int milliseconds){
