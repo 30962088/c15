@@ -147,7 +147,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/login_btn"
+                android:id="@+id/btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/_c1"
@@ -266,6 +266,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/btn_weibo"
                 android:layout_marginBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -289,12 +290,13 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/binding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="未绑定"
                     android:textSize="12sp"
                     android:layout_marginRight="7dp"
-                    android:textColor="#80000000"/>
+                    android:textColor="@color/orgin_color_selector"/>
 
                 <View
                     android:layout_width="7dp"
@@ -371,10 +373,10 @@
                         android:textColor="#000"
                         android:textSize="14sp" />
 
-                    <View
+                    <CheckBox
                         android:layout_width="25.5dp"
                         android:layout_height="15.5dp"
-                        android:background="@drawable/btn_radio_selector"></View>
+                        android:button="@drawable/btn_radio_selector"></CheckBox>
 
 
                 </LinearLayout>
@@ -407,10 +409,10 @@
                         android:textColor="#000"
                         android:textSize="14sp" />
 
-                    <View
+                    <CheckBox
                         android:layout_width="25.5dp"
                         android:layout_height="15.5dp"
-                        android:background="@drawable/btn_radio_selector"></View>
+                        android:button="@drawable/btn_radio_selector"></CheckBox>
 
 
                 </LinearLayout>
@@ -421,6 +423,7 @@
 
 
             <LinearLayout
+                android:id="@+id/btn_clear"
                 android:layout_marginBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -444,6 +447,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/cachesize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="268K"
@@ -503,6 +507,7 @@
                     android:layout_marginRight="5dp"></View>
 
                 <LinearLayout
+                    android:id="@+id/btn_about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"

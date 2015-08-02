@@ -126,11 +126,40 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".AboutActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".BindingWeiboActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+
 
         <!--config-->
         <meta-data
             android:name="network_host"
             android:value="http://cctv15.1du1du.com" />
+
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5491a448fd98c519a9000c53" >
+        </meta-data>
+
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="development" />
 
     </application>
 
