@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cctv.music.cctv15.adapter.TicketAdapter;
 import com.cctv.music.cctv15.fragment.RankFragment;
+import com.cctv.music.cctv15.network.ActivistListRequest;
 import com.cctv.music.cctv15.network.BaseClient;
-import com.cctv.music.cctv15.network.RankListRequest;
 import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.Preferences;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -44,6 +46,8 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
 
         private View btn_rank;
 
+        private ListView listview;
+
         public ViewHolder() {
 
             count = (TextView) findViewById(R.id.count);
@@ -53,7 +57,7 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
             score = (TextView) findViewById(R.id.score);
             rank = (TextView) findViewById(R.id.rank);
             btn_rank = findViewById(R.id.btn_rank);
-
+            listview = (ListView) findViewById(R.id.listview);
 
         }
     }
@@ -66,11 +70,13 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
+        findViewById(R.id.back).setOnClickListener(this);
         holder = new ViewHolder();
         holder.btn_rank.setOnClickListener(this);
-        initSidemenu();
-        RankListRequest request = new RankListRequest(this,new RankListRequest.Params(Preferences.getInstance().getUid()));
+        ActivistListRequest request = new ActivistListRequest(this,new ActivistListRequest.Params(Preferences.getInstance().getUid()));
         request.request(this);
+        initSidemenu();
+
     }
 
     @Override
@@ -80,6 +86,9 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
                 if(menu != null){
                     menu.toggle();
                 }
+                break;
+            case R.id.back:
+                finish();
                 break;
         }
     }
@@ -91,14 +100,14 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
 
     @Override
     public void onSuccess(Object object) {
-        RankListRequest.Result result = (RankListRequest.Result)object;
-        holder.count.setText(""+0);
-        ImageLoader.getInstance().displayImage(result.getMyloginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
-        holder.name.setText("" + result.getMyusername());
+        ActivistListRequest.Result result = (ActivistListRequest.Result)object;
+        holder.count.setText("" + result.getMyticket_count());
+        ImageLoader.getInstance().displayImage(result.getLoginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
+        holder.name.setText("" + result.getUsername());
         holder.rank.setText("" + result.getMyranking());
         holder.score.setText("" + result.getMyscore());
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.sidemenu, RankFragment.newInstance(result)).commit();
+        holder.listview.setAdapter(new TicketAdapter(this, result.getActivitylist()));
+
 
     }
 
@@ -112,7 +121,8 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         menu.setMenu(R.layout.sidemenu);
-
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.sidemenu, RankFragment.newInstance()).commit();
     }
 
     @Override

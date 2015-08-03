@@ -48,7 +48,7 @@ public class Preferences {
     }
 
     public String getUid(){
-        return "170";
+        return "174";
         //return preferences.getString("uid",null);
     }
 

@@ -12,22 +12,37 @@ import android.widget.TextView;
 
 import com.cctv.music.cctv15.R;
 import com.cctv.music.cctv15.adapter.RankAdapter;
-import com.cctv.music.cctv15.model.MyRank;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.RankListRequest;
 import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.Preferences;
-import com.cctv.music.cctv15.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class RankFragment extends BaseFragment{
+public class RankFragment extends BaseFragment implements BaseClient.RequestHandler{
 
-    public static RankFragment newInstance(MyRank myRank) {
+    public static RankFragment newInstance() {
         RankFragment fragment = new RankFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("rank",myRank);
-        fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onComplete() {
+
+    }
+
+    @Override
+    public void onSuccess(Object object) {
+        RankListRequest.Result rank = (RankListRequest.Result)object;
+        ImageLoader.getInstance().displayImage(rank.getMyloginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
+        holder.name.setText("" + rank.getMyusername());
+        holder.rank.setText("" + rank.getMyranking());
+        holder.score.setText("" + rank.getMyscore());
+        holder.listview.setAdapter(new RankAdapter(getActivity(), rank.getRanklist()));
+    }
+
+    @Override
+    public void onError(int error, String msg) {
+
     }
 
     private class ViewHolder {
@@ -53,12 +68,9 @@ public class RankFragment extends BaseFragment{
 
     private ViewHolder holder;
 
-    private MyRank rank;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rank = (MyRank) getArguments().getSerializable("rank");
     }
 
     @Nullable
@@ -76,11 +88,9 @@ public class RankFragment extends BaseFragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ImageLoader.getInstance().displayImage(rank.getMyloginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
-        holder.name.setText("" + rank.getMyusername());
-        holder.rank.setText("" + rank.getMyranking());
-        holder.score.setText("" + rank.getMyscore());
-        holder.listview.setAdapter(new RankAdapter(getActivity(), rank.getRanklist()));
+        RankListRequest request = new RankListRequest(getActivity(),new RankListRequest.Params(Preferences.getInstance().getUid()));
+        request.request(this);
+
     }
 
 }
