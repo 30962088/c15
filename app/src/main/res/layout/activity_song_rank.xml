@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         ptr:ptrHeaderTextColor="#fff"
         ptr:ptrHeaderSubTextColor="#fff"
-        ptr:ptrDrawable="@drawable/default_ptr_rotate"
+        ptr:ptrDrawable="@drawable/white_ptr_rotate"
         android:layout_height="match_parent"></com.cctv.music.cctv15.ui.BaseListView>
 
 </LinearLayout>

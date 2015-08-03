@@ -6,8 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cctv.music.cctv15.model.PushInfo;
+import com.cctv.music.cctv15.network.BaseClient;
+import com.cctv.music.cctv15.network.PushInfoRequest;
 import com.cctv.music.cctv15.utils.CacheManager;
 import com.cctv.music.cctv15.utils.Preferences;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ZoneActivity extends BaseActivity implements View.OnClickListener,BaseActivity.OnWeiboBindingListener{
 
@@ -19,6 +25,7 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener,B
         private View btn_about;
         private TextView cachesize;
         private TextView binding;
+        private TextView count_push;
 
 
         public ViewHolder() {
@@ -26,6 +33,8 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener,B
             btn_about = findViewById(R.id.btn_about);
             cachesize = (TextView) findViewById(R.id.cachesize);
             binding = (TextView) findViewById(R.id.binding);
+            count_push = (TextView) findViewById(R.id.count_push);
+
         }
     }
 
@@ -41,6 +50,7 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener,B
         findViewById(R.id.btn_clear).setOnClickListener(this);
         findViewById(R.id.btn_weibo).setOnClickListener(this);
         findViewById(R.id.btn_app).setOnClickListener(this);
+        findViewById(R.id.btn_pushinfo).setOnClickListener(this);
         holder.btn_login.setOnClickListener(this);
         holder.btn_about.setOnClickListener(this);
     }
@@ -67,6 +77,9 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener,B
             case R.id.btn_app:
                 AppListActivity.open(this);
                 break;
+            case R.id.btn_pushinfo:
+                PushInfoActivity.open(this,infoList);
+                break;
         }
 
     }
@@ -75,6 +88,30 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener,B
         super.onResume();
         getCacheSize();
         checkBinding();
+        checkPushInfo();
+    }
+
+    private ArrayList<PushInfo> infoList;
+
+    private void checkPushInfo() {
+        new PushInfoRequest(this,new PushInfoRequest.Params(1,100000)).request(new BaseClient.RequestHandler() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                PushInfoRequest.Result result = (PushInfoRequest.Result)object;
+                holder.count_push.setText(result.getNewCount(ZoneActivity.this)+"条新消息");
+                infoList = (ArrayList)result.getPushinfolist();
+            }
+
+            @Override
+            public void onError(int error, String msg) {
+
+            }
+        });
     }
 
     private void checkBinding() {

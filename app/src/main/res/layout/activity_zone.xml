@@ -308,6 +308,7 @@
 
 
             <LinearLayout
+                android:id="@+id/btn_pushinfo"
                 android:layout_marginBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -331,6 +332,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/count_push"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2条新通知"
