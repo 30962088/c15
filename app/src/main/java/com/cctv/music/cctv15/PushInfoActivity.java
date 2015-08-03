@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cctv.music.cctv15.adapter.PushInfoAdapter;
+import com.cctv.music.cctv15.db.InfoTable;
 import com.cctv.music.cctv15.model.PushInfo;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.PushInfoRequest;
@@ -31,6 +33,8 @@ public class PushInfoActivity extends BaseActivity implements PullToRefreshBase.
 
     private PullToRefreshListView listView;
 
+    private PushInfoAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +46,8 @@ public class PushInfoActivity extends BaseActivity implements PullToRefreshBase.
         listView.setOnItemClickListener(this);
 
         if(list != null){
-            listView.setAdapter(new PushInfoAdapter(this,list));
+            adapter = new PushInfoAdapter(this,list);
+            listView.setAdapter(adapter);
         }else{
             listView.setRefreshing();
         }
@@ -51,7 +56,10 @@ public class PushInfoActivity extends BaseActivity implements PullToRefreshBase.
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        PushInfo info = (PushInfo) parent.getAdapter().getItem(position);
+        InfoTable.setRead(this,info.getPid(),true);
+        InfoDetailActivity.open(this, info);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -77,7 +85,8 @@ public class PushInfoActivity extends BaseActivity implements PullToRefreshBase.
     @Override
     public void onSuccess(Object object) {
         PushInfoRequest.Result result = (PushInfoRequest.Result)object;
-        listView.setAdapter(new PushInfoAdapter(this,result.getPushinfolist()));
+        adapter = new PushInfoAdapter(this,result.getPushinfolist());
+        listView.setAdapter(adapter);
     }
 
     @Override
