@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/icon_bg3">
@@ -7,8 +8,15 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="108.5dp"
+        android:layout_height="82.5dp"
         android:background="@drawable/icon_hd2"></View>
+    
+    <View
+        android:layout_width="123dp"
+        android:layout_height="45.5dp"
+        android:background="@drawable/bg_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"></View>
 
     <View
         android:id="@+id/kedu"
@@ -28,6 +36,7 @@
         android:layout_alignTop="@+id/clock"
         android:layout_marginTop="-160dp"></View>
 
+
     <com.cctv.music.cctv15.ui.ClockView
         android:id="@+id/clock"
         android:layout_width="217dp"
@@ -46,7 +55,42 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="112dp"></View>
 
-    
+
+    <View
+        android:id="@+id/d1"
+        android:translationX="100dp"
+        android:translationY="300dp"
+        android:layout_width="273.5dp"
+        android:layout_height="230.5dp"
+        android:background="@drawable/d1_selector"></View>
+
+    <View
+
+        android:layout_width="273.5dp"
+        android:layout_height="230.5dp"
+        android:background="@drawable/d2_selector"></View>
+
+    <View
+        android:layout_width="273.5dp"
+        android:layout_height="230.5dp"
+        android:background="@drawable/d3_selector"></View>
+
+    <View
+        android:layout_width="273.5dp"
+        android:layout_height="230.5dp"
+        android:background="@drawable/d4_selector"></View>
+
+    <View
+        android:layout_width="273.5dp"
+        android:layout_height="230.5dp"
+        android:background="@drawable/d5_selector"></View>
+
+    <View
+        android:layout_width="273.5dp"
+        android:layout_height="230.5dp"
+        android:background="@drawable/d6_selector"></View>
+
+
 
 
 </RelativeLayout>
