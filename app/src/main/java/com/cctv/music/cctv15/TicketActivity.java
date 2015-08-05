@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cctv.music.cctv15.adapter.TicketAdapter;
 import com.cctv.music.cctv15.fragment.RankFragment;
+import com.cctv.music.cctv15.model.TicketItem;
 import com.cctv.music.cctv15.network.ActivistListRequest;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.utils.DisplayOptions;
@@ -17,7 +19,7 @@ import com.cctv.music.cctv15.utils.Preferences;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class TicketActivity extends BaseActivity implements BaseClient.RequestHandler,View.OnClickListener{
+public class TicketActivity extends BaseActivity implements BaseClient.RequestHandler,View.OnClickListener,AdapterView.OnItemClickListener{
 
 
     public static void open(Context context) {
@@ -27,6 +29,7 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
         context.startActivity(intent);
 
     }
+
 
 
 
@@ -73,6 +76,7 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
         findViewById(R.id.back).setOnClickListener(this);
         holder = new ViewHolder();
         holder.btn_rank.setOnClickListener(this);
+        holder.listview.setOnItemClickListener(this);
         ActivistListRequest request = new ActivistListRequest(this,new ActivistListRequest.Params(Preferences.getInstance().getUid()));
         request.request(this);
         initSidemenu();
@@ -128,6 +132,12 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
     @Override
     public void onError(int error, String msg) {
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        TicketItem item = (TicketItem) parent.getAdapter().getItem(position);
+        TicketDetailActivity.open(this,item);
     }
 
 

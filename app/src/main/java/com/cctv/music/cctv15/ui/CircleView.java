@@ -23,7 +23,7 @@ public class CircleView extends View{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.draw
+
 
 
 

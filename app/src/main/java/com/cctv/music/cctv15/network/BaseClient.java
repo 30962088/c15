@@ -51,7 +51,8 @@ public abstract class BaseClient implements HttpResponseHandler {
 		@Override
 		public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 			String str = new String(arg2);
-			if(getURL().indexOf(AppConfig.getInstance().getHost()) != -1){
+			// TODO: 2015/8/5
+			if(getURL().indexOf(AppConfig.getInstance().getHost()) != -1 && getURL().indexOf("GetActivistDetails") != -1){
 				try {
 					JSONObject object = new JSONObject(str);
 					int result = object.getInt("result");

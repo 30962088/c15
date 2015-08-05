@@ -14,7 +14,7 @@ public class TicketItem implements Serializable{
 
     //aid=1
 
-    private String aid;
+    private int aid;
 
     //convert_score=30000
 
@@ -40,7 +40,7 @@ public class TicketItem implements Serializable{
         return address;
     }
 
-    public String getAid() {
+    public int getAid() {
         return aid;
     }
 
