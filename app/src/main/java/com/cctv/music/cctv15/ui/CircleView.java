@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
 
-public class CircleView extends View{
+public class CircleView extends AbsoluteLayout{
 
 
     public CircleView(Context context) {
@@ -20,12 +22,19 @@ public class CircleView extends View{
         super(context, attrs, defStyleAttr);
     }
 
+
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+        super.addView(child, index, params);
+        setView(child,index);
+    }
 
+    private void setView(View child ,int index){
 
-
+        /*AbsoluteLayout.LayoutParams params = (LayoutParams) child.getLayoutParams();
+        params.x = -200;
+        params.y = 500;*/
 
     }
+
 }

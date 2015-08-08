@@ -3,6 +3,7 @@ package com.cctv.music.cctv15;
 
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -184,17 +185,16 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private int calculate(MotionEvent event) {
-        float dw = event.getX() - last.x, dh = event.getY() - last.y;
-        double tan = Math.atan2(dh, dw);
-        percent = (int) ((tan * (180 / Math.PI) * 2) / 360 * 100);
+
+        double angle = calcRotationAngleInDegrees(new PointF(last.x, last.y),new PointF(event.getX(),event.getY()));
+
+        percent = (int)(angle/360*100);
         if (percent < 0) {
             percent = 100 - percent;
         }
         if (percent > 100) {
             percent = 0;
         }
-
-        Log.d("zzm", "x:" + dw + ",y:" + dh + ",percent:" + percent);
         return percent;
     }
 
@@ -210,7 +210,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
 
     private boolean onContainerDown(View v, MotionEvent event) {
         int dis = Utils.dpToPx(this, 40);
-        last = new Point(v.getWidth() / 2, 0);
+        last = new Point(v.getLeft()+v.getWidth() / 2, v.getTop()+v.getHeight()/2);
         boolean res = false;
         float viewX = event.getX() - v.getLeft();
         float viewY = event.getY() - v.getTop();
@@ -284,6 +284,16 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
 
         }
         holder.btn_play.setSelected(!selected);
+    }
+
+    public double calcRotationAngleInDegrees(PointF centerPt, PointF targetPt){
+        double theta = Math.atan2(targetPt.y - centerPt.y, targetPt.x - centerPt.x);
+        theta += Math.PI/2.0;
+        double angle = Math.toDegrees(theta);
+        if (angle < 0) {
+            angle += 360;
+        }
+        return angle;
     }
 
 }
