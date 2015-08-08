@@ -5,81 +5,75 @@
     android:background="@drawable/icon_bg3">
 
 
-
     <View
         android:layout_width="match_parent"
         android:layout_height="82.5dp"
         android:background="@drawable/icon_hd2"></View>
-    
+
     <View
         android:layout_width="123dp"
         android:layout_height="45.5dp"
-        android:background="@drawable/bg_logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"></View>
+        android:layout_marginTop="0dp"
+        android:background="@drawable/bg_logo"></View>
 
     <View
         android:id="@+id/kedu"
         android:layout_width="315dp"
         android:layout_height="315dp"
-        android:background="@drawable/icon_kedu"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="36dp"></View>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/icon_kedu"></View>
 
     <View
         android:id="@+id/guang"
         android:layout_width="318dp"
         android:layout_height="190.5dp"
-        android:background="@drawable/icon_guang"
-        android:layout_centerHorizontal="true"
         android:layout_alignTop="@+id/clock"
-        android:layout_marginTop="-160dp"></View>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-160dp"
+        android:background="@drawable/icon_guang"></View>
 
 
     <View
         android:id="@+id/clock"
         android:layout_width="215dp"
         android:layout_height="215dp"
-        android:background="@drawable/icon_clock"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="80dp"></View>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/icon_clock"></View>
 
     <View
         android:id="@+id/line"
         android:layout_width="184dp"
         android:layout_height="184dp"
-        android:background="@drawable/icon_circle_line"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"></View>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/icon_circle_line"></View>
 
-    <com.cctv.music.cctv15.ui.CircleView
+
+    <com.cctv.music.cctv15.ui.CircleLayout
         android:id="@+id/circleview"
+        app:iconSize1="@dimen/circle_iconsize"
+        android:layout_marginTop="@dimen/circle_top"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="@dimen/circle_bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <View
-            android:id="@+id/d1"
-            android:layout_width="273.5dp"
-            android:layout_height="230.5dp"
-            android:background="@drawable/d1_selector"></View>
-
-    </com.cctv.music.cctv15.ui.CircleView>
+        android:layout_height="match_parent" />
 
 
     <com.cctv.music.cctv15.ui.RotateView
         android:id="@+id/rotateview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/clock"
         android:layout_alignBottom="@+id/clock"
         android:layout_alignLeft="@+id/clock"
-        android:layout_alignRight="@+id/clock"/>
-
-
-
+        android:layout_alignRight="@+id/clock"
+        android:layout_alignTop="@+id/clock" />
 
 
 </RelativeLayout>

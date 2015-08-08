@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 
+import com.cctv.music.cctv15.ui.CircleLayout;
 import com.cctv.music.cctv15.ui.CircleView;
 import com.cctv.music.cctv15.ui.PausableRotateAnimation;
 import com.cctv.music.cctv15.ui.RotateView;
@@ -27,7 +28,7 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
         private View guang;
         private View kedu;
         private RotateView rotateview;
-        private CircleView circleview;
+        private CircleLayout circleview;
 
         public ViewHolder() {
             clock = findViewById(R.id.clock);
@@ -35,7 +36,7 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
             guang = findViewById(R.id.guang);
             kedu = findViewById(R.id.kedu);
             rotateview = (RotateView) findViewById(R.id.rotateview);
-            circleview = (CircleView) findViewById(R.id.circleview);
+            circleview = (CircleLayout) findViewById(R.id.circleview);
         }
     }
 
@@ -90,15 +91,18 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
         ViewCompat.setRotation(holder.clock, (float)rotate);
     }
 
+
+    private int rotate = 0;
+
     @Override
     public void end(RotateView.Direction dir) {
-        int rotate = 300;
+        int rotate = 360/6;
         if(dir == RotateView.Direction.Up){
             rotate = -rotate;
         }
-        ViewCompat.setRotation(holder.circleview,rotate);
+        this.rotate += rotate;
+        holder.circleview.setDegree(dir == RotateView.Direction.Up?false:true,200);
         lineAnimation.resume();
-
     }
 
     @Override
