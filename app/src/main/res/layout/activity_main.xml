@@ -4,6 +4,26 @@
     android:layout_height="match_parent"
     android:background="@drawable/icon_bg3">
 
+    <ImageView
+        android:id="@+id/guang1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/guang1_bottom"
+        android:layout_alignBottom="@+id/clock"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_guang2"></ImageView>
+
+    <ImageView
+        android:id="@+id/guang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/guang1"
+        android:layout_marginTop="@dimen/guang_bottom"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_guang"></ImageView>
+
     <com.cctv.music.cctv15.ui.CircleLayout
         android:id="@+id/circleview"
         app:iconSize1="@dimen/circle_iconsize"
@@ -26,23 +46,19 @@
         android:layout_marginTop="0dp"
         android:background="@drawable/bg_logo"></View>
 
-    <com.cctv.music.cctv15.ui.SquareViewLayout
+    <View
         android:id="@+id/kedu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/kedu_size"
+        android:layout_height="@dimen/kedu_size"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="36dp"
-        android:background="@drawable/icon_kedu"></com.cctv.music.cctv15.ui.SquareViewLayout>
+        android:layout_marginBottom="@dimen/kedu_bottom"
+        android:background="@drawable/icon_kedu"></View>
 
-    <View
-        android:id="@+id/guang"
-        android:layout_width="318dp"
-        android:layout_height="190.5dp"
-        android:layout_alignTop="@+id/clock"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="-160dp"
-        android:background="@drawable/icon_guang"></View>
+
+
+
+
 
 
     <View

@@ -1,4 +1,8 @@
 <resources>
+    <dimen name="guang1_bottom">100dp</dimen>
+    <dimen name="guang_bottom">80dp</dimen>
+    <dimen name="kedu_bottom">26dp</dimen>
+    <dimen name="kedu_size">300dp</dimen>
     <dimen name="circle_bottom">-80dp</dimen>
     <dimen name="circle_top">10dp</dimen>
     <dimen name="circle_iconsize">100dp</dimen>
