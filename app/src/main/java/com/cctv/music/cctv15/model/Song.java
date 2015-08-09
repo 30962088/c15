@@ -64,7 +64,7 @@ public class Song implements Serializable{
 
 
     public SliderFragment.Model toSliderModel(){
-        return new SliderFragment.Model(null,getSurfaceurl(),getSingername());
+        return new SliderFragment.Model(null,getSurfaceurl(),getSingername()+"《"+getSongname()+"》");
     }
 
 }

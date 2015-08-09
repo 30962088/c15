@@ -44,7 +44,6 @@ public class MyRatingbar extends FrameLayout{
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setRate(finalI+1);
                     if(onRateListener != null){
                         onRateListener.onrate(finalI+1);
                     }

@@ -25,7 +25,7 @@ public class SquareRelativeLayout extends RelativeLayout{
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		// TODO Auto-generated method stub
-		super.onMeasure(heightMeasureSpec, heightMeasureSpec);
+		super.onMeasure(widthMeasureSpec, widthMeasureSpec);
 	}
 	
 }

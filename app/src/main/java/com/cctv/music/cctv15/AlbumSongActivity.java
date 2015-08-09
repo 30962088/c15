@@ -37,12 +37,14 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
 
     private SongAlbumAdapter adapter;
 
+    private BaseListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_rank);
         findViewById(R.id.back).setOnClickListener(this);
-        BaseListView listView = (BaseListView)findViewById(R.id.listview);
+        listView = (BaseListView)findViewById(R.id.listview);
         View header = LayoutInflater.from(this).inflate(R.layout.slider_container, null);
 
         listView.getRefreshableView().addHeaderView(header);
@@ -51,12 +53,6 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
         listView.setOnLoadListener(this);
         listView.load(true);
 
-    }
-
-    private int getSliderHeight(){
-        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        return display.getWidth()/718*392;
     }
 
     @Override
@@ -112,6 +108,7 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
         list.addAll(result.getModels());
 
         adapter.notifyDataSetChanged();
+
 
         return result.getSonglist().size()>=limit?true:false;
     }

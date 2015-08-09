@@ -3,23 +3,25 @@ package com.cctv.music.cctv15;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cctv.music.cctv15.model.Song;
+import com.cctv.music.cctv15.network.BaseClient;
+import com.cctv.music.cctv15.network.GetSongScoreRequest;
+import com.cctv.music.cctv15.network.UpdateSongScoreRequest;
 import com.cctv.music.cctv15.ui.MyRatingbar;
 import com.cctv.music.cctv15.ui.PercentView;
 import com.cctv.music.cctv15.utils.AnimUtils;
 import com.cctv.music.cctv15.utils.DisplayOptions;
+import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -39,6 +41,11 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
             this.index = index;
             this.list = list;
         }
+
+        public Song getCurrent(){
+            return list.get(index);
+        }
+
     }
 
     public static void open(Context context,Model model) {
@@ -97,12 +104,45 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         initSong(model.index);
     }
 
+    private void initScore() {
+        holder.ratebar.setRate(0);
+        holder.btn_star.setSelected(false);
+        holder.btn_star.setEnabled(false);
+        if(Preferences.getInstance().isLogin()){
+            GetSongScoreRequest request = new GetSongScoreRequest(this,new GetSongScoreRequest.Params(Preferences.getInstance().getUid(),model.getCurrent().getSid()));
+            request.request(new BaseClient.RequestHandler() {
+                @Override
+                public void onComplete() {
+
+                }
+
+                @Override
+                public void onSuccess(Object object) {
+                    holder.btn_star.setEnabled(true);
+                    GetSongScoreRequest.Result result = (GetSongScoreRequest.Result)object;
+                    if(result.getScore()>0){
+
+                        holder.btn_star.setSelected(true);
+                        holder.ratebar.setRate(result.getScore()/20);
+                    }
+                }
+
+                @Override
+                public void onError(int error, String msg) {
+
+                }
+            });
+        }
+
+    }
+
     private void initSong(int index) {
         Song song = model.list.get(index);
         holder.singer.setText(song.getSingername());
         holder.songname.setText(song.getSongname());
         ImageLoader.getInstance().displayImage(song.getSurfaceurl(), holder.img, DisplayOptions.IMG.getOptions());
         start(song.getSongurl());
+        initScore();
     }
 
     private void stopTimer() {
@@ -114,7 +154,36 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    public void onrate(int rate) {
+    public void onrate(final int rate) {
+
+
+        if(holder.btn_star.isSelected()){
+            Utils.tip(this,"您已经对这首歌进行了评分");
+            return;
+        }
+
+        UpdateSongScoreRequest request = new UpdateSongScoreRequest(this,new UpdateSongScoreRequest.Params(rate*20,model.getCurrent().getSid(),Preferences.getInstance().getUid()));
+
+        request.request(new BaseClient.RequestHandler() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                Utils.tip(PlayActivity.this,"评分成功");
+                holder.btn_star.setSelected(true);
+                holder.ratebar.setRate(rate);
+            }
+
+            @Override
+            public void onError(int error, String msg) {
+
+            }
+        });
+
+
         holder.btn_star.setSelected(true);
     }
 
@@ -304,6 +373,11 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
     private boolean starShow = false;
 
     private void onstar() {
+        if(!Preferences.getInstance().isLogin()){
+            Utils.tip(this,"系统检测到您还没有登录");
+            LoginActivity.open(this);
+            return;
+        }
         View ratebar = holder.ratebar;
         if (!starShow) {
             AnimUtils.expandOrCollapse(ratebar, "expand");
