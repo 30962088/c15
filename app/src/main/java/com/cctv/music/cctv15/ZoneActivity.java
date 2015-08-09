@@ -1,6 +1,7 @@
 package com.cctv.music.cctv15;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,13 @@ import java.util.List;
 
 public class ZoneActivity extends BaseActivity implements View.OnClickListener,BaseActivity.OnWeiboBindingListener{
 
+    public static void open(Context context) {
 
+        Intent intent = new Intent(context, ZoneActivity.class);
+
+        context.startActivity(intent);
+
+    }
 
 
     private class ViewHolder{

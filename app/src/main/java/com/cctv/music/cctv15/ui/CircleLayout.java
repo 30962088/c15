@@ -151,4 +151,7 @@ public class CircleLayout extends View{
         super.onDraw(canvas);
     }
 
+    public int getIndex() {
+        return index;
+    }
 }

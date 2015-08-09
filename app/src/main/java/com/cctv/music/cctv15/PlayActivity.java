@@ -1,6 +1,8 @@
 package com.cctv.music.cctv15;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -10,25 +12,51 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cctv.music.cctv15.model.Song;
 import com.cctv.music.cctv15.ui.MyRatingbar;
 import com.cctv.music.cctv15.ui.PercentView;
 import com.cctv.music.cctv15.utils.AnimUtils;
+import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.Utils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class PlayActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MyRatingbar.OnRateListener {
 
+    public static class Model implements Serializable{
+        private int index;
+        private List<Song> list;
+
+        public Model(int index, List<Song> list) {
+            this.index = index;
+            this.list = list;
+        }
+    }
+
+    public static void open(Context context,Model model) {
+
+        Intent intent = new Intent(context, PlayActivity.class);
+
+        intent.putExtra("model",model);
+
+        context.startActivity(intent);
+
+    }
 
     private class ViewHolder {
         private View btn_play;
         private View btn_next;
         private View btn_prev;
         private View btn_star;
+        private ImageView img;
         private TextView singer;
         private TextView songname;
         private TextView label;
@@ -37,6 +65,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         private MyRatingbar ratebar;
 
         public ViewHolder() {
+            img = (ImageView) findViewById(R.id.img);
             container = findViewById(R.id.container);
             btn_play = findViewById(R.id.btn_play);
             btn_next = findViewById(R.id.btn_next);
@@ -52,6 +81,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
 
     private Timer timer;
 
+    private Model model;
 
     private ViewHolder holder;
 
@@ -60,16 +90,27 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        model = (Model) getIntent().getSerializableExtra("model");
         setContentView(R.layout.activity_play);
         holder = new ViewHolder();
         initEvent();
-        initPlayer();
-        start("test.mp3");
+        initSong(model.index);
+    }
+
+    private void initSong(int index) {
+        Song song = model.list.get(index);
+        holder.singer.setText(song.getSingername());
+        holder.songname.setText(song.getSongname());
+        ImageLoader.getInstance().displayImage(song.getSurfaceurl(), holder.img, DisplayOptions.IMG.getOptions());
+        start(song.getSongurl());
     }
 
     private void stopTimer() {
-        timer.cancel();
-        timer = null;
+        if(timer != null){
+            timer.cancel();
+            timer = null;
+        }
+
     }
 
     @Override
@@ -93,6 +134,8 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         }, 0, 1000);
     }
 
+    private boolean isPrepared = false;
+
     @Override
     public void onCompletion(MediaPlayer mp) {
         holder.btn_play.setSelected(false);
@@ -102,9 +145,13 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onPrepared(MediaPlayer mp) {
+        isPrepared = true;
+        mp.seekTo(0);
         holder.label.setText(Utils.formatTimer(mp.getCurrentPosition()) + " / " + Utils.formatTimer(mp.getDuration()));
         onplay();
     }
+
+
 
     private void initPlayer() {
         player = new MediaPlayer();
@@ -114,26 +161,35 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void start(String url) {
+        releasePlay();
+        initPlayer();
+        stopTimer();
+        holder.btn_play.setSelected(false);
+        holder.label.setText("00:00" + " / " + "00:00");
+        holder.percent.setPercent(0);
         try {
-            AssetFileDescriptor descriptor = getAssets().openFd(url);
-            player.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
-            descriptor.close();
-            player.prepare();
+            player.setDataSource(url);
+            player.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    @Override
-    protected void onDestroy() {
-        stopTimer();
-        super.onDestroy();
+    private void releasePlay(){
+        isPrepared = false;
         if (player != null) {
             player.stop();
             player.release();
             player = null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopTimer();
+        super.onDestroy();
+        releasePlay();
     }
 
     private void initEvent() {
@@ -259,11 +315,18 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void onnext() {
-        start("test.mp3");
+        if(model.index<model.list.size()-1){
+            model.index++;
+            initSong(model.index);
+        }
+
     }
 
     private void onprev() {
-        start("test.mp3");
+        if(model.index>0){
+            model.index--;
+            initSong(model.index);
+        }
     }
 
     private void updateTimer() {
@@ -274,16 +337,19 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void onplay() {
-        boolean selected = holder.btn_play.isSelected();
-        if (!selected) {
-            player.start();
-            startTimer();
-        } else {
-            player.pause();
-            stopTimer();
+        if(isPrepared){
+            boolean selected = holder.btn_play.isSelected();
+            if (!selected) {
+                player.start();
+                startTimer();
+            } else {
+                player.pause();
+                stopTimer();
 
+            }
+            holder.btn_play.setSelected(!selected);
         }
-        holder.btn_play.setSelected(!selected);
+
     }
 
     public double calcRotationAngleInDegrees(PointF centerPt, PointF targetPt){

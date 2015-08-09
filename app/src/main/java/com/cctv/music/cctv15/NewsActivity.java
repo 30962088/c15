@@ -1,5 +1,7 @@
 package com.cctv.music.cctv15;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsActivity extends BaseActivity implements BaseListView.OnLoadListener,AdapterView.OnItemClickListener,View.OnClickListener{
+
+    public static void open(Context context) {
+
+        Intent intent = new Intent(context, NewsActivity.class);
+
+        context.startActivity(intent);
+
+    }
 
     private List<Content> list = new ArrayList<>();
 

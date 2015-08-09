@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.cctv.music.cctv15.adapter.SongAlbumAdapter;
 import com.cctv.music.cctv15.model.Song;
+import com.cctv.music.cctv15.ui.SliderFragment;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
@@ -34,6 +35,14 @@ public class SongRequest extends BaseClient{
 
         public List<Song> getSonglist() {
             return songlist;
+        }
+
+        public ArrayList<SliderFragment.Model> toSliderList(){
+            ArrayList<SliderFragment.Model> list = new ArrayList<>();
+            for(Song song : songlist){
+                list.add(song.toSliderModel());
+            }
+            return list;
         }
 
         public List<SongAlbumAdapter.Model> getModels(){

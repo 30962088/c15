@@ -13,6 +13,11 @@ import java.util.List;
 
 public class SongAlbumAdapter extends BaseAdapter {
 
+
+    public static interface OnSongAlbumClick{
+        void onsongalbumclick(int index);
+    }
+
     public static class Model{
         private Song col1;
         private Song col2;
@@ -33,9 +38,12 @@ public class SongAlbumAdapter extends BaseAdapter {
 
     private List<Model> list;
 
-    public SongAlbumAdapter(Context context, List<Model> list) {
+    private OnSongAlbumClick onSongAlbumClick;
+
+    public SongAlbumAdapter(Context context, List<Model> list, OnSongAlbumClick onSongAlbumClick) {
         this.context = context;
         this.list = list;
+        this.onSongAlbumClick = onSongAlbumClick;
     }
 
     @Override
@@ -54,7 +62,7 @@ public class SongAlbumAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         Model model = list.get(position);
         if (convertView == null) {
@@ -67,7 +75,19 @@ public class SongAlbumAdapter extends BaseAdapter {
         }
 
         holder.col1.setVisibility(View.INVISIBLE);
+        holder.col1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSongAlbumClick.onsongalbumclick(position * 2);
+            }
+        });
         holder.col2.setVisibility(View.INVISIBLE);
+        holder.col2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSongAlbumClick.onsongalbumclick(position*2+1);
+            }
+        });
         if(model.col1 != null){
             holder.col1.setVisibility(View.VISIBLE);
             Integer rank = null;

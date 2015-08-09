@@ -1,5 +1,7 @@
 package com.cctv.music.cctv15;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +18,14 @@ import java.util.List;
 
 public class VoteActivity extends BaseActivity implements BaseListView.OnLoadListener,AdapterView.OnItemClickListener,View.OnClickListener{
 
+
+    public static void open(Context context) {
+
+        Intent intent = new Intent(context, VoteActivity.class);
+
+        context.startActivity(intent);
+
+    }
     private List<Vote> list = new ArrayList<>();
 
     private VoteAdapter adapter;

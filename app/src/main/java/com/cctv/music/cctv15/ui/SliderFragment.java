@@ -80,7 +80,7 @@ public class SliderFragment extends Fragment {
 				
 				@Override
 				public void onClick(View v) {
-					onSliderItemClickListener.OnSliderItemClick(models.get(0));
+					onSliderItemClickListener.OnSliderItemClick(0, models.get(0));
 					
 				}
 			});
@@ -126,7 +126,7 @@ public class SliderFragment extends Fragment {
 	}
 
 	public interface OnSliderItemClickListener extends Serializable {
-		public void OnSliderItemClick(Model model);
+		public void OnSliderItemClick(int index,Model model);
 	}
 
 	public static class Model implements Serializable {
@@ -166,7 +166,7 @@ public class SliderFragment extends Fragment {
 	public class MyAdapter extends PagerAdapter {
 
 		@Override
-		public Object instantiateItem(ViewGroup container, int position) {
+		public Object instantiateItem(ViewGroup container, final int position) {
 			final Model model = models.get(position);
 			View view = LayoutInflater.from(getActivity()).inflate(
 					R.layout.slider_item, null);
@@ -178,7 +178,7 @@ public class SliderFragment extends Fragment {
 
 				@Override
 				public void onClick(View v) {
-					onSliderItemClickListener.OnSliderItemClick(model);
+					onSliderItemClickListener.OnSliderItemClick(position,model);
 
 				}
 			});

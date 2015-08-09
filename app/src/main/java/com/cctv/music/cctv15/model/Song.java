@@ -1,5 +1,7 @@
 package com.cctv.music.cctv15.model;
 
+import com.cctv.music.cctv15.ui.SliderFragment;
+
 import java.io.Serializable;
 
 public class Song implements Serializable{
@@ -59,4 +61,10 @@ public class Song implements Serializable{
     public String getSurfaceurl() {
         return surfaceurl;
     }
+
+
+    public SliderFragment.Model toSliderModel(){
+        return new SliderFragment.Model(null,getSurfaceurl(),getSingername());
+    }
+
 }

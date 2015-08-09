@@ -1,5 +1,7 @@
 package com.cctv.music.cctv15;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -18,6 +20,14 @@ import java.util.Date;
 import java.util.List;
 
 public class LiveActivity extends BaseActivity implements View.OnClickListener,PullToRefreshBase.OnRefreshListener<ListView>,BaseClient.RequestHandler {
+
+    public static void open(Context context) {
+
+        Intent intent = new Intent(context, LiveActivity.class);
+
+        context.startActivity(intent);
+
+    }
 
     private List<Program> list = new ArrayList<>();
 

@@ -61,7 +61,7 @@ public class SongAlbumView extends FrameLayout{
         if(rank != null){
             holder.rank.setVisibility(View.VISIBLE);
             holder.rank.setBackgroundResource(rankBgs[rank]);
-            holder.rank.setText(""+rank);
+            holder.rank.setText(""+(rank+1));
         }else{
             holder.rank.setVisibility(View.GONE);
         }

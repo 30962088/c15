@@ -59,7 +59,7 @@
                 android:layout_height="@dimen/disk_size">
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/avatar"
+                    android:id="@+id/img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
