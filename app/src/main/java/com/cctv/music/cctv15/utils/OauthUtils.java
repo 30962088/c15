@@ -51,6 +51,18 @@ public class OauthUtils implements UMAuthListener, FetchUserListener {
 			return sid;
 		}
 
+		public Sex getSex() {
+			return sex;
+		}
+
+		public String getNickname() {
+			return nickname;
+		}
+
+		public String getAvatar() {
+			return avatar;
+		}
+
 		/*public Params toParams() {
 			int type = 2;
 			if (media == SHARE_MEDIA.SINA) {
@@ -112,6 +124,7 @@ public class OauthUtils implements UMAuthListener, FetchUserListener {
 		media = SHARE_MEDIA.QQ;
 		oauth();
 	}
+
 
 	private void oauth() {
 		mController.doOauthVerify(context, media, this);

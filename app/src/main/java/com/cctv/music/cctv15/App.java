@@ -3,6 +3,7 @@ package com.cctv.music.cctv15;
 import android.app.Application;
 
 import com.cctv.music.cctv15.utils.AppConfig;
+import com.cctv.music.cctv15.utils.Dirctionary;
 import com.cctv.music.cctv15.utils.Preferences;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -34,5 +35,6 @@ public class App extends Application{
         mImageLoader.init(config);
         AppConfig.init(this);
         Preferences.init(this);
+        Dirctionary.init(this);
     }
 }

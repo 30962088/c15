@@ -186,6 +186,22 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".FillUserActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CityActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
 
         <!--config-->
         <meta-data
@@ -199,12 +215,24 @@
         </meta-data>
 
         <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="uN5PoIl6Qnz3aMcW8LbOT12H" />
+
+        <meta-data
             android:name="UMENG_CHANNEL"
             android:value="development" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
 
     </application>
 
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" >
+    </uses-permission>
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />

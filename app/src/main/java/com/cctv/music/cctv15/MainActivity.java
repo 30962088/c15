@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
     private void initAnimation() {
         lineAnimation = new PausableRotateAnimation(0f,358f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
         lineAnimation.setInterpolator(new LinearInterpolator());
-        lineAnimation.setDuration(1000);
+        lineAnimation.setDuration(2000);
         lineAnimation.setFillAfter(true);
         lineAnimation.setRepeatCount(Animation.INFINITE);
         holder.line.startAnimation(lineAnimation);

@@ -115,12 +115,13 @@
             android:layout_height="wrap_content">
 
             <View
+                android:id="@+id/btn_weibo"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:background="@drawable/icon_l_1"></View>
 
             <View
-
+                android:id="@+id/btn_qq"
                 android:layout_marginLeft="43dp"
                 android:layout_marginRight="43dp"
                 android:layout_width="52dp"
@@ -128,6 +129,7 @@
                 android:background="@drawable/icon_l_2"></View>
 
             <View
+                android:id="@+id/btn_renren"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:background="@drawable/icon_l_3"></View>

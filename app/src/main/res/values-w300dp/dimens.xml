@@ -4,8 +4,8 @@
     <dimen name="kedu_bottom">26dp</dimen>
     <dimen name="kedu_size">300dp</dimen>
     <dimen name="circle_bottom">-80dp</dimen>
-    <dimen name="circle_top">10dp</dimen>
-    <dimen name="circle_iconsize">100dp</dimen>
+    <dimen name="circle_top">40dp</dimen>
+    <dimen name="circle_iconsize">120dp</dimen>
     <dimen name="play_label">20.22sp</dimen>
     <dimen name="btn_play_size">93.33dp</dimen>
     <dimen name="btn_prev_size">46dp</dimen>
