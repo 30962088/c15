@@ -46,12 +46,6 @@ public class InfoDetailActivity extends BaseActivity{
         holder.title.setText(""+info.getTitle());
         holder.date.setText("发布时间："+info.getDate());
         holder.desc.setText(""+info.getDescription());
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
 

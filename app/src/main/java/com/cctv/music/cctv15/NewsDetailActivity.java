@@ -42,9 +42,6 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
             case R.id.comemntcount:
                 oncomment();
                 break;
-            case R.id.back:
-                finish();
-                break;
         }
     }
 
@@ -88,7 +85,6 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         content = (Content) getIntent().getSerializableExtra("content");
         setContentView(R.layout.activity_news_detail);
-        findViewById(R.id.back).setOnClickListener(this);
         holder = new ViewHolder();
         holder.titleview.setModel(content);
         holder.comemntcount.setText("" + content.getCommentcount());

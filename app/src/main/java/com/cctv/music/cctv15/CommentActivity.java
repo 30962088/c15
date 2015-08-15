@@ -16,7 +16,7 @@ import com.cctv.music.cctv15.ui.HdCommentView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentActivity extends BaseActivity implements BaseListView.OnLoadListener,View.OnClickListener{
+public class CommentActivity extends BaseActivity implements BaseListView.OnLoadListener{
 
     public static void open(Context context, Content content) {
 
@@ -39,7 +39,6 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
         super.onCreate(savedInstanceState);
         content = (Content) getIntent().getSerializableExtra("content");
         setContentView(R.layout.activity_commentl);
-        findViewById(R.id.back).setOnClickListener(this);
         BaseListView listView = (BaseListView) findViewById(R.id.listview);
         HdCommentView hdCommentView = new HdCommentView(this);
         listView.getRefreshableView().addHeaderView(hdCommentView);
@@ -80,12 +79,4 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
         return BaseListView.Type.PAGE;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.back:
-                finish();
-                break;
-        }
-    }
 }

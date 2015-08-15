@@ -15,7 +15,7 @@ import com.cctv.music.cctv15.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppListActivity extends BaseActivity implements View.OnClickListener,AppAdapter.OnDownloadListener{
+public class AppListActivity extends BaseActivity implements AppAdapter.OnDownloadListener{
 
     public static void open(Context context) {
 
@@ -33,7 +33,6 @@ public class AppListActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applist);
-        findViewById(R.id.back).setOnClickListener(this);
         List<AppItem> list = new ArrayList<>();
         list.add(new AppItem("assets://logo_xiqu.png", "央视戏曲", "中央电视台戏曲频道官方客户端","com.cctv.xiqu.android"));
         adapter = new AppAdapter(this,list,this);
@@ -48,14 +47,6 @@ public class AppListActivity extends BaseActivity implements View.OnClickListene
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.back:
-                finish();
-                break;
-        }
-    }
 
     @Override
     public void ondownload(AppItem item) {

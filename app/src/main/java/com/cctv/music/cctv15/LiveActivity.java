@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class LiveActivity extends BaseActivity implements View.OnClickListener,PullToRefreshBase.OnRefreshListener<ListView>,BaseClient.RequestHandler {
+public class LiveActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener<ListView>,BaseClient.RequestHandler,View.OnClickListener{
 
     public static void open(Context context) {
 
@@ -37,19 +37,10 @@ public class LiveActivity extends BaseActivity implements View.OnClickListener,P
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live);
-        findViewById(R.id.back).setOnClickListener(this);
+        findViewById(R.id.btn_program).setOnClickListener(this);
         listView = (PullToRefreshListView)findViewById(R.id.listview);
         listView.setOnRefreshListener(this);
         listView.setRefreshing(true);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.back:
-                finish();
-                break;
-        }
     }
 
     @Override
@@ -86,5 +77,14 @@ public class LiveActivity extends BaseActivity implements View.OnClickListener,P
     @Override
     public void onError(int error, String msg) {
         Utils.tip(this,"列表加载失败");
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_program:
+                ProgramsActivity.open(this);
+                break;
+        }
     }
 }

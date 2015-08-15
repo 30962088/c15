@@ -147,7 +147,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/btn_login"
+                android:id="@+id/btn_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/_c1"
@@ -162,16 +162,16 @@
                     android:layout_width="82dp"
                     android:layout_height="82dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/test_01"
+                    android:src="@drawable/user_default"
                     app:riv_border_color="#fff"
                     app:riv_border_width="2dip"
                     app:riv_oval="true"></com.makeramen.roundedimageview.RoundedImageView>
 
                 <TextView
+                    android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="Name"
                     android:textColor="#fff"
                     android:textSize="16sp" />
 

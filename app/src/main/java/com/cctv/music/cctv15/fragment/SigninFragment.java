@@ -11,9 +11,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.cctv.music.cctv15.FillUserActivity;
 import com.cctv.music.cctv15.R;
+import com.cctv.music.cctv15.model.Sex;
+import com.cctv.music.cctv15.model.UserType;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.PhoneCodeRequest;
+import com.cctv.music.cctv15.network.PhoneCodeVerifyRequest;
+import com.cctv.music.cctv15.ui.LoadingPopup;
 import com.cctv.music.cctv15.utils.RegexUtils;
 import com.cctv.music.cctv15.utils.Utils;
 
@@ -45,7 +50,7 @@ public class SigninFragment extends BaseFragment implements View.OnClickListener
 
     private ViewHolder holder;
 
-    private String verifyCode;
+    private boolean verify;
 
     @Nullable
     @Override
@@ -58,6 +63,7 @@ public class SigninFragment extends BaseFragment implements View.OnClickListener
         super.onViewCreated(view, savedInstanceState);
         holder = new ViewHolder(view);
         holder.btn_send.setOnClickListener(this);
+
     }
 
     @Override
@@ -88,17 +94,17 @@ public class SigninFragment extends BaseFragment implements View.OnClickListener
 
 
         PhoneCodeRequest request = new PhoneCodeRequest(getActivity(), new PhoneCodeRequest.Params(phone));
+        LoadingPopup.show(getActivity());
         request.request(new BaseClient.RequestHandler() {
             @Override
             public void onComplete() {
-
+                LoadingPopup.hide(getActivity());
             }
 
             @Override
             public void onSuccess(Object object) {
                 startTimer();
-                PhoneCodeRequest.Result result = (PhoneCodeRequest.Result) object;
-                verifyCode = result.getCode();
+                verify = true;
             }
 
             @Override
@@ -115,8 +121,8 @@ public class SigninFragment extends BaseFragment implements View.OnClickListener
         });
     }
 
-    private void onconfirm() {
-        String phone = holder.phone.getText().toString();
+    public void onconfirm() {
+        final String phone = holder.phone.getText().toString();
         if(TextUtils.isEmpty(phone)){
             Utils.tip(getActivity(), "请输入手机号");
             return;
@@ -131,7 +137,7 @@ public class SigninFragment extends BaseFragment implements View.OnClickListener
             Utils.tip(getActivity(), "请输入验证码");
             return;
         }
-        String password = holder.password.getText().toString();
+        final String password = holder.password.getText().toString();
         if(TextUtils.isEmpty(password)){
             Utils.tip(getActivity(), "密码不能为空");
             return;
@@ -145,10 +151,32 @@ public class SigninFragment extends BaseFragment implements View.OnClickListener
             Utils.tip(getActivity(), "两次密码输入不一致");
             return;
         }
-        if(!TextUtils.equals(verify, verifyCode)){
-            Utils.tip(getActivity(), "验证码输入有误");
+        if(!this.verify){
+            Utils.tip(getActivity(),"您还没有获取验证码");
             return;
         }
+
+        LoadingPopup.show(getActivity());
+
+        PhoneCodeVerifyRequest verifyRequest = new PhoneCodeVerifyRequest(getActivity(), new PhoneCodeVerifyRequest.Params(verify));
+
+        verifyRequest.request(new BaseClient.RequestHandler() {
+            @Override
+            public void onComplete() {
+                LoadingPopup.hide(getActivity());
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                FillUserActivity.open(getActivity(),new FillUserFragment.Model(UserType.USERTYPE_USERNAME,phone,null,null, Sex.UnKouwn,null,password));
+            }
+
+            @Override
+            public void onError(int error, String msg) {
+
+            }
+        });
+
     }
 
     private void startTimer() {

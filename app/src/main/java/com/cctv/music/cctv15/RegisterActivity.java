@@ -18,26 +18,26 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    SigninFragment signinFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         findViewById(R.id.btn_confirm).setOnClickListener(this);
-        findViewById(R.id.back).setOnClickListener(this);
+        signinFragment = SigninFragment.newInstance();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container,
-                        SigninFragment.newInstance())
-                .addToBackStack("singin").commit();
+                .replace(R.id.fragment_container, signinFragment)
+                        .commit();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.back:
-                finish();
+            case R.id.btn_confirm:
+                signinFragment.onconfirm();
                 break;
-
         }
     }
 

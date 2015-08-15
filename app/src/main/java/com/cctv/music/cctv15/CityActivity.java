@@ -33,12 +33,6 @@ public class CityActivity extends BaseActivity implements BDLocationListener  {
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_city);
 		city = (TextView) findViewById(R.id.city);
-		findViewById(R.id.back).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
 		confirmBtn = findViewById(R.id.confirm);
 		confirmBtn.setEnabled(false);
 		confirmBtn.setOnClickListener(new OnClickListener() {

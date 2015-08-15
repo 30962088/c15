@@ -27,7 +27,6 @@ public class BindingWeiboActivity extends BaseActivity implements OnClickListene
 		setContentView(R.layout.activity_binding_weibo);
 		bindingBtn = findViewById(R.id.binding_btn);
 		unbindingView = findViewById(R.id.unbinding_view);
-		findViewById(R.id.back).setOnClickListener(this);
 		bindingBtn.setOnClickListener(this);
 		nicknameView = (TextView) findViewById(R.id.nickname);
 		findViewById(R.id.unbinding_btn).setOnClickListener(this);
@@ -40,9 +39,6 @@ public class BindingWeiboActivity extends BaseActivity implements OnClickListene
 			break;
 		case R.id.unbinding_btn:
 			onunbinding();
-			break;
-		case R.id.back:
-			finish();
 			break;
 		default:
 			break;

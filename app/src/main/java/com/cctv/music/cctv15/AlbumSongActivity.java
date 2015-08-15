@@ -23,7 +23,7 @@ import com.cctv.music.cctv15.ui.SliderFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLoadListener,View.OnClickListener,SliderFragment.OnSliderItemClickListener,SongAlbumAdapter.OnSongAlbumClick {
+public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLoadListener,SliderFragment.OnSliderItemClickListener,SongAlbumAdapter.OnSongAlbumClick {
 
     public static void open(Context context) {
 
@@ -43,7 +43,6 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_rank);
-        findViewById(R.id.back).setOnClickListener(this);
         listView = (BaseListView)findViewById(R.id.listview);
         View header = LayoutInflater.from(this).inflate(R.layout.slider_container, null);
 
@@ -123,14 +122,6 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
         return BaseListView.Type.PAGE;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.back:
-                finish();
-                break;
-        }
-    }
 
     @Override
     public void OnSliderItemClick(int index,SliderFragment.Model model) {

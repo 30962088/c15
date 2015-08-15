@@ -27,8 +27,9 @@ public class SetClientUserRequest extends BaseClient{
         private String userimgguid;
         private String userimgformat;
         private String address;
+        private String password;
 
-        public Params(String nickname, String username, String usertype, Sex sex, String userimgguid, String userimgformat, String address) {
+        public Params(String nickname, String username, String usertype, Sex sex, String userimgguid, String userimgformat, String address, String password) {
             this.nickname = nickname;
             this.username = username;
             this.usertype = usertype;
@@ -36,6 +37,7 @@ public class SetClientUserRequest extends BaseClient{
             this.userimgguid = userimgguid;
             this.userimgformat = userimgformat;
             this.address = address;
+            this.password = password;
         }
     }
 
@@ -64,13 +66,15 @@ public class SetClientUserRequest extends BaseClient{
         RequestParams params = new RequestParams();
         params.add("method","setClientUser");
         params.add("nickname",""+this.params.nickname);
-        params.add("nickname",""+this.params.nickname);
         params.add("username",""+this.params.username);
         params.add("usertype",""+this.params.usertype);
         params.add("sex",""+this.params.sex.getCode());
         params.add("userimgguid",""+this.params.userimgguid);
         params.add("userimgformat",""+this.params.userimgformat);
         params.add("address",""+this.params.address);
+        if(this.params.password != null){
+            params.add("password",""+this.params.password);
+        }
         return params;
     }
 

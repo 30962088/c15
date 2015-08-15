@@ -48,8 +48,7 @@ public class Preferences {
     }
 
     public String getUid(){
-        return "174";
-        //return preferences.getString("uid",null);
+        return preferences.getString("uid",null);
     }
 
     public boolean isLogin(){
@@ -66,6 +65,24 @@ public class Preferences {
     public void clearWeibo(){
         setWeiboAccessToken(null);
         setWeiboUid(null);
+    }
+
+    public void logout(){
+        setPkey(null);
+        setUid(null);
+    }
+
+    public void setPkey(String pkey){
+        preferences.edit().putString("pkey", ""+pkey).commit();
+    }
+
+    public String getPkey(){
+        return preferences.getString("pkey", null);
+    }
+
+    public void login(String uid,String pkey){
+        setPkey(pkey);
+        setUid(uid);
     }
 
 }

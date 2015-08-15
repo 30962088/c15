@@ -269,7 +269,6 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         holder.btn_star.setOnClickListener(this);
         holder.container.setOnTouchListener(this);
         holder.ratebar.setOnRateListener(this);
-        findViewById(R.id.back).setOnClickListener(this);
     }
 
     @Override
@@ -352,9 +351,6 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back:
-                finish();
-                break;
             case R.id.btn_play:
                 onplay();
                 break;

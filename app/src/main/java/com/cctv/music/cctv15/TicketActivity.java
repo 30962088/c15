@@ -73,7 +73,6 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
-        findViewById(R.id.back).setOnClickListener(this);
         holder = new ViewHolder();
         holder.btn_rank.setOnClickListener(this);
         holder.listview.setOnItemClickListener(this);
@@ -90,9 +89,6 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
                 if(menu != null){
                     menu.toggle();
                 }
-                break;
-            case R.id.back:
-                finish();
                 break;
         }
     }

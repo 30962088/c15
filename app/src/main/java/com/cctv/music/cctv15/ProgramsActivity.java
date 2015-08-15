@@ -1,5 +1,7 @@
 package com.cctv.music.cctv15;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -10,7 +12,15 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ProgramsActivity extends BaseActivity implements View.OnClickListener{
+public class ProgramsActivity extends BaseActivity{
+
+    public static void open(Context context) {
+
+        Intent intent = new Intent(context, ProgramsActivity.class);
+
+        context.startActivity(intent);
+
+    }
 
     private ListView listView;
 
@@ -18,7 +28,6 @@ public class ProgramsActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_program);
-        findViewById(R.id.back).setOnClickListener(this);
         listView = (ListView)findViewById(R.id.listview);
         request();
     }
@@ -74,12 +83,4 @@ public class ProgramsActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.back:
-                finish();
-                break;
-        }
-    }
 }

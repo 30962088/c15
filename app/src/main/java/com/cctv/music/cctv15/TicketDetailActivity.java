@@ -14,7 +14,7 @@ import com.cctv.music.cctv15.network.TicketDetailRequest;
 import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class TicketDetailActivity extends BaseActivity implements View.OnClickListener,BaseClient.RequestHandler{
+public class TicketDetailActivity extends BaseActivity implements BaseClient.RequestHandler{
 
 
     public static void open(Context context,TicketItem item) {
@@ -59,19 +59,10 @@ public class TicketDetailActivity extends BaseActivity implements View.OnClickLi
         item = (TicketItem) getIntent().getSerializableExtra("item");
         setContentView(R.layout.activity_ticket_detail);
         holder = new ViewHolder();
-        findViewById(R.id.back).setOnClickListener(this);
         TicketDetailRequest request = new TicketDetailRequest(this,new TicketDetailRequest.Params(item.getAid()));
         request.request(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.back:
-                finish();
-                break;
-        }
-    }
 
 
     @Override

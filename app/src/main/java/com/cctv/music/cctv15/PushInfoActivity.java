@@ -18,7 +18,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.ArrayList;
 
-public class PushInfoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener<ListView>,AdapterView.OnItemClickListener,View.OnClickListener,BaseClient.RequestHandler{
+public class PushInfoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener<ListView>,AdapterView.OnItemClickListener,BaseClient.RequestHandler{
 
 
     public static void open(Context context,ArrayList<PushInfo> arrayList) {
@@ -41,7 +41,6 @@ public class PushInfoActivity extends BaseActivity implements PullToRefreshBase.
         ArrayList<PushInfo> list = (ArrayList<PushInfo>) getIntent().getSerializableExtra("list");
 
         setContentView(R.layout.activity_pushinfo);
-        findViewById(R.id.back).setOnClickListener(this);
         listView = (PullToRefreshListView)findViewById(R.id.listview);
         listView.setOnItemClickListener(this);
 
@@ -62,14 +61,6 @@ public class PushInfoActivity extends BaseActivity implements PullToRefreshBase.
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.back:
-                finish();
-                break;
-        }
-    }
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {

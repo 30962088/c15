@@ -25,7 +25,6 @@ public class VoteDetailActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         String url = getIntent().getStringExtra("url");
         setContentView(R.layout.activity_vote_detail);
-        findViewById(R.id.back).setOnClickListener(this);
         findViewById(R.id.share).setOnClickListener(this);
         MyWebView webView = (MyWebView) findViewById(R.id.webview);
         webView.loadUrl(url);
@@ -36,9 +35,6 @@ public class VoteDetailActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.share:
                 onshare();
-                break;
-            case R.id.back:
-                finish();
                 break;
         }
     }

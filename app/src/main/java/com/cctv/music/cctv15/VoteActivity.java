@@ -16,7 +16,7 @@ import com.cctv.music.cctv15.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VoteActivity extends BaseActivity implements BaseListView.OnLoadListener,AdapterView.OnItemClickListener,View.OnClickListener{
+public class VoteActivity extends BaseActivity implements BaseListView.OnLoadListener,AdapterView.OnItemClickListener{
 
 
     public static void open(Context context) {
@@ -34,7 +34,6 @@ public class VoteActivity extends BaseActivity implements BaseListView.OnLoadLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote);
-        findViewById(R.id.back).setOnClickListener(this);
         BaseListView listView = (BaseListView)findViewById(R.id.listview);
         int padding = Utils.dpToPx(this,13);
         listView.getRefreshableView().setPadding(padding, 0, padding, 0);
@@ -89,12 +88,5 @@ public class VoteActivity extends BaseActivity implements BaseListView.OnLoadLis
         VoteDetailActivity.open(this,vote.getDetailUrl());
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.back:
-                finish();
-                break;
-        }
-    }
+
 }

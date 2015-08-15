@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 import com.cctv.music.cctv15.ui.PhotoSelectPopupWindow;
 import com.cctv.music.cctv15.utils.Dirctionary;
@@ -21,6 +22,21 @@ public class BaseActivity extends FragmentActivity {
 
     private static final int ACTION_REQUEST_BINDING_WEIBO = 7;
 
+    private static final int ACTION_REQUEST_NICKNAME = 4;
+
+    public static interface OnNicknameFillListener{
+        public void onNicknameFill(String nickname);
+    }
+
+    private OnNicknameFillListener onNicknameFillListener;
+
+    public void getNickname(String nickname,OnNicknameFillListener onNicknameFillListener){
+        this.onNicknameFillListener = onNicknameFillListener;
+        Intent intent = new Intent(this, NicknameActivity.class);
+        intent.putExtra("nickname", nickname);
+        startActivityForResult(intent, ACTION_REQUEST_NICKNAME);
+    }
+
     private OnWeiboBindingListener onWeiboBindingListener;
 
     public void bindingWeibo(OnWeiboBindingListener onWeiboBindingListener){
@@ -30,8 +46,33 @@ public class BaseActivity extends FragmentActivity {
     }
 
     @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        onContentView();
+    }
+
+    private void onContentView() {
+        View back = findViewById(R.id.back);
+        if(back != null){
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
+            case ACTION_REQUEST_NICKNAME:
+                if (resultCode == Activity.RESULT_OK) {
+                    if(onNicknameFillListener != null){
+                        onNicknameFillListener.onNicknameFill(data.getStringExtra("nickname"));
+                    }
+                }
+                break;
             case ACTION_REQUEST_CITY:
                 if (resultCode == Activity.RESULT_OK) {
                     if(onCitySelectionListener != null){

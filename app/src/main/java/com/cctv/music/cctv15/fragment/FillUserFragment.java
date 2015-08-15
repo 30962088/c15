@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.cctv.music.cctv15.BaseActivity;
 import com.cctv.music.cctv15.R;
+import com.cctv.music.cctv15.ZoneActivity;
 import com.cctv.music.cctv15.model.Sex;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.IsHaveUserNameRequest;
@@ -23,6 +24,7 @@ import com.cctv.music.cctv15.ui.LoadingPopup;
 import com.cctv.music.cctv15.utils.AliyunUtils;
 import com.cctv.music.cctv15.utils.CropImageUtils;
 import com.cctv.music.cctv15.utils.DisplayOptions;
+import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -47,14 +49,17 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
         private String city;
         private Sex sex;
         private String username;
+        private String password;
 
-        public Model(int usertype, String sid, String avatar, String city, Sex sex, String username) {
+
+        public Model(int usertype, String sid, String avatar, String city, Sex sex, String username, String password) {
             this.usertype = usertype;
             this.sid = sid;
             this.avatar = avatar;
             this.city = city;
             this.sex = sex;
             this.username = username;
+            this.password = password;
         }
     }
 
@@ -84,7 +89,7 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
             if (city == null) {
                 this.city.setSelected(false);
                 this.city.setText("未获取");
-                this.city.setTag(null);
+                this.city.setTag("未获取");
             } else {
                 this.city.setTag(city);
                 this.city.setSelected(true);
@@ -107,9 +112,11 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
 
         public void fill(Model model) {
             username.setText("" + model.username);
-            ImageLoader.getInstance().displayImage(model.avatar, holder.avatar, DisplayOptions.IMG.getOptions());
             setCity(model.city);
-            setSex(model.sex);
+            /*if(model.sex != Sex.UnKouwn){
+                setSex(model.sex);
+            }*/
+
 
         }
 
@@ -136,7 +143,7 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         holder = new ViewHolder(view);
-        holder.radio_male.setChecked(true);
+        holder.radio_male.performClick();
         holder.fill(model);
         holder.setCity("北京");
         view.findViewById(R.id.btn_ok).setOnClickListener(this);
@@ -186,9 +193,9 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
                 }
                 Sex sex = (Sex) holder.group_sex.findViewById(holder.group_sex.getCheckedRadioButtonId()).getTag();
 
-                BaseClient request = null;
 
-                request = new SetClientUserRequest(getActivity(),new SetClientUserRequest.Params(nickname,model.sid,""+model.usertype,sex,result.getGuid(),result.getExt(),city));
+
+                SetClientUserRequest request = new SetClientUserRequest(getActivity(),new SetClientUserRequest.Params(nickname,model.sid,""+model.usertype,sex,result.getGuid(),result.getExt(),city,model.password));
 
                 /*if (model.usertype  == UserType.USERTYPE_USERNAME) {
                     request = new SetSingerRequest(getActivity(),
@@ -201,13 +208,20 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
                 request.request(new BaseClient.SimpleRequestHandler() {
                     @Override
                     public void onSuccess(Object object) {
-
-
+                        Utils.tip(getActivity(), "注册成功");
+                        SetClientUserRequest.Result result = (SetClientUserRequest.Result)object;
+                        Preferences.getInstance().login(result.getUserid(),result.getPkey());
+                        ZoneActivity.login(getActivity());
                     }
 
                     @Override
                     public void onComplete() {
                         LoadingPopup.hide(getActivity());
+                    }
+
+                    @Override
+                    public void onError(int error, String msg) {
+                        Utils.tip(getActivity(),"注册失败");
                     }
                 });
 

@@ -202,6 +202,7 @@ public class OauthUtils implements UMAuthListener, FetchUserListener {
 				sex = Sex.UnKouwn;
 				break;
 			}
+
 			result = new Result(snsAccount.getUsid(), sex, snsAccount.getUserName(),snsAccount.getAccountIconUrl(), media);
 		}
 		
