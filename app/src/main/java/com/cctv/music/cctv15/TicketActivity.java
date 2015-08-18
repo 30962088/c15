@@ -11,9 +11,11 @@ import android.widget.TextView;
 
 import com.cctv.music.cctv15.adapter.TicketAdapter;
 import com.cctv.music.cctv15.fragment.RankFragment;
+import com.cctv.music.cctv15.model.MyTicket;
 import com.cctv.music.cctv15.model.TicketItem;
 import com.cctv.music.cctv15.network.ActivistListRequest;
 import com.cctv.music.cctv15.network.BaseClient;
+import com.cctv.music.cctv15.ui.LoadingPopup;
 import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.Preferences;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -74,12 +76,19 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
         holder = new ViewHolder();
+        holder.btn_start.setOnClickListener(this);
         holder.btn_rank.setOnClickListener(this);
         holder.listview.setOnItemClickListener(this);
-        ActivistListRequest request = new ActivistListRequest(this,new ActivistListRequest.Params(Preferences.getInstance().getUid()));
-        request.request(this);
+        LoadingPopup.show(context);
         initSidemenu();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ActivistListRequest request = new ActivistListRequest(this,new ActivistListRequest.Params(Preferences.getInstance().getUid()));
+        request.request(this);
     }
 
     @Override
@@ -90,17 +99,25 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
                     menu.toggle();
                 }
                 break;
+            case R.id.btn_start:
+                if(myTicket != null){
+                    JigsawActivity.open(context,myTicket);
+                }
+                break;
         }
     }
 
     @Override
     public void onComplete() {
-
+        LoadingPopup.hide(context);
     }
+
+    private MyTicket myTicket;
 
     @Override
     public void onSuccess(Object object) {
         ActivistListRequest.Result result = (ActivistListRequest.Result)object;
+        myTicket = result;
         holder.count.setText("" + result.getMyticket_count());
         ImageLoader.getInstance().displayImage(result.getLoginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
         holder.name.setText("" + result.getUsername());

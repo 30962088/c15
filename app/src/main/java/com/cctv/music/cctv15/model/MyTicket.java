@@ -58,4 +58,8 @@ public class MyTicket implements Serializable{
     public List<TicketItem> getActivitylist() {
         return activitylist;
     }
+
+    public void setMyscore(int myscore) {
+        this.myscore = myscore;
+    }
 }

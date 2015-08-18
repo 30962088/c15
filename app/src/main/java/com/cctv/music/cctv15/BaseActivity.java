@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -43,6 +44,14 @@ public class BaseActivity extends FragmentActivity {
         this.onWeiboBindingListener = onWeiboBindingListener;
         Intent intent = new Intent(this, BindingWeiboActivity.class);
         startActivityForResult(intent, ACTION_REQUEST_BINDING_WEIBO);
+    }
+
+    protected Context context;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        context = this;
     }
 
     @Override
