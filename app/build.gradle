@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
-android {
 
+android {
+    signingConfigs {
+        release {
+            keyAlias 'com.cctv.music.cctv15'
+            keyPassword '12345678'
+            storeFile file('../keystore.jks')
+            storePassword '12345678'
+        }
+    }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
@@ -8,22 +16,29 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
-
     defaultConfig {
         applicationId "com.cctv.music.cctv15"
         minSdkVersion 8
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            zipAlignEnabled true
         }
+        debug {
+
+            zipAlignEnabled true
+        }
+    }
+    productFlavors {
     }
 }
 
@@ -41,5 +56,4 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.+'
     compile project(':library')
     compile project(':umeng')
-    compile files('libs/BaiduLBS_Android.jar')
 }

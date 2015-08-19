@@ -145,7 +145,6 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
         holder = new ViewHolder(view);
         holder.radio_male.performClick();
         holder.fill(model);
-        holder.setCity("北京");
         view.findViewById(R.id.btn_ok).setOnClickListener(this);
         view.findViewById(R.id.btn_cancel).setOnClickListener(this);
         view.findViewById(R.id.btn_avatar).setOnClickListener(this);

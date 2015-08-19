@@ -1,10 +1,14 @@
 package com.cctv.music.cctv15.ui;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import com.cctv.music.cctv15.R;
 import com.cctv.music.cctv15.adapter.ShareAdapter;
+import com.cctv.music.cctv15.utils.ShareUtils;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,24 +25,26 @@ import android.widget.GridView;
 import android.widget.PopupWindow;
 public class SharePopup implements OnClickListener{
 
-	public static void shareContent(Context context){
+
+
+
+
+	public static void shareWebsite(final Context context, final String title, final String url, final File bitmapFile){
 		_share(context, new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+				ShareAdapter.Model model = (ShareAdapter.Model) parent.getAdapter().getItem(position);
+				ShareUtils.shareWebsite(context,model.getShare_media(),title,url,bitmapFile);
 			}
 		});
 	}
 
 	private static void _share(Context context,OnItemClickListener onItemClickListener){
 		new SharePopup(context, new ArrayList<ShareAdapter.Model>(){{
-			add(new ShareAdapter.Model(R.drawable.icon_wechat, "微信好友"));
-			add(new ShareAdapter.Model(R.drawable.icon_timeline, "朋友圈"));
-			add(new ShareAdapter.Model(R.drawable.icon_weibo, "新浪微博"));
-			add(new ShareAdapter.Model(R.drawable.icon_qqweibo, "腾讯微博"));
-			add(new ShareAdapter.Model(R.drawable.icon_douban, "豆瓣"));
-			add(new ShareAdapter.Model(R.drawable.icon_qzone, "QQ空间"));
-			add(new ShareAdapter.Model(R.drawable.icon_renren, "人人网"));
+			add(new ShareAdapter.Model(R.drawable.icon_wechat, "微信好友",SHARE_MEDIA.WEIXIN));
+			add(new ShareAdapter.Model(R.drawable.icon_timeline, "朋友圈",SHARE_MEDIA.WEIXIN_CIRCLE));
+			add(new ShareAdapter.Model(R.drawable.icon_weibo, "新浪微博",SHARE_MEDIA.SINA));
+			add(new ShareAdapter.Model(R.drawable.icon_qzone, "QQ空间",SHARE_MEDIA.QZONE));
 		}}, onItemClickListener);
 	}
 

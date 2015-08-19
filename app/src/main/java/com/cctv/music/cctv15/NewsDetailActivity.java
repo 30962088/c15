@@ -19,7 +19,9 @@ import com.cctv.music.cctv15.ui.MyWebView;
 import com.cctv.music.cctv15.ui.NewsTitleView;
 import com.cctv.music.cctv15.ui.SharePopup;
 import com.cctv.music.cctv15.utils.HtmlUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +67,8 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
             publishview.setModel(new CommentPublishView.OnPublishListener() {
                 @Override
                 public void onshare() {
-                    SharePopup.shareContent(NewsDetailActivity.this);
+                    File bitmapFile = ImageLoader.getInstance().getDiskCache().get(content.getAttachment().getAttachmentimgurl());
+                    SharePopup.shareWebsite(context,content.getContentstitle(),"http://baidu.com",bitmapFile);
                 }
 
                 @Override

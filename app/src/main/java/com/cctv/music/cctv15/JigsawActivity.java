@@ -25,18 +25,26 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.List;
 
-public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawViewChangeListener {
+public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawViewChangeListener,View.OnClickListener {
 
     public static void open(Context context,MyTicket myTicket) {
 
         Intent intent = new Intent(context, JigsawActivity.class);
 
-        intent.putExtra("myTicket",myTicket);
+        intent.putExtra("myTicket", myTicket);
 
         context.startActivity(intent);
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_right:
+                JigsawImgActivity.open(this,gameImgs.get(index).getGameimgurl());
+                break;
+        }
+    }
 
 
     private class ViewHolder{
@@ -81,6 +89,7 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
         holder = new ViewHolder();
         holder.setMyTicket(myTicket);
         holder.jigsaw.setOnJigsawViewChangeListener(this);
+        findViewById(R.id.btn_right).setOnClickListener(this);
         request();
     }
 
@@ -144,7 +153,7 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
     @Override
     public void onJigsawViewChange(boolean checked) {
         if(checked){
-            final int score = myTicket.getMyscore()+20;
+            final int score = 20;
             ChangeUserScoreRequest request = new ChangeUserScoreRequest(context,new ChangeUserScoreRequest.Params(score, Preferences.getInstance().getUid()));
             request.request(new BaseClient.RequestHandler() {
                 @Override
@@ -154,7 +163,7 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
 
                 @Override
                 public void onSuccess(Object object) {
-                    myTicket.setMyscore(score);
+                    myTicket.setMyscore(myTicket.getMyscore()+score);
                     holder.setMyTicket(myTicket);
                     next();
                 }

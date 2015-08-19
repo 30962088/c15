@@ -79,7 +79,13 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
         holder.btn_start.setOnClickListener(this);
         holder.btn_rank.setOnClickListener(this);
         holder.listview.setOnItemClickListener(this);
-        LoadingPopup.show(context);
+        holder.listview.post(new Runnable() {
+            @Override
+            public void run() {
+                LoadingPopup.show(context);
+            }
+        });
+
         initSidemenu();
 
     }

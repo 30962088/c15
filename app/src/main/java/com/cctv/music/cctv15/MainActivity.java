@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,8 +15,14 @@ import android.view.animation.LinearInterpolator;
 import com.cctv.music.cctv15.ui.CircleLayout;
 import com.cctv.music.cctv15.ui.PausableRotateAnimation;
 import com.cctv.music.cctv15.ui.RotateView;
+import com.cctv.music.cctv15.utils.AppConfig;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UpdateConfig;
 
 import java.io.IOException;
+
+import im.yixin.sdk.util.StringUtil;
 
 public class MainActivity extends BaseActivity implements RotateView.OnRotateListener,View.OnClickListener{
 
@@ -49,6 +56,11 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UmengUpdateAgent.update(this);
+        if(TextUtils.equals(AppConfig.getInstance().getUMENG_CHANNEL(),"development")){
+            UpdateConfig.setDebug(true);
+        }
+        MobclickAgent.updateOnlineConfig(this);
         setContentView(R.layout.activity_main);
         findViewById(R.id.btn).setOnClickListener(this);
         initMedia();

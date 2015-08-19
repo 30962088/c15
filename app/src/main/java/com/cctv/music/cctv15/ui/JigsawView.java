@@ -72,27 +72,24 @@ public class JigsawView extends View {
     private JigsawTranslate translate;
 
     public void init(Bitmap bp) {
-        if (!init) {
-            init = true;
-            size = getWidth() / 3;
-            for (int i = 0; i < position.length; i++) {
-                position[i] = i;
-            }
-            debugArray(position);
-//            shuffleArray(position);
-            Bitmap bitmap = Bitmap.createScaledBitmap(bp, getWidth(), getHeight(), true);
-            list = createBitmaps(bitmap, size);
-            invalidate();
-            gameEnable = true;
+        size = getWidth() / 3;
+        for (int i = 0; i < position.length; i++) {
+            position[i] = i;
         }
+        translate = null;
+        debugArray(position);
+//            shuffleArray(position);
+        Bitmap bitmap = Bitmap.createScaledBitmap(bp, getWidth(), getHeight(), true);
+        list = createBitmaps(bitmap, size);
+        invalidate();
+        gameEnable = true;
+
     }
 
 
     private enum POSTION {
         UP, DOWN, LEFT, RIGHT
     }
-
-    private boolean init = false;
 
     private boolean lock = false;
 
@@ -173,7 +170,7 @@ public class JigsawView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if(list != null){
+        if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 int j = position[i];
                 if (j != blank) {

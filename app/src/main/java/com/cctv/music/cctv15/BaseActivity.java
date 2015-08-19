@@ -3,6 +3,7 @@ package com.cctv.music.cctv15;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,7 +12,12 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.cctv.music.cctv15.ui.PhotoSelectPopupWindow;
+import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.Dirctionary;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.sso.QZoneSsoHandler;
+import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 import java.io.File;
 
@@ -19,6 +25,20 @@ public class BaseActivity extends FragmentActivity {
 
     public static interface OnWeiboBindingListener{
         public void onWeiboBinding();
+    }
+
+    private void initUmeng() throws PackageManager.NameNotFoundException {
+        AppConfig config = AppConfig.getInstance();
+        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this,
+                config.getQQ_APPID(), config.getQQ_APPKEY());
+        qqSsoHandler.addToSocialSDK();
+        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(this, config.getQQ_APPID(),config.getQQ_APPKEY());
+        qZoneSsoHandler.addToSocialSDK();
+        UMWXHandler wxHandler = new UMWXHandler(this,config.getWX_APPID());
+        wxHandler.addToSocialSDK();
+        UMWXHandler wxCircleHandler = new UMWXHandler(this,config.getWX_AppSecret());
+        wxCircleHandler.setToCircle(true);
+        wxCircleHandler.addToSocialSDK();
     }
 
     private static final int ACTION_REQUEST_BINDING_WEIBO = 7;
@@ -51,7 +71,25 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            initUmeng();
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         context = this;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

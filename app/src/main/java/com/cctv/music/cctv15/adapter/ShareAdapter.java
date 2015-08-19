@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cctv.music.cctv15.R;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 public class ShareAdapter extends BaseAdapter implements Serializable {
 
@@ -20,14 +21,17 @@ public class ShareAdapter extends BaseAdapter implements Serializable {
 	public static class Model implements Serializable {
 		private int icon;
 		private String label;
-		public Model(int icon, String label) {
-			super();
+		private SHARE_MEDIA share_media;
+
+		public Model(int icon, String label, SHARE_MEDIA share_media) {
 			this.icon = icon;
 			this.label = label;
+			this.share_media = share_media;
 		}
-		
-		
-		
+
+		public SHARE_MEDIA getShare_media() {
+			return share_media;
+		}
 	}
 	
 	private Context context;

@@ -228,6 +228,43 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".JigsawImgActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID -->
+                <data android:scheme="tencent1102353924" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
 
         <!--config-->
         <meta-data
@@ -236,13 +273,29 @@
 
 
         <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5491a448fd98c519a9000c53" >
-        </meta-data>
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="eci2TMV0cu15vOtGOcVUERc8" />
+
 
         <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="uN5PoIl6Qnz3aMcW8LbOT12H" />
+            android:name="WX_APPID"
+            android:value="wx20a72032e4448f8d" />
+        <meta-data
+            android:name="WX_AppSecret"
+            android:value="c0f039ebdab79008f47ff11471068336" />
+
+        <meta-data
+            android:name="QQ_APPID"
+            android:value="\ 1102353924" />
+
+        <meta-data
+            android:name="QQ_APPKEY"
+            android:value="6lTK05ZBYRoOo4ZX" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="55d48e8f67e58e061a002b27" >
+        </meta-data>
 
         <meta-data
             android:name="UMENG_CHANNEL"
@@ -255,7 +308,6 @@
         </service>
 
     </application>
-
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" >
     </uses-permission>
