@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#fff">
+
+        <RelativeLayout
+            android:id="@+id/back"
+            android:layout_width="49dp"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:background="@drawable/icon_back"
+                android:layout_centerInParent="true"></View>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="兑换门票信息填写"
+            android:layout_centerInParent="true"
+            android:textSize="17sp"
+            android:textColor="#000" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/bg_line3"></View>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="23dp"
+            android:paddingBottom="23dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="16.6sp"
+                android:textColor="#d96131"/>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="时间："
+                android:textSize="14sp"
+                android:textColor="#4b4b4b"/>
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="地点："
+                android:textSize="14sp"
+                android:textColor="#4b4b4b"/>
+
+
+            <TextView
+                android:layout_marginTop="19dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="请输入入场验证信息"
+                android:textColor="#878787"
+                android:textSize="12sp"
+                android:layout_marginBottom="7dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:background="@drawable/bg_border10">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="真实姓名："
+                    android:textSize="15.3sp"
+                    android:textColor="#4b4b4b"/>
+
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15.3sp"
+                    android:background="#00000000"
+                    android:textColor="#4b4b4b"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:background="@drawable/bg_border10">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="电话："
+                    android:textSize="15.3sp"
+                    android:textColor="#4b4b4b"/>
+
+
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15.3sp"
+                    android:background="#00000000"
+                    android:textColor="#4b4b4b"/>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/btn_ok"
+                android:layout_marginTop="42dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:text="完成"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="15.3sp"
+                android:background="#6ea5f0"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

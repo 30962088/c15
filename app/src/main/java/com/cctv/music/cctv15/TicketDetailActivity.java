@@ -12,21 +12,43 @@ import com.cctv.music.cctv15.model.TicketItem;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.TicketDetailRequest;
 import com.cctv.music.cctv15.utils.DisplayOptions;
+import com.cctv.music.cctv15.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class TicketDetailActivity extends BaseActivity implements BaseClient.RequestHandler{
+public class TicketDetailActivity extends BaseActivity implements BaseClient.RequestHandler,View.OnClickListener{
 
 
-    public static void open(Context context,TicketItem item) {
+    public static void open(Context context,TicketItem item,int score) {
 
         Intent intent = new Intent(context, TicketDetailActivity.class);
 
         intent.putExtra("item",item);
 
+        intent.putExtra("score",score);
+
         context.startActivity(intent);
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_change:
+                onchange();
+                break;
+        }
+    }
+
+    private void onchange() {
+
+        if(score < item.getConvert_score()){
+            Utils.tip(context,"您没有足够兑换的积分");
+            return;
+        }
+
+        ActivityTicketFill.open(context,item);
+
+    }
 
 
     private class ViewHolder{
@@ -53,11 +75,15 @@ public class TicketDetailActivity extends BaseActivity implements BaseClient.Req
 
     private TicketItem item;
 
+    private int score;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         item = (TicketItem) getIntent().getSerializableExtra("item");
+        score = getIntent().getIntExtra("score",0);
         setContentView(R.layout.activity_ticket_detail);
+        findViewById(R.id.btn_change).setOnClickListener(this);
         holder = new ViewHolder();
         TicketDetailRequest request = new TicketDetailRequest(this,new TicketDetailRequest.Params(item.getAid()));
         request.request(this);

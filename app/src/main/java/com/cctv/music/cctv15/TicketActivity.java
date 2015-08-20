@@ -79,6 +79,7 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
         holder.btn_start.setOnClickListener(this);
         holder.btn_rank.setOnClickListener(this);
         holder.listview.setOnItemClickListener(this);
+        holder.count.setOnClickListener(this);
         holder.listview.post(new Runnable() {
             @Override
             public void run() {
@@ -100,6 +101,9 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.count:
+                MyTicketActivity.open(context);
+                break;
             case R.id.btn_rank:
                 if(menu != null){
                     menu.toggle();
@@ -156,7 +160,7 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TicketItem item = (TicketItem) parent.getAdapter().getItem(position);
-        TicketDetailActivity.open(this,item);
+        TicketDetailActivity.open(this,item,myTicket.getMyscore());
     }
 
 

@@ -237,6 +237,26 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ActivityTicketFill"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MyTicketActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <!--配置-->
+
 
         <activity
             android:name="com.tencent.tauth.AuthActivity"
