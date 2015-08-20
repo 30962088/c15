@@ -1,6 +1,8 @@
 package com.cctv.music.cctv15.model;
 
+import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.DateUtils;
+import com.cctv.music.cctv15.utils.Preferences;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -74,6 +76,25 @@ public class Vote implements Serializable{
 
     public String getDetailUrl(){
         return templeteurl+"?voteid="+voteid;
+    }
+
+    private Boolean end;
+
+    public boolean isEnd(){
+        if(end == null){
+            end = new Date().getTime()>getEndtime().getTime();
+        }
+        return end;
+    }
+
+    public String getShareUrl(){
+        String tpl;
+        if(isEnd()){
+            tpl = "complete";
+        }else{
+            tpl = "index";
+        }
+        return AppConfig.getInstance().getHost()+"/voteview/"+tpl+"?voteid="+voteid+"&userid="+ Preferences.getInstance().getUid();
     }
 
 }

@@ -12,7 +12,8 @@
 				background:rgba(255,255,255,0);
 				padding:0 10px;
 				line-height: 1.5em;
-				font-size: 12}px;
+				font-size: 14px;
+                padding-bottom:15px;
 			}
 			img{
 				width: 100%;
@@ -38,6 +39,8 @@
 		 for(var i = 0;i<list.length;i++){
 		 	var dom = list[i];
 		 	dom.removeAttribute("style");
+		 	dom.removeAttribute("width");
+		 	dom.removeAttribute("height");
 		 }
 		</script>
 	</body>

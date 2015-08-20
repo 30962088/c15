@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#f0f0f0">
+    android:background="#f0f0f0"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -52,7 +52,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,34 +73,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></com.cctv.music.cctv15.ui.MyWebView>
 
-            <TextView
-                android:layout_marginBottom="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:background="@drawable/bg_border1"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:text="热门评论"
-                android:textColor="#636363"
-                android:textSize="12sp" />
-
-
-            <com.cctv.music.cctv15.ui.CommentPublishView
-                android:id="@+id/publishview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.cctv.music.cctv15.ui.CommentPublishView>
-
 
             <LinearLayout
-                android:id="@+id/container"
+                android:visibility="gone"
+                android:id="@+id/bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical">
+
+                <TextView
+                    android:background="@drawable/bg_border1"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:text="热门评论"
+                    android:textColor="#636363"
+                    android:textSize="12sp" />
+
+
+                <LinearLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"></LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
 
     </ScrollView>
+
+    <com.cctv.music.cctv15.ui.CommentPublishView
+        android:id="@+id/publishview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.cctv.music.cctv15.ui.CommentPublishView>
 
 
 </LinearLayout>

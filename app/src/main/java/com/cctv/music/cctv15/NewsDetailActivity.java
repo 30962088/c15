@@ -4,6 +4,7 @@ package com.cctv.music.cctv15;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,12 +14,16 @@ import com.cctv.music.cctv15.model.Content;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.CommentRequest;
 import com.cctv.music.cctv15.network.DescriptionRequest;
+import com.cctv.music.cctv15.network.InsertcommentRequest;
 import com.cctv.music.cctv15.ui.CommentPublishView;
 import com.cctv.music.cctv15.ui.CommentView;
+import com.cctv.music.cctv15.ui.LoadingPopup;
 import com.cctv.music.cctv15.ui.MyWebView;
 import com.cctv.music.cctv15.ui.NewsTitleView;
 import com.cctv.music.cctv15.ui.SharePopup;
 import com.cctv.music.cctv15.utils.HtmlUtils;
+import com.cctv.music.cctv15.utils.Preferences;
+import com.cctv.music.cctv15.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
@@ -57,8 +62,10 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         private CommentPublishView publishview;
         private ViewGroup container;
         private TextView comemntcount;
+        private View bottom;
 
         public ViewHolder() {
+            bottom = findViewById(R.id.bottom);
             titleview = (NewsTitleView) findViewById(R.id.titleview);
             webview = (MyWebView) findViewById(R.id.webview);
             publishview = (CommentPublishView) findViewById(R.id.publishview);
@@ -68,12 +75,42 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
                 @Override
                 public void onshare() {
                     File bitmapFile = ImageLoader.getInstance().getDiskCache().get(content.getAttachment().getAttachmentimgurl());
-                    SharePopup.shareWebsite(context,content.getContentstitle(),"http://baidu.com",bitmapFile);
+                    SharePopup.shareWebsite(context,content.getContentstitle(),content.getShareUrl(),bitmapFile);
                 }
 
                 @Override
                 public void onsend(String text) {
+                    if(TextUtils.isEmpty(text)){
+                        Utils.tip(context, "请输入要评论的内容");
+                        return;
+                    }
 
+                    InsertcommentRequest request = new InsertcommentRequest(context,new InsertcommentRequest.Params(""+content.getContentsid(),text, Preferences.getInstance().getUid(),"0",0,Preferences.getInstance().getPkey()));
+
+
+                    LoadingPopup.show(context);
+                    request.request(new BaseClient.RequestHandler() {
+                        @Override
+                        public void onComplete() {
+                            LoadingPopup.hide(context);
+                        }
+
+                        @Override
+                        public void onSuccess(Object object) {
+                            Utils.tip(context, "评论成功");
+                            publishview.clear();
+                            requestComment();
+                        }
+
+                        @Override
+                        public void onError(int error, String msg) {
+                            if(error == 1025){
+                                Utils.tip(context,"频率过于频繁");
+                            }else{
+                                Utils.tip(context,"评论失败");
+                            }
+                        }
+                    });
                 }
             });
         }
@@ -89,14 +126,21 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         content = (Content) getIntent().getSerializableExtra("content");
         setContentView(R.layout.activity_news_detail);
         holder = new ViewHolder();
+        holder.bottom.setVisibility(View.GONE);
         holder.titleview.setModel(content);
         holder.comemntcount.setText("" + content.getCommentcount());
         holder.comemntcount.setOnClickListener(this);
-        request();
+        holder.webview.post(new Runnable() {
+            @Override
+            public void run() {
+                request();
+            }
+        });
+
     }
 
-    private void request() {
 
+    private void requestComment(){
         CommentRequest commentRequest = new CommentRequest(this,new CommentRequest.Params(content.getContentsid(),0,10));
 
         commentRequest.request(new BaseClient.RequestHandler() {
@@ -116,14 +160,21 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
 
             }
         });
+    }
+    private void request() {
 
+
+        requestComment();
+
+
+        LoadingPopup.show(context);
 
         DescriptionRequest request = new DescriptionRequest(this,new DescriptionRequest.Params(content.getContentsid()));
 
         request.request(new BaseClient.RequestHandler() {
             @Override
             public void onComplete() {
-
+                LoadingPopup.hide(context);
             }
 
             @Override
@@ -142,6 +193,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
                                 });
                         holder.webview.loadDataWithBaseURL(null, html, "text/html",
                                 "utf-8", null);
+                        holder.bottom.setVisibility(View.VISIBLE);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -157,6 +209,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     private void renderCommentList(List<Comment> list){
+        holder.container.removeAllViews();
         for(Comment comment:list){
             CommentView view = new CommentView(this);
             view.setModel(comment);

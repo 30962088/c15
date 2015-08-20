@@ -1,6 +1,7 @@
 package com.cctv.music.cctv15.model;
 
 
+import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.DateUtils;
 
 import java.io.Serializable;
@@ -56,6 +57,10 @@ public class Content implements Serializable{
 
     public String getContentstitle() {
         return contentstitle;
+    }
+
+    public String getShareUrl(){
+        return AppConfig.getInstance().getHost()+"/news/index?contentsid="+contentsid;
     }
 
     public int getIshavevideo() {

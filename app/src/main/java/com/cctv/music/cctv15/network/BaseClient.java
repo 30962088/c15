@@ -5,218 +5,212 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.cctv.music.cctv15.utils.AppConfig;
+import com.cctv.music.cctv15.MainActivity;
+import com.cctv.music.cctv15.utils.*;
 import com.loopj.android.http.*;
 
 public abstract class BaseClient implements HttpResponseHandler {
 
-	protected final String HOST = AppConfig.getInstance().getHost();
-	
-	private static AsyncHttpClient client = new AsyncHttpClient();
+    protected final String HOST = AppConfig.getInstance().getHost();
 
-	protected Context context;
-	
-	public BaseClient(Context context) {
-		this.context = context;
-	}
-	
-	static {
-		client.setMaxConnections(10);
-		client.setTimeout(10 * 1000);
+    private static AsyncHttpClient client = new AsyncHttpClient();
 
-	}
+    protected Context context;
 
-	private class ResponseHandler extends AsyncHttpResponseHandler {
+    public BaseClient(Context context) {
+        this.context = context;
+    }
 
-		private HttpResponseHandler handler;
+    static {
+        client.setMaxConnections(10);
+        client.setTimeout(10 * 1000);
 
-		private ResponseHandler(HttpResponseHandler handler) {
+    }
 
-			this.handler = handler;
+    private class ResponseHandler extends AsyncHttpResponseHandler {
 
-		}
+        private HttpResponseHandler handler;
 
-		@Override
-		public void onFailure(int arg0, Header[] arg1, byte[] arg2,
-				Throwable arg3) {
-			
-			handler.onError(500, "请求失败");
-			requestHandler.onError(500, "请求失败");
-			requestHandler.onComplete();
-		}
+        private ResponseHandler(HttpResponseHandler handler) {
 
-		@Override
-		public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
-			String str = new String(arg2);
-			// TODO: 2015/8/5
-			if(getURL().indexOf(AppConfig.getInstance().getHost()) != -1 && (getURL().indexOf("GetActivistDetails") == -1 && getURL().indexOf("isHaveUserName") == -1)){
-				try {
-					JSONObject object = new JSONObject(str);
-					int result = object.getInt("result");
-					if(result != 1000){
-						requestHandler.onComplete();
-					/*if((getURL().indexOf(APP.getAppConfig().getRequest_news()) != -1 && result == 1010)||(getURL().indexOf(APP.getAppConfig().getRequest_user()) != -1 && result == 1011)){
+            this.handler = handler;
 
-						Utils.tip(context, "登录过期，请重新登录");
-						Intent intent = new Intent(context, MainActivity.class);
-						intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-								| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						intent.setAction(MainActivity.ACTION_TOLOGIN);
-						context.startActivity(intent);
-						APP.getSession().logout();
+        }
 
-					}else{*/
-						requestHandler.onError(result, "请求失败");
-						handler.onError(result, "请求失败");
-						//}
+        @Override
+        public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+                              Throwable arg3) {
 
-						return;
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			requestHandler.onSuccess(handler.onSuccess(str));
-			requestHandler.onComplete();
+            handler.onError(500, "请求失败");
+            requestHandler.onError(500, "请求失败");
+            requestHandler.onComplete();
+        }
 
-		}
+        @Override
+        public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+            String str = new String(arg2);
+            // TODO: 2015/8/5
+            if (getURL().indexOf(AppConfig.getInstance().getHost()) != -1 && (getURL().indexOf("GetActivistDetails") == -1 && getURL().indexOf("isHaveUserName") == -1)) {
+                try {
+                    JSONObject object = new JSONObject(str);
+                    int result = object.getInt("result");
+                    if (result != 1000) {
+                        requestHandler.onComplete();
 
-	}
+                        if (result == 1019) {
+                            Utils.tip(context, "登录过期，请重新登录");
+                            Intent intent = new Intent(context, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                    | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.setAction(MainActivity.ACTION_TOLOGIN);
+                            context.startActivity(intent);
+                            Preferences.getInstance().logout();
+                        } else {
+                            requestHandler.onError(result, "请求失败");
+                            handler.onError(result, "请求失败");
+                        }
 
-	public enum Method {
+                        return;
+                    }
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            requestHandler.onSuccess(handler.onSuccess(str));
+            requestHandler.onComplete();
 
-		GET, POST
-	}
+        }
 
-	protected abstract RequestParams getParams();
+    }
 
-	protected abstract String getURL();
+    public enum Method {
 
-	protected abstract Method getMethod();
+        GET, POST
+    }
 
-	public static interface RequestHandler {
-		
-		public void onComplete();
-		
-		public void onSuccess(Object object);
+    protected abstract RequestParams getParams();
 
-		public void onError(int error, String msg);
+    protected abstract String getURL();
 
-	}
-	
-	
+    protected abstract Method getMethod();
 
-	public static class SimpleRequestHandler implements RequestHandler {
+    public static interface RequestHandler {
 
-		@Override
-		public void onSuccess(Object object) {
-			// TODO Auto-generated method stub
+        public void onComplete();
 
-		}
+        public void onSuccess(Object object);
 
-		
+        public void onError(int error, String msg);
+
+    }
 
 
+    public static class SimpleRequestHandler implements RequestHandler {
 
-		@Override
-		public void onComplete() {
-			// TODO Auto-generated method stub
-			
-		}
+        @Override
+        public void onSuccess(Object object) {
+            // TODO Auto-generated method stub
 
-
-
+        }
 
 
-		@Override
-		public void onError(int error, String msg) {
-			// TODO Auto-generated method stub
-			
-		}
+        @Override
+        public void onComplete() {
+            // TODO Auto-generated method stub
 
-	}
-
-	private RequestHandler requestHandler;
-
-	public void request(RequestHandler requestHandler) {
-		
-		this.requestHandler = requestHandler;
-		
-		if(!isOnline(context)){
-			onError(501, "未发现网络");
-			requestHandler.onError(501, "未发现网络");
-			return;
-		}
-		
-		Method method = getMethod();
-		if (method == Method.GET) {
-			get(getURL(), getParams(), this);
-		} else if (method == Method.POST) {
-			post(getURL(), getParams(), this);
-		}
-	}
-	
-	public static boolean isOnline(Context context) {
-	    ConnectivityManager cm =
-	        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-	    return netInfo != null && netInfo.isConnectedOrConnecting();
-	}
-
-	private RequestHandle handle;
-
-	private void get(String url, RequestParams params,
-			HttpResponseHandler handler) {
-		Header[] headers = fillHeaders();
-		if(headers == null){
-			handle = client.get(getURL(), params, new ResponseHandler(
-					handler));
-		} else {
-			handle = client.get(context,getURL(), headers, params, new ResponseHandler(
-					handler));
-		}
+        }
 
 
-	}
+        @Override
+        public void onError(int error, String msg) {
+            // TODO Auto-generated method stub
 
-	private void post(String url, RequestParams params,
-			HttpResponseHandler handler) {
-		Header[] headers = fillHeaders();
-		if(headers == null){
-			handle = client.post(getURL(),params, new ResponseHandler(
-					handler));
-		}else{
-			handle = client.post(context,getURL(),headers, params,contentType(), new ResponseHandler(
-					handler));
-		}
-		
-	}
+        }
 
-	public void cancel(boolean mayInterruptIfRunning) {
-		if (handle != null && !handle.isFinished()) {
-			handle.cancel(mayInterruptIfRunning);
-		}
+    }
 
-	}
-	
-	protected Header[] fillHeaders(){
-		return null;
-	}
-	
-	
-	protected String contentType(){
-		return "application/json";
-	}
+    private RequestHandler requestHandler;
+
+    public void request(RequestHandler requestHandler) {
+
+        this.requestHandler = requestHandler;
+
+        if (!isOnline(context)) {
+            onError(501, "未发现网络");
+            requestHandler.onError(501, "未发现网络");
+            return;
+        }
+
+        Method method = getMethod();
+        if (method == Method.GET) {
+            get(getURL(), getParams(), this);
+        } else if (method == Method.POST) {
+            post(getURL(), getParams(), this);
+        }
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    private RequestHandle handle;
+
+    private void get(String url, RequestParams params,
+                     HttpResponseHandler handler) {
+        Header[] headers = fillHeaders();
+        if (headers == null) {
+            handle = client.get(getURL(), params, new ResponseHandler(
+                    handler));
+        } else {
+            handle = client.get(context, getURL(), headers, params, new ResponseHandler(
+                    handler));
+        }
 
 
-	protected boolean useOffline() {
-		return true;
-	}
-	
+    }
+
+    private void post(String url, RequestParams params,
+                      HttpResponseHandler handler) {
+        Header[] headers = fillHeaders();
+        if (headers == null) {
+            handle = client.post(getURL(), params, new ResponseHandler(
+                    handler));
+        } else {
+            handle = client.post(context, getURL(), headers, params, contentType(), new ResponseHandler(
+                    handler));
+        }
+
+    }
+
+    public void cancel(boolean mayInterruptIfRunning) {
+        if (handle != null && !handle.isFinished()) {
+            handle.cancel(mayInterruptIfRunning);
+        }
+
+    }
+
+    protected Header[] fillHeaders() {
+        return null;
+    }
+
+
+    protected String contentType() {
+        return "application/json";
+    }
+
+
+    protected boolean useOffline() {
+        return true;
+    }
+
 	/*static final Pattern reUnicode = Pattern.compile("\\\\\\\\u([0-9a-zA-Z]{4})");
 
 	public static String decode1(String s) {

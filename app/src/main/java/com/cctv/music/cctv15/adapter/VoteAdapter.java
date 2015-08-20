@@ -54,6 +54,13 @@ public class VoteAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        if(vote.isEnd()){
+            holder.deadline.setVisibility(View.VISIBLE);
+            holder.date.setVisibility(View.GONE);
+        }else{
+            holder.deadline.setVisibility(View.GONE);
+            holder.date.setVisibility(View.VISIBLE);
+        }
         holder.title.setText(""+vote.getVotetitle());
         holder.date.setText(""+DateUtils.format(vote.getDatetime())+"-"+DateUtils.format(vote.getEndtime()));
         holder.count.setText(""+vote.getVoteusercount());
@@ -66,8 +73,9 @@ public class VoteAdapter extends BaseAdapter {
         private TextView count;
         private TextView date;
         private TextView title;
-
+        private View deadline;
         public ViewHolder(View view) {
+            deadline = view.findViewById(R.id.deadline);
             img = (ImageView) view.findViewById(R.id.img);
             count = (TextView) view.findViewById(R.id.count);
             date = (TextView) view.findViewById(R.id.date);

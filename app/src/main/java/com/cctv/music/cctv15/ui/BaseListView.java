@@ -111,7 +111,7 @@ public class BaseListView extends PullToRefreshListView {
 	}
 
 	public void load(boolean refresh){
-		setRefreshing(true);
+		setRefreshing(refresh);
 	}
 	
 	private void _load(boolean refresh) {

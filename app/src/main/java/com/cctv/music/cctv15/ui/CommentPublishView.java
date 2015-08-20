@@ -33,6 +33,15 @@ public class CommentPublishView extends FrameLayout implements View.OnClickListe
             case R.id.share:
                 onshare();
                 break;
+            case R.id.send:
+                onsend();
+                break;
+        }
+    }
+
+    private void onsend() {
+        if(onPublishListener != null){
+            onPublishListener.onsend(hoder.text.getText().toString());
         }
     }
 
@@ -68,6 +77,12 @@ public class CommentPublishView extends FrameLayout implements View.OnClickListe
         LayoutInflater.from(getContext()).inflate(R.layout.com_comment_publish, this);
         hoder = new ViewHolder();
         hoder.share.setOnClickListener(this);
+        hoder.send.setOnClickListener(this);
+    }
+
+    public void clear(){
+        hoder.text.setText("");
+        hoder.text.requestFocus();
     }
 
 

@@ -33,7 +33,7 @@ public class VoteDetailActivity extends BaseActivity implements View.OnClickList
         setContentView(R.layout.activity_vote_detail);
         findViewById(R.id.share).setOnClickListener(this);
         MyWebView webView = (MyWebView) findViewById(R.id.webview);
-        webView.loadUrl(vote.getDetailUrl());
+        webView.loadUrl(vote.getShareUrl());
     }
 
     @Override
@@ -47,6 +47,7 @@ public class VoteDetailActivity extends BaseActivity implements View.OnClickList
 
     private void onshare() {
         File bitmapFile = ImageLoader.getInstance().getDiskCache().get(vote.getAttachment().getAttachmentimgurl());
-        SharePopup.shareWebsite(context,vote.getVotetitle(),vote.getDetailUrl(),bitmapFile);
+
+        SharePopup.shareWebsite(context,vote.getVotetitle(),vote.getShareUrl(),bitmapFile);
     }
 }

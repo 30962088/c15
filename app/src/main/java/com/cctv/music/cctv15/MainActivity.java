@@ -1,6 +1,7 @@
 package com.cctv.music.cctv15;
 
 
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -16,6 +17,7 @@ import com.cctv.music.cctv15.ui.CircleLayout;
 import com.cctv.music.cctv15.ui.PausableRotateAnimation;
 import com.cctv.music.cctv15.ui.RotateView;
 import com.cctv.music.cctv15.utils.AppConfig;
+import com.cctv.music.cctv15.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UpdateConfig;
@@ -26,7 +28,7 @@ import im.yixin.sdk.util.StringUtil;
 
 public class MainActivity extends BaseActivity implements RotateView.OnRotateListener,View.OnClickListener{
 
-
+    public static final String ACTION_TOLOGIN = "action_tologin";
 
 
     private class ViewHolder{
@@ -168,4 +170,11 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if(TextUtils.equals(ACTION_TOLOGIN, intent.getAction())){
+            Utils.tip(context,"该账号已经在其他设备上登陆");
+        }
+    }
 }
