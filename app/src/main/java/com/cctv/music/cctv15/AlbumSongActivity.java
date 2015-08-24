@@ -61,7 +61,7 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
             requestSlider();
         }
 
-        SongRequest request = new SongRequest(this,new SongRequest.Params(1,offset,limit,200,200));
+        SongRequest request = new SongRequest(this,new SongRequest.Params(0,offset,limit,200,200));
 
         return request;
     }
@@ -71,7 +71,7 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
     private List<Song> songList = new ArrayList<>();
 
     private void requestSlider() {
-        SongRequest request = new SongRequest(this,new SongRequest.Params(0,1,6,200,200));
+        SongRequest request = new SongRequest(this,new SongRequest.Params(1,1,6,200,200));
         request.request(new BaseClient.RequestHandler() {
             @Override
             public void onComplete() {

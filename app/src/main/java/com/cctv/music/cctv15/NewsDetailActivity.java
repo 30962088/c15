@@ -164,7 +164,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
     private void request() {
 
 
-        requestComment();
+
 
 
         LoadingPopup.show(context);
@@ -199,6 +199,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
                     }
 
                 }
+                requestComment();
             }
 
             @Override

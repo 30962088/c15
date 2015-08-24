@@ -70,6 +70,7 @@
 
             <com.cctv.music.cctv15.ui.MyWebView
                 android:id="@+id/webview"
+                android:adjustViewBounds="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></com.cctv.music.cctv15.ui.MyWebView>
 
