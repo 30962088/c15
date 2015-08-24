@@ -107,7 +107,9 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
     private void initScore() {
         holder.ratebar.setRate(0);
         holder.btn_star.setSelected(false);
-        holder.btn_star.setEnabled(false);
+        holder.ratebar.setVisibility(View.INVISIBLE);
+        starShow = false;
+        //        holder.btn_star.setEnabled(false);
         if(Preferences.getInstance().isLogin()){
             GetSongScoreRequest request = new GetSongScoreRequest(this,new GetSongScoreRequest.Params(Preferences.getInstance().getUid(),model.getCurrent().getSid()));
             request.request(new BaseClient.RequestHandler() {
@@ -118,7 +120,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
 
                 @Override
                 public void onSuccess(Object object) {
-                    holder.btn_star.setEnabled(true);
+//                    holder.btn_star.setEnabled(true);
                     GetSongScoreRequest.Result result = (GetSongScoreRequest.Result)object;
                     if(result.getScore()>0){
 

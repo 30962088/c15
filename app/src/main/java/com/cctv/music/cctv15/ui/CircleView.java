@@ -65,7 +65,7 @@ public class CircleView extends AbsoluteLayout{
 
         int w = child.getMeasuredWidth(),h = child.getMeasuredHeight();
 
-        Log.d("zzm","width:"+w+",height:"+h);
+//        Log.d("zzm","width:"+w+",height:"+h);
 
         int perA = 360/getChildCount();
 

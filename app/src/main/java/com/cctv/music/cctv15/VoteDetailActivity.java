@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.cctv.music.cctv15.model.Vote;
 import com.cctv.music.cctv15.ui.MyWebView;
@@ -26,14 +28,25 @@ public class VoteDetailActivity extends BaseActivity implements View.OnClickList
 
     private Vote vote;
 
+    private MyWebView webView;
+
+    private View loading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         vote = (Vote) getIntent().getSerializableExtra("vote");
         setContentView(R.layout.activity_vote_detail);
+        loading = findViewById(R.id.loading);
         findViewById(R.id.share).setOnClickListener(this);
-        MyWebView webView = (MyWebView) findViewById(R.id.webview);
+        webView = (MyWebView) findViewById(R.id.webview);
         webView.loadUrl(vote.getShareUrl());
+        webView.setWebViewClient(new WebViewClient() {
+
+            public void onPageFinished(WebView view, String url) {
+                loading.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -49,5 +62,13 @@ public class VoteDetailActivity extends BaseActivity implements View.OnClickList
         File bitmapFile = ImageLoader.getInstance().getDiskCache().get(vote.getAttachment().getAttachmentimgurl());
 
         SharePopup.shareWebsite(context,vote.getVotetitle(),vote.getShareUrl(),bitmapFile);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        webView.loadUrl("about:blank");
+        webView.pauseTimers();
+        webView.destroy();
     }
 }

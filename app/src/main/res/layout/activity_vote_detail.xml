@@ -51,10 +51,25 @@
         android:layout_height="5dp"
         android:background="@drawable/bg_line"></View>
 
-    <com.cctv.music.cctv15.ui.MyWebView
-        android:id="@+id/webview"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></com.cctv.music.cctv15.ui.MyWebView>
+        android:layout_weight="1">
+
+        <com.cctv.music.cctv15.ui.MyWebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.cctv.music.cctv15.ui.MyWebView>
+
+        <ProgressBar
+            android:id="@+id/loading"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+
+
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.cctv.music.cctv15.model;
 import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.DateUtils;
 import com.cctv.music.cctv15.utils.Preferences;
+import com.cctv.music.cctv15.utils.Utils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -86,6 +87,19 @@ public class Vote implements Serializable{
         }
         return end;
     }
+
+    public String getDate2(){
+        String str;
+        if(isEnd()){
+            str = "已截止";
+        }else{
+
+            str = "距离活动还有"+ (-Utils.countDays(getEndtime()))+"天";
+        }
+        return str;
+    }
+
+
 
     public String getShareUrl(){
         String tpl;

@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import com.cctv.music.cctv15.adapter.Programsdapter;
+import com.cctv.music.cctv15.model.Program;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.ProgramRequest;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,16 +58,19 @@ public class ProgramsActivity extends BaseActivity{
             @Override
             public void onSuccess(Object object) {
                 ProgramRequest.Result result = (ProgramRequest.Result)object;
-                Integer current = null;
-                if(index == 0){
-                    current = result.getCurrent();
+                if(result == null){
+                    objects[index] = new Programsdapter.Model(time,new ArrayList<Program>(),null);
+                }else{
+                    Integer current = null;
+                    if(index == 0){
+                        current = result.getCurrent();
+                    }
+                    objects[index] = new Programsdapter.Model(time,result.getCctv15().getProgram(),current);
                 }
-                objects[index] = new Programsdapter.Model(time,result.getCctv15().getProgram(),current);
                 count ++;
                 if(count == 7){
                     initList();
                 }
-
             }
 
 

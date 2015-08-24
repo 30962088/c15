@@ -17,14 +17,14 @@
             android:text="精彩音乐汇-暑期特辑精彩音乐汇精彩音乐汇-暑期特辑精彩音"
             android:textColor="#fff"
             android:lineSpacingExtra="5dp"
-            android:textSize="21sp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2014/08/30"
-            android:textSize="14.34sp"
+            android:textSize="12sp"
             android:textColor="#80ffffff"
             android:layout_alignParentBottom="true"/>
 

@@ -60,17 +60,26 @@
         android:layout_height="5dp"
         android:background="@drawable/bg_line"></View>
 
-    <RelativeLayout
+    <com.cctv.music.cctv15.ui.VideoHeadRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="228dp">
+        android:layout_height="wrap_content"
+        android:background="#000" >
 
-        <View
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/icon_play2"></View>
+        <FrameLayout
+            android:id="@+id/head"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-    </RelativeLayout>
+            <com.cctv.music.cctv15.ui.VideoView
+                android:id="@+id/video"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </com.cctv.music.cctv15.ui.VideoView>
+        </FrameLayout>
+
+
+
+    </com.cctv.music.cctv15.ui.VideoHeadRelativeLayout>
     
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:background="#fff"

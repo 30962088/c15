@@ -25,8 +25,8 @@ public class Programsdapter extends BaseAdapter {
         private List<Program> list;
         private Integer selected;
         public Model(Date date, List<Program> list, Integer selected) {
-            this.date = DateUtils.getWeek(date);
-            this.week = new SimpleDateFormat("yyyy年M年dd").format(date);
+            this.week = DateUtils.getWeek(date);
+            this.date = new SimpleDateFormat("yyyy年M年dd").format(date);
             this.list = list;
             this.selected = selected;
         }

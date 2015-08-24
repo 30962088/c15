@@ -11,6 +11,7 @@ import com.cctv.music.cctv15.adapter.ProgramAdapter;
 import com.cctv.music.cctv15.model.Program;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.ProgramRequest;
+import com.cctv.music.cctv15.ui.VideoView;
 import com.cctv.music.cctv15.utils.Utils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -33,10 +34,14 @@ public class LiveActivity extends BaseActivity implements PullToRefreshBase.OnRe
 
     private PullToRefreshListView listView;
 
+    private VideoView videoView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live);
+        videoView = (VideoView) findViewById(R.id.video);
+        videoView.setVidepPath("http://m3u8.1du1du.com:1019/index.m3u8");
         findViewById(R.id.btn_program).setOnClickListener(this);
         listView = (PullToRefreshListView)findViewById(R.id.listview);
         listView.setOnRefreshListener(this);
@@ -58,20 +63,35 @@ public class LiveActivity extends BaseActivity implements PullToRefreshBase.OnRe
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        videoView.release();
+    }
+
+    @Override
     public void onSuccess(Object object) {
         final ProgramRequest.Result result = (ProgramRequest.Result)object;
-        Integer current = result.getCurrent();
-        listView.setAdapter(new ProgramAdapter(this, result.getCctv15().getProgram(),current));
-        if(current != null){
-            listView.getRefreshableView().post(new Runnable() {
-                @Override
-                public void run() {
-                    listView.getRefreshableView().smoothScrollToPosition(result.getCurrent() + 1);
-                }
-            });
+        if(result != null){
+            Integer current = result.getCurrent();
+            listView.setAdapter(new ProgramAdapter(this, result.getCctv15().getProgram(),current));
+            if(current != null){
+                listView.getRefreshableView().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.getRefreshableView().smoothScrollToPosition(result.getCurrent() + 1);
+                    }
+                });
 
+            }
         }
 
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        videoView.pause();
     }
 
     @Override

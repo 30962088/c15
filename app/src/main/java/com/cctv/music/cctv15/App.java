@@ -1,7 +1,6 @@
 package com.cctv.music.cctv15;
 
 import android.app.Application;
-
 import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.Dirctionary;
 import com.cctv.music.cctv15.utils.Preferences;
@@ -11,7 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-public class App extends Application{
+public class App extends Application {
 
     public static ImageLoader mImageLoader = ImageLoader.getInstance();
 

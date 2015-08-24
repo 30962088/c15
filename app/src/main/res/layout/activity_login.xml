@@ -126,12 +126,12 @@
             <View
                 android:id="@+id/btn_qq"
                 android:layout_marginLeft="43dp"
-                android:layout_marginRight="43dp"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:background="@drawable/icon_l_2"></View>
 
             <View
+                android:visibility="gone"
                 android:id="@+id/btn_renren"
                 android:layout_width="52dp"
                 android:layout_height="52dp"

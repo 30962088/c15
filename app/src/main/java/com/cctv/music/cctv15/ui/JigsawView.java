@@ -77,8 +77,8 @@ public class JigsawView extends View {
             position[i] = i;
         }
         translate = null;
-        debugArray(position);
-//            shuffleArray(position);
+//        debugArray(position);
+        shuffleArray(position);
         Bitmap bitmap = Bitmap.createScaledBitmap(bp, getWidth(), getHeight(), true);
         list = createBitmaps(bitmap, size);
         invalidate();

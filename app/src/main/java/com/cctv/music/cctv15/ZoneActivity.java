@@ -5,14 +5,20 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cctv.music.cctv15.model.ClientUser;
 import com.cctv.music.cctv15.model.PushInfo;
+import com.cctv.music.cctv15.network.ActivistListRequest;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.GetClientUserInfoRequest;
+import com.cctv.music.cctv15.network.GetMyActivistTicketListRequest;
 import com.cctv.music.cctv15.network.PushInfoRequest;
+import com.cctv.music.cctv15.network.VoteRequest;
+import com.cctv.music.cctv15.ui.VoteItem2;
 import com.cctv.music.cctv15.utils.CacheManager;
 import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.Preferences;
@@ -21,7 +27,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 
 
-public class ZoneActivity extends BaseActivity implements View.OnClickListener, BaseActivity.OnWeiboBindingListener {
+public class ZoneActivity extends BaseActivity implements View.OnClickListener, BaseActivity.OnWeiboBindingListener,CompoundButton.OnCheckedChangeListener {
 
     public static void open(Context context) {
 
@@ -45,6 +51,15 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
 
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(buttonView == holder.newsSwitch){
+            Preferences.getInstance().setNewsPush(isChecked);
+        }else{
+            Preferences.getInstance().setVoice(isChecked);
+        }
+    }
+
 
     private class ViewHolder {
         private View btn_avatar;
@@ -54,6 +69,13 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
         private TextView count_push;
         private ImageView avatar;
         private TextView username;
+        private VoteItem2 vote;
+        private TextView rank;
+        private TextView score;
+        private TextView ticket;
+        private CheckBox voiceSwitch,newsSwitch;
+
+
 
 
         public ViewHolder() {
@@ -64,6 +86,12 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
             count_push = (TextView) findViewById(R.id.count_push);
             avatar = (ImageView) findViewById(R.id.avatar);
             username = (TextView) findViewById(R.id.username);
+            vote = (VoteItem2) findViewById(R.id.vote);
+            rank = (TextView) findViewById(R.id.rank);
+            score = (TextView) findViewById(R.id.score);
+            ticket = (TextView) findViewById(R.id.ticket);
+            voiceSwitch = (CheckBox) findViewById(R.id.voice);
+            newsSwitch = (CheckBox) findViewById(R.id.news);
         }
     }
 
@@ -79,13 +107,51 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
         findViewById(R.id.btn_weibo).setOnClickListener(this);
         findViewById(R.id.btn_app).setOnClickListener(this);
         findViewById(R.id.btn_pushinfo).setOnClickListener(this);
+        findViewById(R.id.btn_account).setOnClickListener(this);
         holder.btn_avatar.setOnClickListener(this);
         holder.btn_about.setOnClickListener(this);
+        holder.voiceSwitch.setOnCheckedChangeListener(this);
+        holder.newsSwitch.setOnCheckedChangeListener(this);
+        fillVote();
+    }
+
+    private void fillVote() {
+        VoteRequest request = new VoteRequest(context,new VoteRequest.Params(1,1));
+        request.request(new BaseClient.RequestHandler() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                VoteRequest.Result result = (VoteRequest.Result) object;
+                if (result.getVotelist() != null && result.getVotelist().size() == 1) {
+                    holder.vote.setVisibility(View.VISIBLE);
+                    holder.vote.setVote(result.getVotelist().get(0));
+                } else {
+                    holder.vote.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError(int error, String msg) {
+
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_account:
+                if(Preferences.getInstance().isLogin()){
+                    AccountActivity.open(this);
+                }else{
+                    LoginActivity.open(this);
+                }
+
+                break;
             case R.id.btn_avatar:
                 onavatar();
                 break;
@@ -123,8 +189,40 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
         getCacheSize();
         checkBinding();
         checkPushInfo();
-
         fillUser();
+        checkTicket();
+        holder.voiceSwitch.setChecked(Preferences.getInstance().getVoice());
+        holder.newsSwitch.setChecked(Preferences.getInstance().getNewsPush());
+
+    }
+
+    private void checkTicket() {
+        if(Preferences.getInstance().isLogin()){
+            ActivistListRequest request = new ActivistListRequest(context,new ActivistListRequest.Params(Preferences.getInstance().getUid()));
+            request.request(new BaseClient.RequestHandler() {
+                @Override
+                public void onComplete() {
+
+                }
+
+                @Override
+                public void onSuccess(Object object) {
+                    ActivistListRequest.Result result = (ActivistListRequest.Result)object;
+                    holder.score.setText(""+result.getMyscore());
+                    holder.rank.setText(""+result.getMyranking());
+                    holder.ticket.setText(""+result.getMyticket_count());
+                }
+
+                @Override
+                public void onError(int error, String msg) {
+
+                }
+            });
+        }else{
+            holder.score.setText("0");
+            holder.rank.setText("0");
+            holder.ticket.setText("0");
+        }
 
     }
 

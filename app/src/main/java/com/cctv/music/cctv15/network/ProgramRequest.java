@@ -7,6 +7,9 @@ import com.cctv.music.cctv15.model.Program;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -69,6 +72,14 @@ public class ProgramRequest extends BaseClient{
 
     @Override
     public Object onSuccess(String str) {
+        try {
+            JSONObject obj = new JSONObject(str);
+            if(obj.getString("errcode") != null){
+                return null;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return new Gson().fromJson(str,Result.class);
     }
 

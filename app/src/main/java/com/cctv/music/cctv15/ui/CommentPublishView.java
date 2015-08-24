@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import com.cctv.music.cctv15.LoginActivity;
 import com.cctv.music.cctv15.R;
+import com.cctv.music.cctv15.utils.Preferences;
+import com.cctv.music.cctv15.utils.Utils;
 
 public class CommentPublishView extends FrameLayout implements View.OnClickListener{
 
@@ -36,6 +39,10 @@ public class CommentPublishView extends FrameLayout implements View.OnClickListe
             case R.id.send:
                 onsend();
                 break;
+            case R.id.not_login:
+                Utils.tip(getContext(),"系统检测您还没有登录");
+                LoginActivity.open(getContext());
+                break;
         }
     }
 
@@ -52,6 +59,7 @@ public class CommentPublishView extends FrameLayout implements View.OnClickListe
 
     }
 
+
     public static interface OnPublishListener{
         public void onshare();
         public void onsend(String text);
@@ -63,11 +71,12 @@ public class CommentPublishView extends FrameLayout implements View.OnClickListe
         private EditText text;
         private View send;
         private View share;
-
+        private View notLogin;
         public ViewHolder() {
             text = (EditText) findViewById(R.id.text);
             send = findViewById(R.id.send);
             share = findViewById(R.id.share);
+            notLogin = findViewById(R.id.not_login);
         }
     }
 
@@ -78,6 +87,8 @@ public class CommentPublishView extends FrameLayout implements View.OnClickListe
         hoder = new ViewHolder();
         hoder.share.setOnClickListener(this);
         hoder.send.setOnClickListener(this);
+        hoder.notLogin.setOnClickListener(this);
+        hoder.notLogin.setVisibility(Preferences.getInstance().isLogin()?GONE:VISIBLE);
     }
 
     public void clear(){

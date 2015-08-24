@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.cctv.music.cctv15.R;
 import com.cctv.music.cctv15.model.Program;
+import com.cctv.music.cctv15.ui.Bg1RelativeLayout;
 
 import java.util.List;
 
@@ -58,10 +59,10 @@ public class ProgramAdapter extends BaseAdapter {
         holder.content.setTextColor(Color.WHITE);
         holder.play.setVisibility(View.GONE);
         if(position%2==0){
-            holder.bg1.setBackgroundResource(R.drawable.bg_c1);
+            holder.bg1.setType(1);
             holder.bg2.setBackgroundResource(R.drawable.bg_c3);
         }else{
-            holder.bg1.setBackgroundResource(R.drawable.bg_c2);
+            holder.bg1.setType(2);
             holder.bg2.setBackgroundResource(R.drawable.bg_c4);
         }
 
@@ -77,14 +78,14 @@ public class ProgramAdapter extends BaseAdapter {
 
     private static class ViewHolder {
 
-        private View bg1;
+        private Bg1RelativeLayout bg1;
         private View bg2;
         private View play;
         private TextView time;
         private TextView content;
 
         public ViewHolder(View view) {
-            bg1 = view.findViewById(R.id.bg1);
+            bg1 = (Bg1RelativeLayout) view.findViewById(R.id.bg1);
             bg2 = view.findViewById(R.id.bg2);
             play = view.findViewById(R.id.play);
             time = (TextView) view.findViewById(R.id.time);

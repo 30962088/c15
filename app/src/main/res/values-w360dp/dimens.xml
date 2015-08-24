@@ -1,6 +1,6 @@
 <resources>
     <dimen name="guang1_bottom">120dp</dimen>
-    <dimen name="guang_bottom">95dp</dimen>
+    <dimen name="guang_bottom">115dp</dimen>
     <dimen name="kedu_bottom">20dp</dimen>
     <dimen name="kedu_size">340dp</dimen>
     <dimen name="circle_bottom">-120dp</dimen>

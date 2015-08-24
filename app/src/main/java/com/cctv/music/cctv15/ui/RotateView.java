@@ -91,8 +91,8 @@ public class RotateView extends View{
 
     public double calcRotationAngleInDegrees(PointF targetPt){
         PointF centerPt = new PointF(getWidth()/2,getHeight()/2);
-        Log.d("zzm","PointF:"+targetPt.x+","+targetPt.y);
-        Log.d("zzm","center:"+centerPt.x+","+centerPt.y);
+//        Log.d("zzm","PointF:"+targetPt.x+","+targetPt.y);
+//        Log.d("zzm","center:"+centerPt.x+","+centerPt.y);
         double theta = Math.atan2(targetPt.y - centerPt.y, targetPt.x - centerPt.x);
         theta += Math.PI/2.0;
         double angle = Math.toDegrees(theta);

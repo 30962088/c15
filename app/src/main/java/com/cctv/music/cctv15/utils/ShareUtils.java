@@ -37,7 +37,7 @@ public class ShareUtils {
         }
         if(bitmap == null){
             bitmap = drawableToBitmap(context
-                    .getResources().getDrawable(R.mipmap.ic_launcher));
+                    .getResources().getDrawable(R.drawable.ic_launcher));
         }
 
         if (media == SHARE_MEDIA.WEIXIN || media == SHARE_MEDIA.WEIXIN_CIRCLE) {

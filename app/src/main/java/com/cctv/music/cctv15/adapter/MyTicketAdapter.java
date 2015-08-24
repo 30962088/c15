@@ -51,7 +51,7 @@ public class MyTicketAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if(item.getIsover() == 0){
+        if(item.isEnd()){
             holder.c1.setEnabled(false);
             holder.c2.setVisibility(View.GONE);
             holder.c3.setVisibility(View.VISIBLE);

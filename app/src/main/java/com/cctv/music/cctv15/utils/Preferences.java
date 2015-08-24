@@ -3,6 +3,9 @@ package com.cctv.music.cctv15.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
+
 public class Preferences {
 
 
@@ -84,5 +87,34 @@ public class Preferences {
         setPkey(pkey);
         setUid(uid);
     }
+
+    public void setVoice(boolean voice){
+        if(voice){
+            PushManager.setNoDisturbMode(context, -1, -1, -1, -1);
+        }else{
+            PushManager.setNoDisturbMode(context, 0, 0, 23, 59);
+        }
+        preferences.edit().putBoolean("voice", voice).commit();
+    }
+
+    public boolean getVoice(){
+        return preferences.getBoolean("voice", true);
+    }
+
+    public void setNewsPush(boolean push){
+        if(push){
+            PushManager.startWork(context,
+                    PushConstants.LOGIN_TYPE_API_KEY,
+                    AppConfig.getInstance().getPush_api_key());
+        }else{
+            PushManager.stopWork(context);
+        }
+        preferences.edit().putBoolean("news_push", push).commit();
+    }
+
+    public boolean getNewsPush(){
+        return preferences.getBoolean("news_push", true);
+    }
+
 
 }

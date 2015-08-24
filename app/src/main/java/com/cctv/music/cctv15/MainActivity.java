@@ -1,6 +1,7 @@
 package com.cctv.music.cctv15;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -13,25 +14,39 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
+import com.baidu.android.pushservice.PushSettings;
 import com.cctv.music.cctv15.ui.CircleLayout;
 import com.cctv.music.cctv15.ui.PausableRotateAnimation;
 import com.cctv.music.cctv15.ui.RotateView;
 import com.cctv.music.cctv15.utils.AppConfig;
+import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UpdateConfig;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import im.yixin.sdk.util.StringUtil;
 
-public class MainActivity extends BaseActivity implements RotateView.OnRotateListener,View.OnClickListener{
+public class MainActivity extends BaseActivity implements RotateView.OnRotateListener, View.OnClickListener {
+
+
+    public static void open(Context context) {
+
+        Intent intent = new Intent(context, MainActivity.class);
+
+        context.startActivity(intent);
+
+    }
 
     public static final String ACTION_TOLOGIN = "action_tologin";
 
 
-    private class ViewHolder{
+    private class ViewHolder {
         private View clock;
         private View line;
         private View guang;
@@ -58,8 +73,9 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initPush();
         UmengUpdateAgent.update(this);
-        if(TextUtils.equals(AppConfig.getInstance().getUMENG_CHANNEL(),"development")){
+        if (TextUtils.equals(AppConfig.getInstance().getUMENG_CHANNEL(), "development")) {
             UpdateConfig.setDebug(true);
         }
         MobclickAgent.updateOnlineConfig(this);
@@ -70,9 +86,12 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
         holder.rotateview.setOnRotateListener(this);
         initAnimation();
 
+
+
     }
+
     private void initAnimation() {
-        lineAnimation = new PausableRotateAnimation(0f,358f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        lineAnimation = new PausableRotateAnimation(0f, 358f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         lineAnimation.setInterpolator(new LinearInterpolator());
         lineAnimation.setDuration(2000);
         lineAnimation.setFillAfter(true);
@@ -117,12 +136,12 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
 
     @Override
     public void end(RotateView.Direction dir) {
-        int rotate = 360/6;
-        if(dir == RotateView.Direction.Up){
+        int rotate = 360 / 6;
+        if (dir == RotateView.Direction.Up) {
             rotate = -rotate;
         }
         this.rotate += rotate;
-        holder.circleview.setDegree(dir == RotateView.Direction.Up?false:true,200);
+        holder.circleview.setDegree(dir == RotateView.Direction.Up ? false : true, 200);
         lineAnimation.resume();
     }
 
@@ -139,7 +158,8 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+
+        switch (v.getId()) {
             case R.id.btn:
                 onBtnClick();
                 break;
@@ -148,7 +168,7 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
 
     private void onBtnClick() {
         int index = holder.circleview.getIndex();
-        switch (index){
+        switch (index) {
             case 0:
                 NewsActivity.open(this);
                 break;
@@ -162,6 +182,11 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
                 ZoneActivity.open(this);
                 break;
             case 4:
+                if (!Preferences.getInstance().isLogin()) {
+                    Utils.tip(this, "请先登录");
+                    LoginActivity.open(this);
+                    return;
+                }
                 TicketActivity.open(this);
                 break;
             case 5:
@@ -173,8 +198,26 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if(TextUtils.equals(ACTION_TOLOGIN, intent.getAction())){
-            Utils.tip(context,"该账号已经在其他设备上登陆");
+        if (TextUtils.equals(ACTION_TOLOGIN, intent.getAction())) {
+            Utils.tip(context, "该账号已经在其他设备上登陆");
         }
     }
+
+    private void initPush() {
+        PushSettings.enableDebugMode(context, true);
+        if (Preferences.getInstance().getNewsPush()) {
+            PushManager.startWork(getApplicationContext(),
+                    PushConstants.LOGIN_TYPE_API_KEY,
+                    AppConfig.getInstance().getPush_api_key());
+
+        }
+
+        if (Preferences.getInstance().getVoice()) {
+            PushManager.setNoDisturbMode(this, -1, -1, -1, -1);
+        } else {
+            PushManager.setNoDisturbMode(this, 0, 0, 23, 59);
+        }
+
+    }
+
 }

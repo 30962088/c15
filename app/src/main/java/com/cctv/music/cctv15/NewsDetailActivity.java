@@ -218,4 +218,10 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        holder.webview.loadUrl("about:blank");
+//        holder.webview = null;
+    }
 }

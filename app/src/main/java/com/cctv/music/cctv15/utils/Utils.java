@@ -10,8 +10,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Utils {
+import java.util.Calendar;
+import java.util.Date;
 
+public class Utils {
 
 
     public static void tip(final Context context, final String str) {
@@ -25,6 +27,15 @@ public class Utils {
 
     }
 
+    public static int countDays(Date date) {
+        long t = Calendar.getInstance().getTime().getTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        long t1 = c.getTime().getTime();
+        return (int) (t / 1000 - t1 / 1000) / 3600 / 24;
+    }
+
+
     public static boolean isPackageInstalled(String packagename, Context context) {
         PackageManager pm = context.getPackageManager();
         try {
@@ -35,18 +46,18 @@ public class Utils {
         }
     }
 
-    public static String formatTimer(int milliseconds){
+    public static String formatTimer(int milliseconds) {
 
-        int second = milliseconds/1000;
+        int second = milliseconds / 1000;
 
-        return _formatTimer(second/60)+":"+_formatTimer(second%60);
+        return _formatTimer(second / 60) + ":" + _formatTimer(second % 60);
     }
 
-    private static String _formatTimer(int count){
-        if(count < 10){
-            return "0"+count;
+    private static String _formatTimer(int count) {
+        if (count < 10) {
+            return "0" + count;
         }
-        return ""+count;
+        return "" + count;
     }
 
     public static int dpToPx(Context context, int dp) {
@@ -66,7 +77,7 @@ public class Utils {
 
             // Get total height of all items.
             int totalItemsHeight = 0;
-            for (int itemPos = 0; itemPos < numberOfItems;itemPos++) {
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
                 View item = listAdapter.getView(itemPos, null, listView);
                 item.measure(0, 0);
                 totalItemsHeight += item.getMeasuredHeight();

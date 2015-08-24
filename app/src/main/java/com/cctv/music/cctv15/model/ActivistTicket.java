@@ -61,6 +61,15 @@ public class ActivistTicket implements Serializable{
         return isover;
     }
 
+    private Boolean end;
+
+    public boolean isEnd(){
+        if(end == null){
+            end = new Date().getTime()>getEndtime().getTime();
+        }
+        return end;
+    }
+
     public Date getStarttime() {
         return DateUtils.parse(starttime);
     }

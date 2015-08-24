@@ -72,7 +72,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 oauth.sinaOauth();
                 break;
             case R.id.btn_qq:
-                oauth.tencentOauth();
+                oauth.qqOauth();
                 break;
             case R.id.btn_renren:
                 oauth.renrenOauth();
@@ -129,7 +129,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case SINA:
                 userType = UserType.USERTYPE_SINA;
                 break;
-            case TENCENT:
+            case QQ:
                 userType = UserType.USERTYPE_QQ;
                 break;
             case RENREN:
