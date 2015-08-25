@@ -27,6 +27,8 @@ import android.widget.VideoView;
 public class LaunchActivity extends BaseActivity{
 	
 	private ImageView imgView;
+
+	private View container;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -34,6 +36,7 @@ public class LaunchActivity extends BaseActivity{
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_luanch);
 		imgView = (ImageView) findViewById(R.id.img);
+		container = findViewById(R.id.container);
 		request();
 		VideoView view = (VideoView) findViewById(R.id.video);
 		String path = "android.resource://" + getPackageName() + "/" + R.raw.launcher;
@@ -82,7 +85,7 @@ public class LaunchActivity extends BaseActivity{
 	
 	private void onAnimEnd() {
 		if(model != null){
-			imgView.setVisibility(View.VISIBLE);
+			container.setVisibility(View.VISIBLE);
 			imgView.setImageBitmap(model.bitmap);
 			final Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
@@ -92,7 +95,7 @@ public class LaunchActivity extends BaseActivity{
 					finish();
 				}
 			}, 3000);
-			imgView.setOnClickListener(new OnClickListener() {
+			container.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {

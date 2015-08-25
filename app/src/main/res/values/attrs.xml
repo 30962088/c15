@@ -3,5 +3,8 @@
     <declare-styleable name="CircleLayout1">
         <attr name="iconSize1" format="dimension" />
     </declare-styleable>
-
+    <declare-styleable name="MeasureWH">
+        <attr name="measurew" format="float" />
+        <attr name="measureh" format="float" />
+    </declare-styleable>
 </resources>

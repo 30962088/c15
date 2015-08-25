@@ -49,7 +49,6 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
     private class ViewHolder {
         private View clock;
         private View line;
-        private View guang;
         private View kedu;
         private RotateView rotateview;
         private CircleLayout circleview;
@@ -57,7 +56,6 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
         public ViewHolder() {
             clock = findViewById(R.id.clock);
             line = findViewById(R.id.line);
-            guang = findViewById(R.id.guang);
             kedu = findViewById(R.id.kedu);
             rotateview = (RotateView) findViewById(R.id.rotateview);
             circleview = (CircleLayout) findViewById(R.id.circleview);

@@ -83,7 +83,7 @@
                 android:layout_height="match_parent"
                 android:text="精彩音乐汇-暑期特辑精彩音乐汇精彩暑期特辑精彩音乐汇精彩"
                 android:textColor="#000"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:layout_marginBottom="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"

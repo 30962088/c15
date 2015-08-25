@@ -64,15 +64,25 @@ public class RotateView extends View{
     private double current = 0;
 
     private void touchstart(MotionEvent event) {
-        startA = calcRotationAngleInDegrees(new PointF(event.getX(),event.getY()));
+        last = startA = calcRotationAngleInDegrees(new PointF(event.getX(),event.getY()));
         if(onRotateListener != null){
             onRotateListener.start();
         }
     }
 
+    private double last;
+
+    private Direction direction;
+
     private void touchmove(MotionEvent event) {
         PointF pointF = new PointF(event.getX(),event.getY());
         double angle = calcRotationAngleInDegrees(pointF);
+        if(angle > last){
+            direction = Direction.Down;
+        }else{
+            direction = Direction.Up;
+        }
+        last = angle;
         if(onRotateListener != null){
             onRotateListener.onrotate(current+angle-startA);
         }
@@ -81,10 +91,11 @@ public class RotateView extends View{
     private void touchend(MotionEvent event) {
         PointF pointF = new PointF(event.getX(),event.getY());
         double endA = calcRotationAngleInDegrees(pointF);
+
         double deltaA =endA-startA;
         current+=deltaA;
-        if(onRotateListener != null && deltaA != 0){
-            onRotateListener.end(deltaA > 0 ? Direction.Down : Direction.Up);
+        if(onRotateListener != null && direction != null){
+            onRotateListener.end(direction);
         }
     }
 

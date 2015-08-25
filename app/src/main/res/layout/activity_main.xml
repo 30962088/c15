@@ -12,17 +12,8 @@
         android:layout_marginBottom="@dimen/guang1_bottom"
         android:layout_alignBottom="@+id/clock"
         android:scaleType="fitXY"
-        android:src="@drawable/bg_guang2"></ImageView>
+        android:src="@drawable/guang2"></ImageView>
 
-    <ImageView
-        android:id="@+id/guang"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignTop="@+id/guang1"
-        android:layout_marginTop="@dimen/guang_bottom"
-        android:scaleType="fitXY"
-        android:src="@drawable/icon_guang"></ImageView>
 
     <com.cctv.music.cctv15.ui.CircleLayout
         android:id="@+id/circleview"
@@ -35,6 +26,7 @@
         android:layout_height="match_parent" />
 
     <View
+        android:id="@+id/d1"
         android:layout_width="match_parent"
         android:layout_height="82.5dp"
         android:background="@drawable/icon_hd2"></View>
@@ -97,10 +89,10 @@
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/guang"
-        android:layout_alignRight="@id/guang"
-        android:layout_alignTop="@id/guang"
-        android:layout_alignBottom="@id/guang"></View>
+        android:layout_marginTop="55dp"
+        android:layout_alignLeft="@id/guang1"
+        android:layout_alignRight="@id/guang1"
+        android:layout_alignBottom="@id/guang1"></View>
 
     <com.cctv.music.cctv15.ui.RotateView
         android:id="@+id/rotateview"

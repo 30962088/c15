@@ -351,8 +351,8 @@
 
                         <CheckBox
                             android:id="@+id/voice"
-                            android:layout_width="25.5dp"
-                            android:layout_height="15.5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:button="@drawable/btn_radio_selector"></CheckBox>
 
 
@@ -388,8 +388,8 @@
 
                         <CheckBox
                             android:id="@+id/news"
-                            android:layout_width="25.5dp"
-                            android:layout_height="15.5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:button="@drawable/btn_radio_selector"></CheckBox>
 
 
