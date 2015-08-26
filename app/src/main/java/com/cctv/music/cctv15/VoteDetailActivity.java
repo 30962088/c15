@@ -68,7 +68,5 @@ public class VoteDetailActivity extends BaseActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         webView.loadUrl("about:blank");
-        webView.pauseTimers();
-        webView.destroy();
     }
 }

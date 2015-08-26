@@ -19,6 +19,7 @@ import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.SongRequest;
 import com.cctv.music.cctv15.ui.BaseListView;
 import com.cctv.music.cctv15.ui.SliderFragment;
+import com.cctv.music.cctv15.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +40,16 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
 
     private BaseListView listView;
 
+    private int itemSize;
+
+    private int windowWidth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_rank);
+        windowWidth = Utils.getScreenSize(this).x;
+        itemSize = windowWidth/2-Utils.dpToPx(context, 26);
         listView = (BaseListView)findViewById(R.id.listview);
         View header = LayoutInflater.from(this).inflate(R.layout.slider_container, null);
 
@@ -51,7 +58,6 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
         listView.setAdapter(adapter);
         listView.setOnLoadListener(this);
         listView.load(true);
-
     }
 
     @Override
@@ -61,7 +67,7 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
             requestSlider();
         }
 
-        SongRequest request = new SongRequest(this,new SongRequest.Params(0,offset,limit,200,200));
+        SongRequest request = new SongRequest(this,new SongRequest.Params(0,offset,limit,itemSize,itemSize));
 
         return request;
     }
@@ -71,7 +77,7 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
     private List<Song> songList = new ArrayList<>();
 
     private void requestSlider() {
-        SongRequest request = new SongRequest(this,new SongRequest.Params(1,1,6,200,200));
+        SongRequest request = new SongRequest(this,new SongRequest.Params(1,1,6,windowWidth,Utils.dpToPx(context,198)));
         request.request(new BaseClient.RequestHandler() {
             @Override
             public void onComplete() {

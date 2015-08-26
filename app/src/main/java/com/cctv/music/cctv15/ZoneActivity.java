@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +13,6 @@ import com.cctv.music.cctv15.model.PushInfo;
 import com.cctv.music.cctv15.network.ActivistListRequest;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.GetClientUserInfoRequest;
-import com.cctv.music.cctv15.network.GetMyActivistTicketListRequest;
 import com.cctv.music.cctv15.network.PushInfoRequest;
 import com.cctv.music.cctv15.network.VoteRequest;
 import com.cctv.music.cctv15.ui.VoteItem2;
@@ -27,7 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 
 
-public class ZoneActivity extends BaseActivity implements View.OnClickListener, BaseActivity.OnWeiboBindingListener,CompoundButton.OnCheckedChangeListener {
+public class ZoneActivity extends BaseActivity implements View.OnClickListener, BaseActivity.OnWeiboBindingListener {
 
     public static void open(Context context) {
 
@@ -51,12 +48,14 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
 
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+    public void onCheckedChanged(View buttonView) {
+        buttonView.setSelected(!buttonView.isSelected());
+        boolean val = buttonView.isSelected();
         if(buttonView == holder.newsSwitch){
-            Preferences.getInstance().setNewsPush(isChecked);
+            Preferences.getInstance().setNewsPush(val);
         }else{
-            Preferences.getInstance().setVoice(isChecked);
+            Preferences.getInstance().setVoice(val);
         }
     }
 
@@ -73,7 +72,7 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
         private TextView rank;
         private TextView score;
         private TextView ticket;
-        private CheckBox voiceSwitch,newsSwitch;
+        private View voiceSwitch,newsSwitch;
 
 
 
@@ -90,8 +89,8 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
             rank = (TextView) findViewById(R.id.rank);
             score = (TextView) findViewById(R.id.score);
             ticket = (TextView) findViewById(R.id.ticket);
-            voiceSwitch = (CheckBox) findViewById(R.id.voice);
-            newsSwitch = (CheckBox) findViewById(R.id.news);
+            voiceSwitch =  findViewById(R.id.voice);
+            newsSwitch =  findViewById(R.id.news);
         }
     }
 
@@ -110,8 +109,8 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
         findViewById(R.id.btn_account).setOnClickListener(this);
         holder.btn_avatar.setOnClickListener(this);
         holder.btn_about.setOnClickListener(this);
-        holder.voiceSwitch.setOnCheckedChangeListener(this);
-        holder.newsSwitch.setOnCheckedChangeListener(this);
+        findViewById(R.id.newswraper).setOnClickListener(this);
+        findViewById(R.id.voicewraper).setOnClickListener(this);
         fillVote();
     }
 
@@ -171,6 +170,12 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.btn_pushinfo:
                 PushInfoActivity.open(this, infoList);
                 break;
+            case R.id.voicewraper:
+                onCheckedChanged(holder.voiceSwitch);
+                break;
+            case R.id.newswraper:
+                onCheckedChanged(holder.newsSwitch);
+                break;
         }
 
     }
@@ -191,8 +196,8 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
         checkPushInfo();
         fillUser();
         checkTicket();
-        holder.voiceSwitch.setChecked(Preferences.getInstance().getVoice());
-        holder.newsSwitch.setChecked(Preferences.getInstance().getNewsPush());
+        holder.voiceSwitch.setSelected(Preferences.getInstance().getVoice());
+        holder.newsSwitch.setSelected(Preferences.getInstance().getNewsPush());
 
     }
 

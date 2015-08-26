@@ -1,4 +1,6 @@
 <resources>
+    <dimen name="shadowmarinh">13dp</dimen>
+    <dimen name="shadowmarinv">25dp</dimen>
     <dimen name="guang1_bottom">180dp</dimen>
     <dimen name="guang_bottom">111dp</dimen>
     <dimen name="kedu_bottom">40dp</dimen>
