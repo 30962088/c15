@@ -1,7 +1,5 @@
 package com.cctv.music.cctv15.network;
 
-import org.apache.http.Header;
-
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
