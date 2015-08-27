@@ -17,11 +17,24 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.baidu.android.pushservice.PushManager;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class Utils {
+    public static String logStringCache = "";
 
+    public static void setTag(Context context, final String userId){
+        PushManager.setTags(context, new ArrayList<String>() {{
+            add("userId" + userId);
+        }});
+    }
+
+    public static void delTag(Context context){
+        PushManager.setTags(context,null);
+    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public static Point getScreenSize(Activity activity){

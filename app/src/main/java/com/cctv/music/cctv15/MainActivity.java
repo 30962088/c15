@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 
+import com.baidu.android.pushservice.BasicPushNotificationBuilder;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.baidu.android.pushservice.PushSettings;
@@ -202,6 +203,7 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
     }
 
     private void initPush() {
+
         PushSettings.enableDebugMode(context, true);
         if (Preferences.getInstance().getNewsPush()) {
             PushManager.startWork(getApplicationContext(),
@@ -210,8 +212,12 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
 
         }
 
+        if(Preferences.getInstance().isLogin()){
+            Utils.setTag(context, Preferences.getInstance().getUid());
+        }
+
         if (Preferences.getInstance().getVoice()) {
-            PushManager.setNoDisturbMode(this, -1, -1, -1, -1);
+            PushManager.setNoDisturbMode(this, 0, 0, 0, 0);
         } else {
             PushManager.setNoDisturbMode(this, 0, 0, 23, 59);
         }

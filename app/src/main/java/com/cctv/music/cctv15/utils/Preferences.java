@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 
+import java.util.ArrayList;
+
 public class Preferences {
 
 
@@ -71,8 +73,10 @@ public class Preferences {
     }
 
     public void logout(){
+        Utils.delTag(context);
         setPkey(null);
         setUid(null);
+
     }
 
     public void setPkey(String pkey){
@@ -83,14 +87,15 @@ public class Preferences {
         return preferences.getString("pkey", null);
     }
 
-    public void login(String uid,String pkey){
+    public void login(final String uid,String pkey){
         setPkey(pkey);
         setUid(uid);
+        Utils.setTag(context,uid);
     }
 
     public void setVoice(boolean voice){
         if(voice){
-            PushManager.setNoDisturbMode(context, -1, -1, -1, -1);
+            PushManager.setNoDisturbMode(context, 0, 0, 0, 0);
         }else{
             PushManager.setNoDisturbMode(context, 0, 0, 23, 59);
         }
