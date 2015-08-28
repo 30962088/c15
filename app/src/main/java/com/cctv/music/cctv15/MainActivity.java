@@ -1,12 +1,16 @@
 package com.cctv.music.cctv15;
 
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,8 +19,10 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 
 import com.baidu.android.pushservice.BasicPushNotificationBuilder;
+import com.baidu.android.pushservice.CustomPushNotificationBuilder;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
+import com.baidu.android.pushservice.PushNotificationBuilder;
 import com.baidu.android.pushservice.PushSettings;
 import com.cctv.music.cctv15.ui.CircleLayout;
 import com.cctv.music.cctv15.ui.PausableRotateAnimation;
@@ -211,6 +217,27 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
                     AppConfig.getInstance().getPush_api_key());
 
         }
+
+        Resources resource = this.getResources();
+        String pkgName = this.getPackageName();
+
+
+
+        CustomPushNotificationBuilder cBuilder = new CustomPushNotificationBuilder(
+                resource.getIdentifier(
+                        "notification_custom_builder", "layout", pkgName),
+                resource.getIdentifier("notification_icon", "id", pkgName),
+                resource.getIdentifier("notification_title", "id", pkgName),
+                resource.getIdentifier("notification_text", "id", pkgName));
+        cBuilder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);
+        cBuilder.setNotificationDefaults(Notification.DEFAULT_VIBRATE);
+        cBuilder.setStatusbarIcon(this.getApplicationInfo().icon);
+        cBuilder.setLayoutDrawable(resource.getIdentifier(
+                "ic_launcher", "drawable", pkgName));
+        cBuilder.setNotificationSound(Uri.withAppendedPath(
+                MediaStore.Audio.Media.INTERNAL_CONTENT_URI, "6").toString());
+
+        PushManager.setDefaultNotificationBuilder(context,cBuilder);
 
         if(Preferences.getInstance().isLogin()){
             Utils.setTag(context, Preferences.getInstance().getUid());
