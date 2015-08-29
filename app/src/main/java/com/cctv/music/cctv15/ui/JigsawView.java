@@ -63,24 +63,29 @@ public class JigsawView extends View {
 
     private List<Bitmap> list;
 
-    private int[] position = new int[9];
+    private int[] position;
 
-    private int blank = position.length - 1;
+    private int blank;
 
     private int size;
 
     private JigsawTranslate translate;
 
-    public void init(Bitmap bp) {
-        size = getWidth() / 3;
+    private int count = 3;
+
+    public void init(Bitmap bp,int count) {
+        this.count = count;
+        position = new int[count*count];
+        blank = position.length - 1;
+        size = getWidth() / count;
         for (int i = 0; i < position.length; i++) {
             position[i] = i;
         }
         translate = null;
-//        debugArray(position);
-        shuffleArray(position);
+        debugArray(position);
+//        shuffleArray(position);
         Bitmap bitmap = Bitmap.createScaledBitmap(bp, getWidth(), getHeight(), true);
-        list = createBitmaps(bitmap, size);
+        list = createBitmaps(bitmap, size,count);
         invalidate();
         gameEnable = true;
 
@@ -175,8 +180,8 @@ public class JigsawView extends View {
                 int j = position[i];
                 if (j != blank) {
                     Bitmap bitmap = list.get(j);
-                    int y = (i / 3) * size;
-                    int x = (i % 3) * size;
+                    int y = (i / count) * size;
+                    int x = (i % count) * size;
                     if (translate != null && translate.pos == i) {
 //                    Log.d("zzm","pos:"+translate.pos+",x:"+translate.x+",y:"+translate.y);
                         x += translate.x;
@@ -195,7 +200,7 @@ public class JigsawView extends View {
         if (gameEnable && event.getAction() == MotionEvent.ACTION_DOWN) {
             float x = event.getX(), y = event.getY();
             int col = getRect(x, getWidth()), row = getRect(y, getHeight());
-            int pos = (row * 3) + col;
+            int pos = (row * count) + col;
             /*Log.d("zzm","x:"+x+",y:"+y+",w:"+getWidth()+",h:"+getHeight());
             Log.d("zzm","row:"+row+",col:"+col);
             Log.d("zzm","pos:"+pos);*/
@@ -221,7 +226,7 @@ public class JigsawView extends View {
     private POSTION getPOSTION(Point pos) {
         Point blankPos = getBlankPos();
         POSTION res = null;
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= count; i++) {
             Point p1 = new Point(blankPos);
             switch (i) {
                 case 0:
@@ -254,7 +259,7 @@ public class JigsawView extends View {
 
         int index = getBlankIndex();
 
-        int row = index % 3, col = index / 3;
+        int row = index % count, col = index / count;
 
         return new Point(col, row);
 
@@ -282,11 +287,11 @@ public class JigsawView extends View {
         return row;
     }
 
-    private static List<Bitmap> createBitmaps(Bitmap bitmap, int size) {
+    private static List<Bitmap> createBitmaps(Bitmap bitmap, int size,int count) {
         List<Bitmap> list = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            int x = (i % 3) * size;
-            int y = (i / 3) * size;
+        for (int i = 0; i < count*count; i++) {
+            int x = (i % count) * size;
+            int y = (i / count) * size;
             Bitmap b = Bitmap.createBitmap(bitmap, x, y, size, size);
             list.add(b);
         }

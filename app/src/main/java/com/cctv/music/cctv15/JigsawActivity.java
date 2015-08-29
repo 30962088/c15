@@ -140,7 +140,7 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 LoadingPopup.hide(context);
-                holder.jigsaw.init(loadedImage);
+                holder.jigsaw.init(loadedImage,4);
             }
 
             @Override

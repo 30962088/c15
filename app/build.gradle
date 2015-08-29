@@ -24,7 +24,7 @@ android {
     defaultConfig {
         applicationId "com.cctv.music.cctv15"
         minSdkVersion 8
-        targetSdkVersion 22
+        targetSdkVersion 20
         versionCode 1
         versionName "1.0"
         signingConfig signingConfigs.release
