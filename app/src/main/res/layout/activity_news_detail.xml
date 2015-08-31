@@ -39,7 +39,7 @@
             android:layout_marginRight="13dp"
             android:background="@drawable/bg_pop"
             android:gravity="center"
-            android:text="34567"
+            android:text="0"
             android:textColor="#b31f3b"
             android:textSize="13.33sp" />
 

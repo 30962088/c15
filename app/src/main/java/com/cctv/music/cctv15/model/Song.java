@@ -10,6 +10,10 @@ public class Song implements Serializable{
 
     private int sid;
 
+    //comment_count=8
+
+    private long comment_count;
+
     //singername=张菲菲
 
     private String singername;
@@ -67,4 +71,7 @@ public class Song implements Serializable{
         return new SliderFragment.Model(null,getSurfaceurl(),getSingername()+"《"+getSongname()+"》");
     }
 
+    public long getComment_count() {
+        return comment_count;
+    }
 }

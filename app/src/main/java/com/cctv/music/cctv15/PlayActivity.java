@@ -8,6 +8,7 @@ import android.graphics.PointF;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +17,9 @@ import android.widget.TextView;
 import com.cctv.music.cctv15.model.Song;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.GetSongScoreRequest;
+import com.cctv.music.cctv15.network.InsertSongCommentRequest;
 import com.cctv.music.cctv15.network.UpdateSongScoreRequest;
+import com.cctv.music.cctv15.ui.CommentPublishView;
 import com.cctv.music.cctv15.ui.MyRatingbar;
 import com.cctv.music.cctv15.ui.PercentView;
 import com.cctv.music.cctv15.utils.AnimUtils;
@@ -25,13 +28,51 @@ import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PlayActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MyRatingbar.OnRateListener {
+public class PlayActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MyRatingbar.OnRateListener,CommentPublishView.OnPublishListener {
+
+    @Override
+    public void onshare() {
+
+    }
+
+    @Override
+    public void onsend(String text) {
+        if(TextUtils.isEmpty(text)){
+            Utils.tip(context, "请输入要评论的内容");
+            return;
+        }
+
+        InsertSongCommentRequest request = new InsertSongCommentRequest(context,new InsertSongCommentRequest.Params(""+model.getCurrent().getSid(),text, Preferences.getInstance().getUid(),Preferences.getInstance().getPkey()));
+
+        request.request(new BaseClient.RequestHandler() {
+            @Override
+            public void onComplete() {
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                Utils.tip(context, "评论成功");
+                holder.publishview.clear();
+            }
+
+            @Override
+            public void onError(int error, String msg) {
+                if(error == 1025){
+                    Utils.tip(context,"频率过于频繁");
+                }else{
+                    Utils.tip(context,"评论失败");
+                }
+            }
+        });
+    }
 
     public static class Model implements Serializable{
         private int index;
@@ -70,6 +111,8 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         private PercentView percent;
         private View container;
         private MyRatingbar ratebar;
+        private TextView comemntcount;
+        private CommentPublishView publishview;
 
         public ViewHolder() {
             img = (ImageView) findViewById(R.id.img);
@@ -83,6 +126,8 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
             label = (TextView) findViewById(R.id.label);
             percent = (PercentView) findViewById(R.id.percent);
             ratebar = (MyRatingbar) findViewById(R.id.ratebar);
+            comemntcount = (TextView) findViewById(R.id.comemntcount);
+            publishview = (CommentPublishView) findViewById(R.id.publishview);
         }
     }
 
@@ -100,6 +145,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         model = (Model) getIntent().getSerializableExtra("model");
         setContentView(R.layout.activity_play);
         holder = new ViewHolder();
+        holder.publishview.setModel(this);
         initEvent();
         initSong(model.index);
     }

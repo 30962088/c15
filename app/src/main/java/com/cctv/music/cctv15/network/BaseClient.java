@@ -12,6 +12,11 @@ import android.net.NetworkInfo;
 import com.cctv.music.cctv15.MainActivity;
 import com.cctv.music.cctv15.utils.*;
 import com.loopj.android.http.*;
+import com.owengriffin.reflectionprism.IntrospectionException;
+import com.owengriffin.reflectionprism.Introspector;
+import com.owengriffin.reflectionprism.PropertyDescriptor;
+
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class BaseClient implements HttpResponseHandler {
 
@@ -209,6 +214,24 @@ public abstract class BaseClient implements HttpResponseHandler {
 
     protected boolean useOffline() {
         return true;
+    }
+
+    public static RequestParams buildParams(Object object)  {
+        RequestParams params = new RequestParams();
+
+        try {
+            for(PropertyDescriptor propertyDescriptor: Introspector.getBeanInfo(object.getClass()).getPropertyDescriptors()){
+                params.add(propertyDescriptor.getName(), String.valueOf(propertyDescriptor.getReadMethod().invoke(object)));
+            }
+        } catch (IntrospectionException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        return params;
     }
 
 	/*static final Pattern reUnicode = Pattern.compile("\\\\\\\\u([0-9a-zA-Z]{4})");
