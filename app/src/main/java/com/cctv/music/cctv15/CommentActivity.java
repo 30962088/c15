@@ -90,6 +90,12 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        publishView.refresh();
+    }
+
+    @Override
     public BaseListView.Type getRequestType() {
         return BaseListView.Type.PAGE;
     }

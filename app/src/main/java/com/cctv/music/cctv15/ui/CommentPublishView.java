@@ -88,10 +88,14 @@ public class CommentPublishView extends FrameLayout implements View.OnClickListe
         hoder.share.setOnClickListener(this);
         hoder.send.setOnClickListener(this);
         hoder.notLogin.setOnClickListener(this);
+        refresh();
+
+    }
+
+    public void refresh(){
         if(!isInEditMode()){
             hoder.notLogin.setVisibility(Preferences.getInstance().isLogin()?GONE:VISIBLE);
         }
-
     }
 
     public void clear(){

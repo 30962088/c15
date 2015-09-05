@@ -225,4 +225,10 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         holder.webview.loadUrl("about:blank");
 //        holder.webview = null;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        holder.publishview.refresh();
+    }
 }

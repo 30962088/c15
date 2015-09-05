@@ -22,6 +22,7 @@ import com.cctv.music.cctv15.network.UpdateSongScoreRequest;
 import com.cctv.music.cctv15.ui.CommentPublishView;
 import com.cctv.music.cctv15.ui.MyRatingbar;
 import com.cctv.music.cctv15.ui.PercentView;
+import com.cctv.music.cctv15.ui.SharePopup;
 import com.cctv.music.cctv15.utils.AnimUtils;
 import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.Preferences;
@@ -30,6 +31,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -40,6 +42,9 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onshare() {
+        Song song = model.getCurrent();
+        File bitmapFile = ImageLoader.getInstance().getDiskCache().get(song.getSurfaceurl());
+        SharePopup.shareWebsite(context, "欢迎参与音乐频道官方客户端互动", song.getSongurl(), bitmapFile);
 
     }
 
@@ -480,4 +485,9 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         return angle;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        holder.publishview.refresh();
+    }
 }
