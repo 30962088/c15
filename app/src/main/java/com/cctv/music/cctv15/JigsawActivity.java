@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,11 +24,23 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.util.Date;
 import java.util.List;
 
-public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawViewChangeListener,View.OnClickListener {
 
-    public static void open(Context context,MyTicket myTicket) {
+/*
+ 前1/2张图是 3*3 完成拼图奖励200分
+ 后1/2张图是 4*4 完成拼图奖励300分
+ 如果图片总数是单数，如3张 则从第2张开始是4*4
+ 如果图片总数是双数，如4张 则从第3张开始是4*4
+
+ 游戏时间均为100秒
+ 如果100秒内完成拼图，则总得分 = (100 - 游戏时间) * 5 + 完成奖励分
+ 如果超过100秒，则总得分 = 完成奖励分
+*/
+public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawViewChangeListener, View.OnClickListener {
+
+    public static void open(Context context, MyTicket myTicket) {
 
         Intent intent = new Intent(context, JigsawActivity.class);
 
@@ -39,15 +52,15 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_right:
-                JigsawImgActivity.open(this,gameImgs.get(index).getGameimgurl());
+                JigsawImgActivity.open(this, gameImgs.get(index).getGameimgurl());
                 break;
         }
     }
 
 
-    private class ViewHolder{
+    private class ViewHolder {
         private JigsawView jigsaw;
         private ImageView avatar;
         private TextView name;
@@ -64,11 +77,11 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
 
         }
 
-        public void setMyTicket(MyTicket myTicket){
+        public void setMyTicket(MyTicket myTicket) {
             ImageLoader.getInstance().displayImage(myTicket.getLoginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
             name.setText(myTicket.getUsername());
             score.setText("" + myTicket.getMyscore());
-            rank.setText(""+myTicket.getMyranking());
+            rank.setText("" + myTicket.getMyranking());
         }
 
     }
@@ -116,16 +129,18 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
         });
     }
 
-    private void next(){
-        index ++;
-        if(index >= gameImgs.size()){
+    private void next() {
+        index++;
+        if (index >= gameImgs.size()) {
             index = 0;
         }
         start(index);
     }
 
-    private void start(int index){
-        ImageLoader.getInstance().loadImage(gameImgs.get(index).getGameimgurl(),DisplayOptions.IMG.getOptions(), new ImageLoadingListener() {
+    private Date startTime;
+
+    private void start(int index) {
+        ImageLoader.getInstance().loadImage(gameImgs.get(index).getGameimgurl(), DisplayOptions.IMG.getOptions(), new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
                 LoadingPopup.show(context);
@@ -140,7 +155,8 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 LoadingPopup.hide(context);
-                holder.jigsaw.init(loadedImage,4);
+                startTime = new Date();
+                holder.jigsaw.init(loadedImage, getSquare());
             }
 
             @Override
@@ -150,11 +166,36 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
         });
     }
 
+    private int getSquare() {
+
+        if (index + 1 <= gameImgs.size() / 2) {
+            return 3;
+        }
+        return 4;
+
+    }
+
+    private int getSquareScore() {
+        int count = getSquare();
+        if (count == 3) {
+            return 200;
+        }
+        return 300;
+    }
+
+    private int getDeltaScore() {
+        int delta = (int) ((100 - ((new Date().getTime() - startTime.getTime()) / 1000)) * 5);
+        if (delta < 0) {
+            delta = 0;
+        }
+        return delta;
+    }
+
     @Override
     public void onJigsawViewChange(boolean checked) {
-        if(checked){
-            final int score = 20;
-            ChangeUserScoreRequest request = new ChangeUserScoreRequest(context,new ChangeUserScoreRequest.Params(score, Preferences.getInstance().getUid()));
+        if (checked) {
+            final int score = getDeltaScore()+getSquareScore();
+            ChangeUserScoreRequest request = new ChangeUserScoreRequest(context, new ChangeUserScoreRequest.Params(score, Preferences.getInstance().getUid()));
             request.request(new BaseClient.RequestHandler() {
                 @Override
                 public void onComplete() {
@@ -163,7 +204,7 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
 
                 @Override
                 public void onSuccess(Object object) {
-                    myTicket.setMyscore(myTicket.getMyscore()+score);
+                    myTicket.setMyscore(myTicket.getMyscore() + score);
                     holder.setMyTicket(myTicket);
                     next();
                 }

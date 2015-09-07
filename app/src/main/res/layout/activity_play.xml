@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="55dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -124,9 +124,10 @@
             android:id="@+id/btn_play"
             android:layout_width="@dimen/btn_play_size"
             android:layout_height="@dimen/btn_play_size"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/linearLayout"
+            android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
+
             android:background="@drawable/btn_play_selector"></View>
 
         <View
@@ -136,7 +137,7 @@
             android:layout_alignBottom="@+id/btn_play"
             android:layout_alignLeft="@+id/btn_play"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="-83dp"
+            android:layout_marginLeft="-93dp"
             android:background="@drawable/btn_prev"></View>
 
         <View
@@ -146,7 +147,7 @@
             android:layout_alignBottom="@+id/btn_play"
             android:layout_alignRight="@+id/btn_play"
             android:layout_marginBottom="20dp"
-            android:layout_marginRight="-83dp"
+            android:layout_marginRight="-93dp"
             android:background="@drawable/btn_next"></View>
 
         <FrameLayout
