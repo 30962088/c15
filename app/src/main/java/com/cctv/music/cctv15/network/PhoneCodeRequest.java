@@ -17,7 +17,10 @@ public class PhoneCodeRequest extends BaseClient{
             this.phone = phone;
         }
 
-
+        public Params(String phone, int type) {
+            this.phone = phone;
+            this.type = type;
+        }
     }
 
     public static class Result{

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.cctv.music.cctv15.model.Comment;
+import com.cctv.music.cctv15.ui.Comment2View;
 import com.cctv.music.cctv15.ui.CommentView;
 
 import java.util.List;
@@ -15,9 +16,12 @@ public class CommentAdapter extends BaseAdapter {
 
     private List<Comment> list;
 
-    public CommentAdapter(Context context, List<Comment> list) {
+    private Comment2View.OnCommentViewListener onCommentViewListener;
+
+    public CommentAdapter(Context context, List<Comment> list, Comment2View.OnCommentViewListener onCommentViewListener) {
         this.context = context;
         this.list = list;
+        this.onCommentViewListener = onCommentViewListener;
     }
 
     @Override
@@ -39,10 +43,10 @@ public class CommentAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Comment comment = list.get(position);
         if (convertView == null) {
-            convertView = new CommentView(context);
+            convertView = new Comment2View(context);
         }
 
-        ((CommentView)convertView).setModel(comment);
+        ((Comment2View)convertView).setModel(onCommentViewListener,comment);
 
         return convertView;
     }

@@ -79,6 +79,14 @@ public class Preferences {
 
     }
 
+    public void setPhone(String phone){
+        preferences.edit().putString("phone", ""+phone).commit();
+    }
+
+    public String getPhone(){
+        return preferences.getString("phone", null);
+    }
+
     public void setPkey(String pkey){
         preferences.edit().putString("pkey", ""+pkey).commit();
     }
@@ -90,6 +98,12 @@ public class Preferences {
     public void login(final String uid,String pkey){
         setPkey(pkey);
         setUid(uid);
+    }
+
+    public void login(final String uid,String pkey,String phone){
+        setPkey(pkey);
+        setUid(uid);
+        setPhone(phone);
         Utils.setTag(context,uid);
     }
 

@@ -12,10 +12,10 @@ public class InsertcommentRequest extends BaseClient{
         private String remark;
         private String userid;
         private String commentid;
-        private int isuserid;
+        private String isuserid;
         private String pkey;
 
-        public Params(String contentsid, String remark, String userid, String commentid, int isuserid, String pkey) {
+        public Params(String contentsid, String remark, String userid, String commentid, String isuserid, String pkey) {
             this.contentsid = contentsid;
             this.remark = remark;
             this.userid = userid;

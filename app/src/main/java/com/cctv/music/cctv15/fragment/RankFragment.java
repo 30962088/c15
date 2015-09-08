@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cctv.music.cctv15.LoginActivity;
 import com.cctv.music.cctv15.R;
 import com.cctv.music.cctv15.adapter.RankAdapter;
 import com.cctv.music.cctv15.network.BaseClient;
@@ -33,8 +34,22 @@ public class RankFragment extends BaseFragment implements BaseClient.RequestHand
     @Override
     public void onSuccess(Object object) {
         RankListRequest.Result rank = (RankListRequest.Result)object;
-        ImageLoader.getInstance().displayImage(rank.getMyloginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
-        holder.name.setText("" + rank.getMyusername());
+        if(!Preferences.getInstance().isLogin()){
+            holder.avatar.setImageResource(R.drawable.user_default);
+            holder.name.setText("尚未登录");
+        }else{
+            ImageLoader.getInstance().displayImage(rank.getMyloginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
+            holder.name.setText("" + rank.getMyusername());
+        }
+        holder.avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!Preferences.getInstance().isLogin()){
+                    LoginActivity.open(context);
+                }
+
+            }
+        });
         holder.rank.setText("" + rank.getMyranking());
         holder.score.setText("" + rank.getMyscore());
         holder.listview.setAdapter(new RankAdapter(getActivity(), rank.getRanklist()));
@@ -88,9 +103,14 @@ public class RankFragment extends BaseFragment implements BaseClient.RequestHand
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RankListRequest request = new RankListRequest(getActivity(),new RankListRequest.Params(Preferences.getInstance().getUid()));
-        request.request(this);
+
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        RankListRequest request = new RankListRequest(getActivity(),new RankListRequest.Params(Preferences.getInstance().getUid()));
+        request.request(this);
+    }
 }

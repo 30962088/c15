@@ -67,7 +67,7 @@ public class CommentPublishView extends FrameLayout implements View.OnClickListe
 
     private OnPublishListener onPublishListener;
 
-    private class ViewHolder{
+    public class ViewHolder{
         private EditText text;
         private View send;
         private View share;
@@ -77,6 +77,10 @@ public class CommentPublishView extends FrameLayout implements View.OnClickListe
             send = findViewById(R.id.send);
             share = findViewById(R.id.share);
             notLogin = findViewById(R.id.not_login);
+        }
+
+        public EditText getEditText() {
+            return text;
         }
     }
 
@@ -109,4 +113,8 @@ public class CommentPublishView extends FrameLayout implements View.OnClickListe
         this.onPublishListener = onPublishListener;
     }
 
+
+    public ViewHolder getHoder() {
+        return hoder;
+    }
 }

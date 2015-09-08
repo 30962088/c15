@@ -221,7 +221,11 @@ public abstract class BaseClient implements HttpResponseHandler {
 
         try {
             for(PropertyDescriptor propertyDescriptor: Introspector.getBeanInfo(object.getClass()).getPropertyDescriptors()){
-                params.add(propertyDescriptor.getName(), String.valueOf(propertyDescriptor.getReadMethod().invoke(object)));
+                Object value = propertyDescriptor.getReadMethod().invoke(object);
+                if(value != null){
+                    params.add(propertyDescriptor.getName(), String.valueOf(value));
+                }
+
             }
         } catch (IntrospectionException e) {
             e.printStackTrace();

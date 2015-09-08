@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.cctv.music.cctv15.adapter.CommentAdapter;
 import com.cctv.music.cctv15.model.Comment;
@@ -12,6 +14,7 @@ import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.CommentRequest;
 import com.cctv.music.cctv15.network.InsertcommentRequest;
 import com.cctv.music.cctv15.ui.BaseListView;
+import com.cctv.music.cctv15.ui.Comment2View;
 import com.cctv.music.cctv15.ui.CommentPublishView;
 import com.cctv.music.cctv15.ui.HdCommentView;
 import com.cctv.music.cctv15.ui.LoadingPopup;
@@ -24,7 +27,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentActivity extends BaseActivity implements BaseListView.OnLoadListener,CommentPublishView.OnPublishListener{
+public class CommentActivity extends BaseActivity implements BaseListView.OnLoadListener,CommentPublishView.OnPublishListener,Comment2View.OnCommentViewListener{
 
     public static void open(Context context, Content content) {
 
@@ -58,7 +61,7 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
         listView.getRefreshableView().addHeaderView(hdCommentView);
         listView.setLimit(20);
         hdCommentView.setModel(content);
-        adapter = new CommentAdapter(this,list);
+        adapter = new CommentAdapter(this,list,this);
         listView.setAdapter(adapter);
         listView.setOnLoadListener(this);
         listView.load(true);
@@ -114,7 +117,7 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
             return;
         }
 
-        InsertcommentRequest request = new InsertcommentRequest(context,new InsertcommentRequest.Params(""+content.getContentsid(),text, Preferences.getInstance().getUid(),"0",0,Preferences.getInstance().getPkey()));
+        InsertcommentRequest request = new InsertcommentRequest(context,new InsertcommentRequest.Params(""+content.getContentsid(),text, Preferences.getInstance().getUid(),iscommentid,isuserid,Preferences.getInstance().getPkey()));
 
 
         LoadingPopup.show(context);
@@ -141,5 +144,31 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
             }
         });
 
+    }
+
+    private String isuserid = "0";
+
+    private String iscommentid = "0";
+
+    @Override
+    public void onCommentClick(Comment comment) {
+        if (!Preferences.getInstance().isLogin()) {
+            Utils.tip(context,"系统检测您还没有登录");
+            LoginActivity.open(this);
+            return;
+        }
+        EditText editText = publishView.getHoder().getEditText();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInputFromWindow(editText.getApplicationWindowToken(),
+                InputMethodManager.SHOW_FORCED, 0);
+        isuserid = ""+comment.getUserid();
+        iscommentid = ""+comment.getCommentid();
+        editText.requestFocus();
+        editText.setHint("回复 "+comment.getUsername());
+    }
+
+    @Override
+    public void onJubaoClick(Comment comment) {
+        JubaoActivity.open(context,comment);
     }
 }

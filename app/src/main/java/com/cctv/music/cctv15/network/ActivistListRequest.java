@@ -13,6 +13,9 @@ public class ActivistListRequest extends BaseClient{
         private String userid;
 
         public Params(String userid) {
+            if(userid == null){
+                userid = "0";
+            }
             this.userid = userid;
         }
     }

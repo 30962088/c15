@@ -168,7 +168,7 @@ public class SigninFragment extends BaseFragment implements View.OnClickListener
 
             @Override
             public void onSuccess(Object object) {
-                FillUserActivity.open(getActivity(),new FillUserFragment.Model(UserType.USERTYPE_USERNAME,phone,null,null, Sex.UnKouwn,null,password));
+                FillUserActivity.open(getActivity(),new FillUserFragment.Model(UserType.USERTYPE_USERNAME,phone,null,null, Sex.UnKouwn,null,password,phone));
             }
 
             @Override

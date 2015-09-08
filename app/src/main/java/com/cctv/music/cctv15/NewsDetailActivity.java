@@ -85,7 +85,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
                         return;
                     }
 
-                    InsertcommentRequest request = new InsertcommentRequest(context,new InsertcommentRequest.Params(""+content.getContentsid(),text, Preferences.getInstance().getUid(),"0",0,Preferences.getInstance().getPkey()));
+                    InsertcommentRequest request = new InsertcommentRequest(context,new InsertcommentRequest.Params(""+content.getContentsid(),text, Preferences.getInstance().getUid(),"0","0",Preferences.getInstance().getPkey()));
 
 
                     LoadingPopup.show(context);

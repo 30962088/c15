@@ -17,7 +17,27 @@ import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.RelativeDateFormat;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class CommentView extends FrameLayout{
+public class Comment2View extends FrameLayout implements View.OnClickListener{
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_comment:
+                onCommentViewListener.onCommentClick(comment);
+                break;
+            case R.id.btn_jubao:
+                onCommentViewListener.onJubaoClick(comment);
+                break;
+        }
+    }
+
+    public static interface OnCommentViewListener{
+        public void onCommentClick(Comment comment);
+        public void onJubaoClick(Comment comment);
+    }
+
+    private OnCommentViewListener onCommentViewListener;
 
     private class ViewHolder{
         private ImageView avatar;
@@ -29,22 +49,20 @@ public class CommentView extends FrameLayout{
             username = (TextView) findViewById(R.id.username);
             date = (TextView) findViewById(R.id.date);
             content = (TextView) findViewById(R.id.content);
-
-
         }
     }
 
-    public CommentView(Context context) {
+    public Comment2View(Context context) {
         super(context);
         init();
     }
 
-    public CommentView(Context context, AttributeSet attrs) {
+    public Comment2View(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public CommentView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public Comment2View(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -52,11 +70,18 @@ public class CommentView extends FrameLayout{
     private ViewHolder holder;
 
     private void init(){
-        LayoutInflater.from(getContext()).inflate(R.layout.item_comment, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.item_comment2, this);
         holder = new ViewHolder();
+        findViewById(R.id.btn_jubao).setOnClickListener(this);
+        findViewById(R.id.btn_comment).setOnClickListener(this);
     }
 
-    public void setModel(Comment comment){
+    private Comment comment;
+
+    public void setModel(OnCommentViewListener onCommentViewListener, Comment comment){
+
+        this.onCommentViewListener = onCommentViewListener;
+        this.comment = comment;
         holder.username.setText(""+comment.getUsername());
         ImageLoader.getInstance().displayImage(comment.getUserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
         holder.content.setText("" + Html.fromHtml(comment.getContent()));

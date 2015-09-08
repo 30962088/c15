@@ -12,6 +12,7 @@ import com.cctv.music.cctv15.model.TicketItem;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.TicketDetailRequest;
 import com.cctv.music.cctv15.utils.DisplayOptions;
+import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -40,6 +41,12 @@ public class TicketDetailActivity extends BaseActivity implements BaseClient.Req
     }
 
     private void onchange() {
+
+        if(!Preferences.getInstance().isLogin()){
+            Utils.tip(context,"请先登录");
+            LoginActivity.open(context);
+            return;
+        }
 
         if(score < item.getConvert_score()){
             Utils.tip(context,"您没有足够兑换的积分");

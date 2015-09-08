@@ -1,5 +1,7 @@
 package com.cctv.music.cctv15.model;
 
+import android.text.TextUtils;
+
 import com.cctv.music.cctv15.utils.DateUtils;
 
 import java.io.Serializable;
@@ -113,6 +115,18 @@ public class Comment implements Serializable{
 
     public String getRemark() {
         return remark;
+    }
+
+    private String content;
+
+    public String getContent(){
+        if(content == null){
+            content = remark;
+            if(!TextUtils.isEmpty(isusername)){
+                content = "回复<font color='#0b92c3'>"+isusername+"</font>"+" "+content;
+            }
+        }
+        return content;
     }
 
     public int getUserid() {

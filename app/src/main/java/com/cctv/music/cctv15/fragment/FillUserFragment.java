@@ -50,9 +50,11 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
         private Sex sex;
         private String username;
         private String password;
+        private String phone;
 
 
-        public Model(int usertype, String sid, String avatar, String city, Sex sex, String username, String password) {
+
+        public Model(int usertype, String sid, String avatar, String city, Sex sex, String username, String password,String phone) {
             this.usertype = usertype;
             this.sid = sid;
             this.avatar = avatar;
@@ -60,6 +62,7 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
             this.sex = sex;
             this.username = username;
             this.password = password;
+            this.phone = phone;
         }
     }
 
@@ -209,7 +212,7 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
                     public void onSuccess(Object object) {
                         Utils.tip(getActivity(), "注册成功");
                         SetClientUserRequest.Result result = (SetClientUserRequest.Result)object;
-                        Preferences.getInstance().login(result.getUserid(),result.getPkey());
+                        Preferences.getInstance().login(result.getUserid(),result.getPkey(),model.phone);
                         ZoneActivity.login(getActivity());
                     }
 

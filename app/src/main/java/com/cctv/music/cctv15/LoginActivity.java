@@ -82,7 +82,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void onlogin() {
-        String phone = holder.phone.getText().toString();
+        final String phone = holder.phone.getText().toString();
         String password = holder.password.getText().toString();
         if (TextUtils.isEmpty(phone)) {
             Utils.tip(this, "请输入手机号码");
@@ -109,7 +109,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onSuccess(Object object) {
                 UserResult result = (UserloginVerifyRequest.Result)object;
-                Preferences.getInstance().login(""+result.getUserid(),result.getPkey());
+                Preferences.getInstance().login(""+result.getUserid(),result.getPkey(),phone);
                 AccountActivity.open(LoginActivity.this);
                 finish();
             }
@@ -153,10 +153,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 IsHaveUserNameRequest.Result r1 = (IsHaveUserNameRequest.Result)object;
                 if(!r1.exsits()){
-                    FillUserFragment.Model model = new FillUserFragment.Model(finalUserType,sid,result.getAvatar(),null,result.getSex(),result.getNickname(),null);
+                    FillUserFragment.Model model = new FillUserFragment.Model(finalUserType,sid,result.getAvatar(),null,result.getSex(),result.getNickname(),null,null);
                     FillUserActivity.open(LoginActivity.this,model);
                 }else{
-                    Preferences.getInstance().login(""+r1.getUserid(),r1.getPkey());
+                    Preferences.getInstance().login(""+r1.getUserid(),r1.getPkey(),null);
                     AccountActivity.open(LoginActivity.this);
                     finish();
                 }

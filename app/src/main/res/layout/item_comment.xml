@@ -48,13 +48,6 @@
                         android:textSize="14sp"
                         android:textColor="#5d5d5d"/>
 
-                    <View
-                        android:id="@+id/jubao"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:background="@drawable/icon_jubao"></View>
-
-
                     <TextView
                         android:id="@+id/date"
                         android:layout_marginLeft="12dp"
@@ -67,6 +60,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:layout_marginTop="2dp"
                     android:id="@+id/content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

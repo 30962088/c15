@@ -151,6 +151,20 @@ public class BaseActivity extends FragmentActivity {
                     }
                 }
                 break;
+            case ACTION_REQUEST_MODIFY_PHONE:
+                if (resultCode == Activity.RESULT_OK) {
+                    if(onModifyPhoneListener != null){
+                        onModifyPhoneListener.onModifyPhone(data.getStringExtra("phone"));
+                    }
+                }
+                break;
+            case ACTION_REQUEST_MODIFY_PWD:
+                if (resultCode == Activity.RESULT_OK) {
+                    if(onModifyPasswordListener != null){
+                        onModifyPasswordListener.onModifyPassword(data.getStringExtra("password"));
+                    }
+                }
+                break;
         }
     }
 
@@ -230,6 +244,33 @@ public class BaseActivity extends FragmentActivity {
         },"设置头像");
     }
 
+    public void modifyPassowrd(OnModifyPasswordListener onModifyPasswordListener){
+        this.onModifyPasswordListener = onModifyPasswordListener;
+        Intent intent = new Intent(this, ModifyPasswordActivity.class);
+        startActivityForResult(intent, ACTION_REQUEST_MODIFY_PWD);
+    }
 
+    private OnModifyPasswordListener onModifyPasswordListener;
+
+    public static interface OnModifyPasswordListener{
+        public void onModifyPassword(String password);
+    }
+
+
+    private static final int ACTION_REQUEST_MODIFY_PWD = 6;
+
+    public static interface OnModifyPhoneListener{
+        public void onModifyPhone(String phone);
+    }
+
+    private OnModifyPhoneListener onModifyPhoneListener;
+
+    private static final int ACTION_REQUEST_MODIFY_PHONE = 5;
+
+    public void modifyPhone(OnModifyPhoneListener onModifyPhoneListener){
+        this.onModifyPhoneListener = onModifyPhoneListener;
+        Intent intent = new Intent(this, ModifyPhoneActivity.class);
+        startActivityForResult(intent, ACTION_REQUEST_MODIFY_PHONE);
+    }
 
 }

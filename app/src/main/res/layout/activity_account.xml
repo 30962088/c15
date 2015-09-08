@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#ebebeb"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,17 +19,17 @@
             <View
                 android:layout_width="20dp"
                 android:layout_height="15dp"
-                android:background="@drawable/icon_back"
-                android:layout_centerInParent="true"></View>
+                android:layout_centerInParent="true"
+                android:background="@drawable/icon_back"></View>
         </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的账户"
             android:layout_centerInParent="true"
-            android:textSize="17sp"
-            android:textColor="#000" />
+            android:text="我的账户"
+            android:textColor="#000"
+            android:textSize="17sp" />
 
     </RelativeLayout>
 
@@ -73,10 +73,10 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:paddingBottom="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingBottom="30dp"
                 android:paddingLeft="13dp"
                 android:paddingRight="13dp"
                 android:paddingTop="20dp">
@@ -111,8 +111,6 @@
                 </LinearLayout>
 
 
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -144,9 +142,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="7dp"
-                            android:text="未获取"
+                            android:text=""
                             android:textColor="@color/orgin_color_selector"
                             android:textSize="12sp" />
+
                         <View
                             android:layout_width="7dp"
                             android:layout_height="11.5dp"
@@ -184,7 +183,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="7dp"
-                            android:text="未获取"
+                            android:text=""
                             android:textColor="@color/orgin_color_selector"
                             android:textSize="12sp" />
 
@@ -196,9 +195,93 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/advance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/bg_line4"></View>
+
+                        <LinearLayout
+                            android:id="@+id/btn_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingBottom="12dp"
+                            android:paddingLeft="13dp"
+                            android:paddingRight="13dp"
+                            android:paddingTop="12dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="修改密码"
+                                android:textColor="#000"
+                                android:textSize="14sp" />
+
+
+                            <View
+                                android:layout_width="7dp"
+                                android:layout_height="11.5dp"
+                                android:background="@drawable/icon_h_0"></View>
+
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/bg_line4"></View>
+
+                        <LinearLayout
+                            android:id="@+id/btn_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingBottom="12dp"
+                            android:paddingLeft="13dp"
+                            android:paddingRight="13dp"
+                            android:paddingTop="12dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="手机号"
+                                android:textColor="#000"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="7dp"
+                                android:text=""
+                                android:textColor="@color/orgin_color_selector"
+                                android:textSize="12sp" />
+
+                            <View
+                                android:layout_width="7dp"
+                                android:layout_height="11.5dp"
+                                android:background="@drawable/icon_h_0"></View>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
-
 
 
                 <TextView

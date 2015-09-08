@@ -4,6 +4,7 @@ package com.cctv.music.cctv15;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,9 +21,11 @@ import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 
-public class AccountActivity extends BaseActivity implements View.OnClickListener,BaseActivity.OnGallerySelectionListener,BaseActivity.OnCitySelectionListener,AliyunUtils.UploadListener,BaseActivity.OnNicknameFillListener{
+public class AccountActivity extends BaseActivity implements View.OnClickListener,BaseActivity.OnGallerySelectionListener,BaseActivity.OnCitySelectionListener,AliyunUtils.UploadListener,BaseActivity.OnNicknameFillListener,BaseActivity.OnModifyPasswordListener {
 
     public static void open(Context context) {
 
@@ -32,18 +35,26 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
 
     }
 
+    @Override
+    public void onModifyPassword(String password) {
 
+    }
 
 
     private class ViewHolder{
         private TextView nickname;
         private TextView city;
         private ImageView avatar;
+        private View advance;
+        private TextView phone;
+
 
         public ViewHolder() {
             nickname = (TextView) findViewById(R.id.nickname);
             city = (TextView) findViewById(R.id.city);
             avatar = (ImageView) findViewById(R.id.avatar);
+            advance = findViewById(R.id.advance);
+            phone = (TextView) findViewById(R.id.phone);
         }
     }
 
@@ -58,6 +69,18 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.btn_city).setOnClickListener(this);
         findViewById(R.id.btn_logout).setOnClickListener(this);
         findViewById(R.id.btn_nickname).setOnClickListener(this);
+        findViewById(R.id.btn_phone).setOnClickListener(this);
+        findViewById(R.id.btn_password).setOnClickListener(this);
+
+        String phone = Preferences.getInstance().getPhone();
+
+        if(!TextUtils.isEmpty(phone)){
+            holder.advance.setVisibility(View.VISIBLE);
+            holder.phone.setText(phone);
+        }else{
+            holder.advance.setVisibility(View.GONE);
+        }
+
         holder = new ViewHolder();
         request();
     }
@@ -76,6 +99,9 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btn_nickname:
                 onnickname();
+                break;
+            case R.id.btn_password:
+                modifyPassowrd(this);
                 break;
         }
     }

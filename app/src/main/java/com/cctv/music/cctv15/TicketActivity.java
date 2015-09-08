@@ -18,6 +18,7 @@ import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.ui.LoadingPopup;
 import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.Preferences;
+import com.cctv.music.cctv15.utils.Utils;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -102,7 +103,13 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.count:
-                MyTicketActivity.open(context);
+                if(Preferences.getInstance().isLogin()){
+                    MyTicketActivity.open(context);
+                }else{
+                    Utils.tip(context,"请先登录");
+                    LoginActivity.open(context);
+                }
+
                 break;
             case R.id.btn_rank:
                 if(menu != null){
@@ -129,8 +136,24 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
         ActivistListRequest.Result result = (ActivistListRequest.Result)object;
         myTicket = result;
         holder.count.setText("" + result.getMyticket_count());
-        ImageLoader.getInstance().displayImage(result.getLoginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
-        holder.name.setText("" + result.getUsername());
+        if(!Preferences.getInstance().isLogin()){
+            holder.avatar.setImageResource(R.drawable.user_default);
+            holder.name.setText("尚未登录");
+        }else{
+            ImageLoader.getInstance().displayImage(result.getLoginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
+            holder.name.setText("" + result.getUsername());
+        }
+
+        holder.avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!Preferences.getInstance().isLogin()){
+                    LoginActivity.open(context);
+                }
+
+            }
+        });
+
         holder.rank.setText("" + result.getMyranking());
         holder.score.setText("" + result.getMyscore());
         holder.listview.setAdapter(new TicketAdapter(this, result.getActivitylist()));

@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cctv.music.cctv15.model.GameImg;
 import com.cctv.music.cctv15.model.MyTicket;
+import com.cctv.music.cctv15.network.ActivistListRequest;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.ChangeUserScoreRequest;
 import com.cctv.music.cctv15.network.GetGameImgListRequest;
@@ -78,8 +78,24 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
         }
 
         public void setMyTicket(MyTicket myTicket) {
-            ImageLoader.getInstance().displayImage(myTicket.getLoginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
-            name.setText(myTicket.getUsername());
+            if(!Preferences.getInstance().isLogin()){
+                holder.avatar.setImageResource(R.drawable.user_default);
+                holder.name.setText("尚未登录");
+            }else{
+                ImageLoader.getInstance().displayImage(myTicket.getLoginuserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
+                name.setText(myTicket.getUsername());
+            }
+
+            holder.avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!Preferences.getInstance().isLogin()){
+                        LoginActivity.open(context);
+                    }
+
+                }
+            });
+
             score.setText("" + myTicket.getMyscore());
             rank.setText("" + myTicket.getMyranking());
         }
@@ -104,6 +120,34 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
         holder.jigsaw.setOnJigsawViewChangeListener(this);
         findViewById(R.id.btn_right).setOnClickListener(this);
         request();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestScore();
+    }
+
+    private void requestScore() {
+        ActivistListRequest request = new ActivistListRequest(this,new ActivistListRequest.Params(Preferences.getInstance().getUid()));
+        request.request(new BaseClient.RequestHandler() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                ActivistListRequest.Result result = (ActivistListRequest.Result)object;
+                myTicket = result;
+                holder.setMyTicket(myTicket);
+            }
+
+            @Override
+            public void onError(int error, String msg) {
+
+            }
+        });
     }
 
     private void request() {
@@ -194,6 +238,12 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
     @Override
     public void onJigsawViewChange(boolean checked) {
         if (checked) {
+
+            if(!Preferences.getInstance().isLogin()){
+                next();
+                return;
+            }
+
             final int score = getDeltaScore()+getSquareScore();
             ChangeUserScoreRequest request = new ChangeUserScoreRequest(context, new ChangeUserScoreRequest.Params(score, Preferences.getInstance().getUid()));
             request.request(new BaseClient.RequestHandler() {

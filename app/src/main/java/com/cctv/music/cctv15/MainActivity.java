@@ -178,11 +178,11 @@ public class MainActivity extends BaseActivity implements RotateView.OnRotateLis
                 ZoneActivity.open(this);
                 break;
             case 4:
-                if (!Preferences.getInstance().isLogin()) {
+                /*if (!Preferences.getInstance().isLogin()) {
                     Utils.tip(this, "请先登录");
                     LoginActivity.open(this);
                     return;
-                }
+                }*/
                 TicketActivity.open(this);
                 break;
             case 5:
