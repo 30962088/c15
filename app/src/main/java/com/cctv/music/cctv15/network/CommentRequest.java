@@ -4,9 +4,11 @@ package com.cctv.music.cctv15.network;
 import android.content.Context;
 
 import com.cctv.music.cctv15.model.Comment;
+import com.cctv.music.cctv15.ui.Comment2View;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommentRequest extends BaseClient{
@@ -26,8 +28,19 @@ public class CommentRequest extends BaseClient{
     public static class Result{
         private List<Comment> commentlist;
 
-        public List<Comment> getCommentlist() {
+        public List<Comment> getCommentList(){
             return commentlist;
+        }
+
+        public List<Comment2View.CommentItem> getCommentlist() {
+
+            List<Comment2View.CommentItem> list = new ArrayList<>();
+
+            for(Comment comment : commentlist){
+                list.add(comment.toCommentItem());
+            }
+
+            return list;
         }
     }
 

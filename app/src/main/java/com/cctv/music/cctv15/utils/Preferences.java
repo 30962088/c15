@@ -80,7 +80,7 @@ public class Preferences {
     }
 
     public void setPhone(String phone){
-        preferences.edit().putString("phone", ""+phone).commit();
+        preferences.edit().putString("phone", phone).commit();
     }
 
     public String getPhone(){

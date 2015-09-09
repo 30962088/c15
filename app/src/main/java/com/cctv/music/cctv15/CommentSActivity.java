@@ -8,40 +8,38 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.cctv.music.cctv15.adapter.CommentAdapter;
 import com.cctv.music.cctv15.model.Comment;
-import com.cctv.music.cctv15.model.Content;
+import com.cctv.music.cctv15.model.Song;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.CommentRequest;
-import com.cctv.music.cctv15.network.InsertcommentRequest;
+import com.cctv.music.cctv15.network.GetSongOfCommentInfoRequest;
+import com.cctv.music.cctv15.network.InsertSongCommentRequest;
 import com.cctv.music.cctv15.ui.BaseListView;
 import com.cctv.music.cctv15.ui.Comment2View;
 import com.cctv.music.cctv15.ui.CommentPublishView;
-import com.cctv.music.cctv15.ui.HdCommentView;
 import com.cctv.music.cctv15.ui.LoadingPopup;
-import com.cctv.music.cctv15.ui.SharePopup;
 import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentActivity extends BaseActivity implements BaseListView.OnLoadListener,CommentPublishView.OnPublishListener,Comment2View.OnCommentViewListener,View.OnTouchListener {
+public class CommentSActivity extends BaseActivity implements BaseListView.OnLoadListener,CommentPublishView.OnPublishListener,Comment2View.OnCommentViewListener,View.OnTouchListener {
 
-    public static void open(Context context, Content content) {
+    public static void open(Context context, Song song) {
 
-        Intent intent = new Intent(context, CommentActivity.class);
+        Intent intent = new Intent(context, CommentSActivity.class);
 
-        intent.putExtra("content", content);
+        intent.putExtra("song", song);
 
         context.startActivity(intent);
 
     }
 
-    private Content content;
+    private Song song;
 
     private List<Comment2View.CommentItem> list = new ArrayList<>();
 
@@ -56,17 +54,16 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        content = (Content) getIntent().getSerializableExtra("content");
-        setContentView(R.layout.activity_commentl);
+        song = (Song) getIntent().getSerializableExtra("song");
+        setContentView(R.layout.activity_comment_song);
+        ((TextView)findViewById(R.id.comemntcount)).setText(""+song.getComment_count());
+        ((TextView)findViewById(R.id.title)).setText(song.getSongname());
         container = findViewById(R.id.container);
         publishView = (CommentPublishView) findViewById(R.id.publishview);
         publishView.setModel(this);
         listView = (BaseListView) findViewById(R.id.listview);
         listView.getRefreshableView().setOnTouchListener(this);
-        HdCommentView hdCommentView = new HdCommentView(this);
-        listView.getRefreshableView().addHeaderView(hdCommentView);
         listView.setLimit(20);
-        hdCommentView.setModel(content);
         adapter = new CommentAdapter(this,list,this);
         listView.setAdapter(adapter);
         listView.setOnLoadListener(this);
@@ -75,13 +72,13 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
 
     @Override
     public BaseClient onLoad(int offset, int limit) {
-        CommentRequest request = new CommentRequest(this,new CommentRequest.Params(content.getContentsid(),offset,limit));
+        GetSongOfCommentInfoRequest request = new GetSongOfCommentInfoRequest(this,new GetSongOfCommentInfoRequest.Params(""+song.getSid(),offset,limit));
         return request;
     }
 
     @Override
     public boolean onLoadSuccess(Object object, int offset, int limit) {
-        CommentRequest.Result result = (CommentRequest.Result)object;
+        GetSongOfCommentInfoRequest.Result result = (GetSongOfCommentInfoRequest.Result)object;
 
         if(offset == 1){
             list.clear();
@@ -111,8 +108,8 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
 
     @Override
     public void onshare() {
-        File bitmapFile = ImageLoader.getInstance().getDiskCache().get(content.getAttachment().getAttachmentimgurl());
-        SharePopup.shareWebsite(context, content.getContentstitle(), content.getShareUrl(), bitmapFile);
+        /*File bitmapFile = ImageLoader.getInstance().getDiskCache().get(content.getAttachment().getAttachmentimgurl());
+        SharePopup.shareWebsite(context, content.getContentstitle(), content.getShareUrl(), bitmapFile);*/
     }
 
     @Override
@@ -123,7 +120,7 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
             return;
         }
 
-        InsertcommentRequest request = new InsertcommentRequest(context,new InsertcommentRequest.Params(""+content.getContentsid(),text, Preferences.getInstance().getUid(),iscommentid,isuserid,Preferences.getInstance().getPkey()));
+        InsertSongCommentRequest request = new InsertSongCommentRequest(context,new InsertSongCommentRequest.Params(""+song.getSid(),text, Preferences.getInstance().getUid(),iscommentid,isuserid,Preferences.getInstance().getPkey()));
 
 
         LoadingPopup.show(context);
@@ -169,6 +166,7 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
         }
         return false;
     }
+
 
     @Override
     public void onCommentClick(Comment2View.CommentItem comment) {

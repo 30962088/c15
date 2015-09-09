@@ -42,6 +42,10 @@ public class LiveActivity extends BaseActivity implements PullToRefreshBase.OnRe
         setContentView(R.layout.activity_live);
         videoView = (VideoView) findViewById(R.id.video);
         videoView.setVidepPath("http://m3u8.1du1du.com:1019/index.m3u8");
+//        videoView.setVidepPath("http://live.1du1du.com/service/cctvmusic/ipad_CCTVMusic-TEST.m3u8");
+//        videoView.setVidepPath("http://download.wavetlan.com/SVV/Media/HTTP/MP4/ConvertedFiles/MediaCoder/MediaCoder_test2_1m10s_XVID_VBR_131kbps_480x320_25fps_AACLCv4_VBR_32kbps_Stereo_24000Hz.mp4");
+
+
         findViewById(R.id.btn_program).setOnClickListener(this);
         listView = (PullToRefreshListView)findViewById(R.id.listview);
         listView.setOnRefreshListener(this);

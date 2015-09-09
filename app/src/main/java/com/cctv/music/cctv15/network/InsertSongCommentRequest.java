@@ -8,9 +8,6 @@ import com.loopj.android.http.RequestParams;
 public class InsertSongCommentRequest extends BaseClient{
 
     public static class Params{
-        private int becommentid = 0;
-
-        private int beuserid = 0;
 
         private String songid;
 
@@ -18,21 +15,19 @@ public class InsertSongCommentRequest extends BaseClient{
 
         private String userid;
 
+        private String becommentid;
+
+        private String beuserid;
+
         private String pkey;
 
-        public Params(String songid, String commentcontent, String userid, String pkey) {
+        public Params(String songid, String commentcontent, String userid, String becommentid,String beuserid,  String pkey) {
             this.songid = songid;
             this.commentcontent = commentcontent;
             this.userid = userid;
+            this.becommentid = becommentid;
+            this.beuserid = beuserid;
             this.pkey = pkey;
-        }
-
-        public int getBecommentid() {
-            return becommentid;
-        }
-
-        public int getBeuserid() {
-            return beuserid;
         }
 
         public String getSongid() {
@@ -45,6 +40,14 @@ public class InsertSongCommentRequest extends BaseClient{
 
         public String getUserid() {
             return userid;
+        }
+
+        public String getBecommentid() {
+            return becommentid;
+        }
+
+        public String getBeuserid() {
+            return beuserid;
         }
 
         public String getPkey() {

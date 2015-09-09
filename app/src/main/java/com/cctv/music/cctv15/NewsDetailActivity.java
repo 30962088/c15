@@ -141,7 +141,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
 
 
     private void requestComment(){
-        CommentRequest commentRequest = new CommentRequest(this,new CommentRequest.Params(content.getContentsid(),0,10));
+        CommentRequest commentRequest = new CommentRequest(this,new CommentRequest.Params(content.getContentsid(),0,5));
 
         commentRequest.request(new BaseClient.RequestHandler() {
             @Override
@@ -152,7 +152,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onSuccess(Object object) {
                 CommentRequest.Result result = (CommentRequest.Result) object;
-                renderCommentList(result.getCommentlist());
+                renderCommentList(result.getCommentList());
             }
 
             @Override

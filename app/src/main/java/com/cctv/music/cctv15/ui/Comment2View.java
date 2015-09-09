@@ -11,14 +11,66 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cctv.music.cctv15.R;
+import com.cctv.music.cctv15.adapter.CommentAdapter;
 import com.cctv.music.cctv15.model.Comment;
 import com.cctv.music.cctv15.utils.DateUtils;
 import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.RelativeDateFormat;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.Serializable;
+import java.util.Date;
+
 public class Comment2View extends FrameLayout implements View.OnClickListener{
 
+
+    public static class CommentItem implements Serializable {
+
+        private int commentid;
+
+        private Date datetime;
+
+        private String content;
+
+        private int userid;
+
+        private String userimgurl;
+
+        private String username;
+
+        public CommentItem(int commentid, Date datetime, String content, int userid, String userimgurl, String username) {
+            this.commentid = commentid;
+            this.datetime = datetime;
+            this.content = content;
+            this.userid = userid;
+            this.userimgurl = userimgurl;
+            this.username = username;
+        }
+
+        public int getCommentid() {
+            return commentid;
+        }
+
+        public Date getDatetime() {
+            return datetime;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public int getUserid() {
+            return userid;
+        }
+
+        public String getUserimgurl() {
+            return userimgurl;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+    }
 
     @Override
     public void onClick(View view) {
@@ -33,8 +85,8 @@ public class Comment2View extends FrameLayout implements View.OnClickListener{
     }
 
     public static interface OnCommentViewListener{
-        public void onCommentClick(Comment comment);
-        public void onJubaoClick(Comment comment);
+        public void onCommentClick(CommentItem comment);
+        public void onJubaoClick(CommentItem comment);
     }
 
     private OnCommentViewListener onCommentViewListener;
@@ -76,9 +128,9 @@ public class Comment2View extends FrameLayout implements View.OnClickListener{
         findViewById(R.id.btn_comment).setOnClickListener(this);
     }
 
-    private Comment comment;
+    private CommentItem comment;
 
-    public void setModel(OnCommentViewListener onCommentViewListener, Comment comment){
+    public void setModel(OnCommentViewListener onCommentViewListener, CommentItem comment){
 
         this.onCommentViewListener = onCommentViewListener;
         this.comment = comment;

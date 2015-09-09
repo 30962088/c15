@@ -2,8 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#f0f0f0"
-    android:orientation="vertical">
+    android:focusable="true"
+    android:id="@+id/container"
+    android:focusableInTouchMode="true" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,10 +26,11 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="音乐资讯"
+            android:text=""
             android:textColor="#000"
             android:textSize="17sp" />
 
@@ -50,66 +54,17 @@
         android:layout_height="5dp"
         android:background="@drawable/bg_line"></View>
 
-    <ScrollView
+    <com.cctv.music.cctv15.ui.BaseListView
+        android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical"></com.cctv.music.cctv15.ui.BaseListView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <com.cctv.music.cctv15.ui.NewsTitleView
-                android:id="@+id/titleview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </com.cctv.music.cctv15.ui.NewsTitleView>
-
-            <com.cctv.music.cctv15.ui.MyWebView
-                android:id="@+id/webview"
-                android:adjustViewBounds="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.cctv.music.cctv15.ui.MyWebView>
-
-
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:background="@drawable/bg_border1"
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="15dp"
-                    android:text="最新评论"
-                    android:textColor="#636363"
-                    android:textSize="12sp" />
-
-
-                <LinearLayout
-                    android:id="@+id/container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"></LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-    </ScrollView>
 
     <com.cctv.music.cctv15.ui.CommentPublishView
         android:id="@+id/publishview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></com.cctv.music.cctv15.ui.CommentPublishView>
-
 
 </LinearLayout>

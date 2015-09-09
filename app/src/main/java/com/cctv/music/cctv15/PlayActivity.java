@@ -55,7 +55,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
             return;
         }
 
-        InsertSongCommentRequest request = new InsertSongCommentRequest(context,new InsertSongCommentRequest.Params(""+model.getCurrent().getSid(),text, Preferences.getInstance().getUid(),Preferences.getInstance().getPkey()));
+        InsertSongCommentRequest request = new InsertSongCommentRequest(context,new InsertSongCommentRequest.Params(""+model.getCurrent().getSid(),text, Preferences.getInstance().getUid(),"0","0",Preferences.getInstance().getPkey()));
 
         request.request(new BaseClient.RequestHandler() {
             @Override
@@ -151,6 +151,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_play);
         holder = new ViewHolder();
         holder.publishview.setModel(this);
+        holder.comemntcount.setOnClickListener(this);
         initEvent();
         initSong(model.index);
     }
@@ -192,6 +193,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
     private void initSong(int index) {
         Song song = model.list.get(index);
         holder.singer.setText(song.getSingername());
+        holder.comemntcount.setText(""+song.getComment_count());
         holder.songname.setText(song.getSongname());
         ImageLoader.getInstance().displayImage(song.getSurfaceurl(), holder.img, DisplayOptions.IMG.getOptions());
         start(song.getSongurl());
@@ -415,6 +417,9 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.btn_star:
                 onstar();
+                break;
+            case R.id.comemntcount:
+                CommentSActivity.open(context,model.getCurrent());
                 break;
         }
     }

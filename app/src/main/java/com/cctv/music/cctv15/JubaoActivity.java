@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.cctv.music.cctv15.model.Comment;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.InsertReportRequest;
+import com.cctv.music.cctv15.ui.Comment2View;
 import com.cctv.music.cctv15.ui.LoadingPopup;
 import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.RegexUtils;
@@ -18,7 +19,7 @@ import com.cctv.music.cctv15.utils.Utils;
 
 public class JubaoActivity extends BaseActivity implements View.OnClickListener{
 
-    public static void open(Context context,Comment comment) {
+    public static void open(Context context,Comment2View.CommentItem comment) {
 
         Intent intent = new Intent(context, JubaoActivity.class);
 
@@ -45,14 +46,14 @@ public class JubaoActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-    private Comment comment;
+    private Comment2View.CommentItem comment;
 
     private ViewHolder holder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        comment = (Comment) getIntent().getSerializableExtra("comment");
+        comment = (Comment2View.CommentItem) getIntent().getSerializableExtra("comment");
         setContentView(R.layout.activity_jubao);
         holder = new ViewHolder();
         if(Preferences.getInstance().isLogin()){

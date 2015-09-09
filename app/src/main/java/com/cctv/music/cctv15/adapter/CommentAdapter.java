@@ -8,17 +8,21 @@ import com.cctv.music.cctv15.model.Comment;
 import com.cctv.music.cctv15.ui.Comment2View;
 import com.cctv.music.cctv15.ui.CommentView;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 public class CommentAdapter extends BaseAdapter {
 
+
+
     private Context context;
 
-    private List<Comment> list;
+    private List<Comment2View.CommentItem> list;
 
     private Comment2View.OnCommentViewListener onCommentViewListener;
 
-    public CommentAdapter(Context context, List<Comment> list, Comment2View.OnCommentViewListener onCommentViewListener) {
+    public CommentAdapter(Context context, List<Comment2View.CommentItem> list, Comment2View.OnCommentViewListener onCommentViewListener) {
         this.context = context;
         this.list = list;
         this.onCommentViewListener = onCommentViewListener;
@@ -41,7 +45,7 @@ public class CommentAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Comment comment = list.get(position);
+        Comment2View.CommentItem comment = list.get(position);
         if (convertView == null) {
             convertView = new Comment2View(context);
         }

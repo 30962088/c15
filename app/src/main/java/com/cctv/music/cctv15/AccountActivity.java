@@ -25,7 +25,7 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 
-public class AccountActivity extends BaseActivity implements View.OnClickListener,BaseActivity.OnGallerySelectionListener,BaseActivity.OnCitySelectionListener,AliyunUtils.UploadListener,BaseActivity.OnNicknameFillListener,BaseActivity.OnModifyPasswordListener {
+public class AccountActivity extends BaseActivity implements View.OnClickListener,BaseActivity.OnGallerySelectionListener,BaseActivity.OnCitySelectionListener,AliyunUtils.UploadListener,BaseActivity.OnNicknameFillListener,BaseActivity.OnModifyPasswordListener,BaseActivity.OnModifyPhoneListener {
 
     public static void open(Context context) {
 
@@ -59,12 +59,17 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     }
 
     private ViewHolder holder;
+
+
     private Context context;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
         setContentView(R.layout.activity_account);
+        holder = new ViewHolder();
         findViewById(R.id.btn_avatar).setOnClickListener(this);
         findViewById(R.id.btn_city).setOnClickListener(this);
         findViewById(R.id.btn_logout).setOnClickListener(this);
@@ -81,7 +86,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
             holder.advance.setVisibility(View.GONE);
         }
 
-        holder = new ViewHolder();
+
         request();
     }
 
@@ -103,7 +108,16 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_password:
                 modifyPassowrd(this);
                 break;
+            case R.id.btn_phone:
+                modifyPhone(this);
+                break;
         }
+    }
+
+    @Override
+    public void onModifyPhone(String phone) {
+
+        holder.phone.setText(phone);
     }
 
     private void onnickname() {

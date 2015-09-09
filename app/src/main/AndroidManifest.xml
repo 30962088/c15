@@ -59,9 +59,12 @@
             </intent-filter>
         </activity>
 
+
+
         <activity
             android:name=".LiveActivity"
             android:hardwareAccelerated="true"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -291,7 +294,23 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ModifyPhoneActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
 
+        <activity
+            android:name=".CommentSActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
 
         <!--配置-->
 

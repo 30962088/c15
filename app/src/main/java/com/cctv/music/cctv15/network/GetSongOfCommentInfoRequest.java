@@ -4,9 +4,11 @@ package com.cctv.music.cctv15.network;
 import android.content.Context;
 
 import com.cctv.music.cctv15.model.SongComment;
+import com.cctv.music.cctv15.ui.Comment2View;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetSongOfCommentInfoRequest extends BaseClient {
@@ -46,6 +48,20 @@ public class GetSongOfCommentInfoRequest extends BaseClient {
         public List<SongComment> getModellist() {
             return modellist;
         }
+
+        public List<Comment2View.CommentItem> getCommentlist() {
+
+            List<Comment2View.CommentItem> list = new ArrayList<>();
+
+            for(SongComment comment : modellist){
+                list.add(comment.toCommentItem());
+            }
+
+            return list;
+        }
+
+
+
     }
 
 

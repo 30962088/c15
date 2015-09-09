@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.PhoneCodeRequest;
+import com.cctv.music.cctv15.network.UpdateClientUserInfoRequest;
+import com.cctv.music.cctv15.ui.LoadingPopup;
+import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.RegexUtils;
 import com.cctv.music.cctv15.utils.Utils;
 
@@ -20,8 +23,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ModifyPhoneActivity extends BaseActivity implements OnClickListener {
-
-	private static final long serialVersionUID = 1L;
 
 	private EditText phoneEditText;
 
@@ -129,17 +130,30 @@ public class ModifyPhoneActivity extends BaseActivity implements OnClickListener
 			Utils.tip(this, "手机号格式错误");
 			return;
 		}
-		
-		UpdateSingeruserInfoRequest request = new UpdateSingeruserInfoRequest(this, new UpdateSingeruserInfoRequest.Params(APP.getSession().getPkey(), APP.getSession().getSid(), phone));
-		
-		request.request(new SimpleRequestHandler(){
-			@Override
+
+		UpdateClientUserInfoRequest.Params params =  new UpdateClientUserInfoRequest.Params(Preferences.getInstance().getUid(), Preferences.getInstance().getPkey());
+
+		params.setUsername(phone);
+
+		UpdateClientUserInfoRequest request = new UpdateClientUserInfoRequest(this,params);
+
+        LoadingPopup.show(context);
+
+		request.request(new BaseClient.SimpleRequestHandler(){
+
+            @Override
+            public void onComplete() {
+                LoadingPopup.hide(context);
+            }
+
+            @Override
 			public void onError(int error, String msg) {
 				Utils.tip(ModifyPhoneActivity.this, "修改失败");
 			}
 			
 			@Override
 			public void onSuccess(Object object) {
+                Utils.tip(context,"修改成功");
 				Intent intent = new Intent();
 				intent.putExtra("phone", phone);
 				setResult(Activity.RESULT_OK, intent);

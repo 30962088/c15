@@ -24,7 +24,8 @@ public class RelativeDateFormat {
         long delta = new Date().getTime() - date.getTime();
         if (delta < 1L * ONE_MINUTE) {
             long seconds = toSeconds(delta);
-            return (seconds <= 0 ? 1 : seconds) + ONE_SECOND_AGO;
+//            return (seconds <= 0 ? 1 : seconds) + ONE_SECOND_AGO;
+            return ONE_SECOND_AGO;
         }
         if (delta < 45L * ONE_MINUTE) {
             long minutes = toMinutes(delta);

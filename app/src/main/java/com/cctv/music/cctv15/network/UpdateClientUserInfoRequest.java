@@ -14,10 +14,16 @@ public class UpdateClientUserInfoRequest extends BaseClient{
         private String userimgformat;
         private String address;
         private String nickname;
+        private String username;
 
         public Params(String userid, String pkey) {
             this.userid = userid;
             this.pkey = pkey;
+        }
+
+
+        public void setUsername(String username) {
+            this.username = username;
         }
 
         public void setAddress(String address) {
@@ -60,6 +66,9 @@ public class UpdateClientUserInfoRequest extends BaseClient{
         }
         if(this.params.nickname != null){
             params.add("nickname",this.params.nickname);
+        }
+        if(this.params.username != null){
+            params.add("username",this.params.username);
         }
         return params;
     }

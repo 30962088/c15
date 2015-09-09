@@ -2,6 +2,7 @@ package com.cctv.music.cctv15.model;
 
 import android.text.TextUtils;
 
+import com.cctv.music.cctv15.ui.Comment2View;
 import com.cctv.music.cctv15.utils.DateUtils;
 
 import java.io.Serializable;
@@ -148,4 +149,10 @@ public class Comment implements Serializable{
     public String getUsername() {
         return username;
     }
+
+
+    public Comment2View.CommentItem toCommentItem(){
+        return new Comment2View.CommentItem(commentid,getDatetime(),getContent(),userid,userimgurl,username);
+    }
+
 }
