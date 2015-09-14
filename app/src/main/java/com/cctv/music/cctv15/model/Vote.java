@@ -99,6 +99,14 @@ public class Vote implements Serializable{
         return str;
     }
 
+    public String getWebUrl(){
+        String url = getShareUrl();
+        if(Preferences.getInstance().isLogin()){
+            url = getShareUrl()+"&userid="+Preferences.getInstance().getUid();
+        }
+        return url;
+    }
+
 
 
     public String getShareUrl(){
@@ -108,7 +116,7 @@ public class Vote implements Serializable{
         }else{
             tpl = "index";
         }
-        return AppConfig.getInstance().getHost()+"/voteview/"+tpl+"?voteid="+voteid+"&userid="+ Preferences.getInstance().getUid();
+        return AppConfig.getInstance().getHost()+"/voteview/"+tpl+"?voteid="+voteid;
     }
 
 }

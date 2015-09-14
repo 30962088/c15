@@ -40,7 +40,7 @@ public class VoteDetailActivity extends BaseActivity implements View.OnClickList
         loading = findViewById(R.id.loading);
         findViewById(R.id.share).setOnClickListener(this);
         webView = (MyWebView) findViewById(R.id.webview);
-        webView.loadUrl(vote.getShareUrl());
+        webView.loadUrl(vote.getWebUrl());
         webView.setWebViewClient(new WebViewClient() {
 
             public void onPageFinished(WebView view, String url) {

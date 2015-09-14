@@ -1,5 +1,6 @@
 package com.cctv.music.cctv15.model;
 
+import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.DateUtils;
 
 import java.io.Serializable;
@@ -45,6 +46,10 @@ public class Attachment implements Serializable{
 
     public String getAttachmentid() {
         return attachmentid;
+    }
+
+    public String getAttachmentimgurl(int width,int height){
+        return String.format(AppConfig.getInstance().getHost()+"/cctv15/getTheImage?fileName=%s%s&width=%d&height=%d",attachmentguid,attachmentformat,width,height);
     }
 
     public String getAttachmentimgurl() {

@@ -238,6 +238,7 @@
         </activity>
         <activity
             android:name=".JigsawActivity"
+            android:theme="@style/Theme.AppCompat.Light"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" >
             <intent-filter>

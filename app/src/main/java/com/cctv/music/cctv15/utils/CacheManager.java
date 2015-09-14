@@ -39,15 +39,18 @@ public class CacheManager {
 	}
 	
 	private static void delete(File f) {
-		if (f.isDirectory()) {
-			for (File c : f.listFiles()) {
-				delete(c);
-			}
+		if(f != null){
+			if (f.isDirectory()) {
+				for (File c : f.listFiles()) {
+					delete(c);
+				}
 
+			}
+			if(!f.getName().endsWith(".class")){
+				f.delete();
+			}
 		}
-		if(!f.getName().endsWith(".class")){
-			f.delete();
-		}
+
 		
 
 	}

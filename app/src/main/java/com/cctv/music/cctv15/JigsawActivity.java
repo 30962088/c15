@@ -1,10 +1,14 @@
 package com.cctv.music.cctv15;
 
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -115,6 +119,7 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
         super.onCreate(savedInstanceState);
         myTicket = (MyTicket) getIntent().getSerializableExtra("myTicket");
         setContentView(R.layout.activity_jigsaw);
+
         holder = new ViewHolder();
         holder.setMyTicket(myTicket);
         holder.jigsaw.setOnJigsawViewChangeListener(this);
@@ -254,9 +259,28 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
 
                 @Override
                 public void onSuccess(Object object) {
-                    myTicket.setMyscore(myTicket.getMyscore() + score);
-                    holder.setMyTicket(myTicket);
-                    next();
+
+                    Dialog alertDialog = new AlertDialog.Builder(context).
+                            setTitle("恭喜").
+                            setMessage("本次得分：" + score).
+                            setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                }
+                            }).
+                            create();
+
+                    alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            myTicket.setMyscore(myTicket.getMyscore() + score);
+                            holder.setMyTicket(myTicket);
+                            next();
+                        }
+                    });
+
+                    alertDialog.show();
+
                 }
 
                 @Override

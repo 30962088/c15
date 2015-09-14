@@ -55,6 +55,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="41dp"
+                android:layout_marginBottom="2dp"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/bg_news1"
                 android:layout_marginRight="12dp"

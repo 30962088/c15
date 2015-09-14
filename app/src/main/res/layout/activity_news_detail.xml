@@ -37,9 +37,12 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="13dp"
-            android:background="@drawable/bg_pop"
+            android:minWidth="35dp"
+            android:background="@drawable/bg_border2b_red"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:gravity="center"
-            android:text="0"
+            android:text=""
             android:textColor="#b31f3b"
             android:textSize="13.33sp" />
 

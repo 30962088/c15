@@ -3,6 +3,8 @@ package com.cctv.music.cctv15.network;
 
 import android.content.Context;
 
+import com.cctv.music.cctv15.utils.Preferences;
+import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
 public class UpdateClientUserInfoRequest extends BaseClient{
@@ -41,6 +43,12 @@ public class UpdateClientUserInfoRequest extends BaseClient{
         public void setNickname(String nickname) {
             this.nickname = nickname;
         }
+    }
+
+    public static class Result{
+        private String pkey;
+        private String userid;
+
     }
 
     private Params params;
@@ -85,7 +93,10 @@ public class UpdateClientUserInfoRequest extends BaseClient{
 
     @Override
     public Object onSuccess(String str) {
-        return null;
+        Result result = new Gson().fromJson(str,Result.class);
+        Preferences.getInstance().setUid(result.userid);
+        Preferences.getInstance().setPkey(result.pkey);
+        return result;
     }
 
     @Override

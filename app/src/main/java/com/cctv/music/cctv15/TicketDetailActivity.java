@@ -108,8 +108,8 @@ public class TicketDetailActivity extends BaseActivity implements BaseClient.Req
         TicketDetailRequest.Result result = (TicketDetailRequest.Result)object;
         ImageLoader.getInstance().displayImage(item.getImgurl(), holder.img, DisplayOptions.IMG.getOptions());
         holder.title.setText(result.getTitle());
-        holder.count.setText(""+result.getSurplusnumber());
-        holder.day.setText(""+result.getDiffdays());
+        holder.count.setText(""+result.getSurplusnumber()+"张");
+        holder.day.setText(""+result.getDiffdays()+"天");
         holder.desc.setText(""+result.getContents());
         holder.score.setText(""+result.getConvert_score());
     }

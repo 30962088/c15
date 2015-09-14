@@ -1,5 +1,6 @@
 package com.cctv.music.cctv15;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,19 +12,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cctv.music.cctv15.adapter.CommentAdapter;
-import com.cctv.music.cctv15.model.Comment;
 import com.cctv.music.cctv15.model.Song;
 import com.cctv.music.cctv15.network.BaseClient;
-import com.cctv.music.cctv15.network.CommentRequest;
 import com.cctv.music.cctv15.network.GetSongOfCommentInfoRequest;
 import com.cctv.music.cctv15.network.InsertSongCommentRequest;
 import com.cctv.music.cctv15.ui.BaseListView;
 import com.cctv.music.cctv15.ui.Comment2View;
 import com.cctv.music.cctv15.ui.CommentPublishView;
 import com.cctv.music.cctv15.ui.LoadingPopup;
+import com.cctv.music.cctv15.ui.SharePopup;
+import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.w3c.dom.Text;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,12 +56,15 @@ public class CommentSActivity extends BaseActivity implements BaseListView.OnLoa
 
     private View container;
 
+    private TextView commentView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         song = (Song) getIntent().getSerializableExtra("song");
         setContentView(R.layout.activity_comment_song);
-        ((TextView)findViewById(R.id.comemntcount)).setText(""+song.getComment_count());
+        commentView = ((TextView)findViewById(R.id.comemntcount));
+        commentView.setText("" + song.getComment_count());
         ((TextView)findViewById(R.id.title)).setText(song.getSongname());
         container = findViewById(R.id.container);
         publishView = (CommentPublishView) findViewById(R.id.publishview);
@@ -68,6 +76,17 @@ public class CommentSActivity extends BaseActivity implements BaseListView.OnLoa
         listView.setAdapter(adapter);
         listView.setOnLoadListener(this);
         listView.load(true);
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.putExtra("song", song);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            }
+        });
+
     }
 
     @Override
@@ -108,8 +127,8 @@ public class CommentSActivity extends BaseActivity implements BaseListView.OnLoa
 
     @Override
     public void onshare() {
-        /*File bitmapFile = ImageLoader.getInstance().getDiskCache().get(content.getAttachment().getAttachmentimgurl());
-        SharePopup.shareWebsite(context, content.getContentstitle(), content.getShareUrl(), bitmapFile);*/
+        File bitmapFile = ImageLoader.getInstance().getDiskCache().get(song.getSurfaceurl());
+        SharePopup.shareWebsite(context, "欢迎参与音乐频道官方客户端互动。"+song.getSongname(), AppConfig.getInstance().getHost()+"/voteview/MusicShare?songid="+song.getSid(), bitmapFile);
     }
 
     @Override
@@ -132,6 +151,10 @@ public class CommentSActivity extends BaseActivity implements BaseListView.OnLoa
 
             @Override
             public void onSuccess(Object object) {
+
+                song.setComment_count(song.getComment_count()+1);
+                commentView.setText(""+song.getComment_count());
+
                 Utils.tip(context,"评论成功");
                 publishView.clear();
                 listView.load(false);
@@ -189,4 +212,7 @@ public class CommentSActivity extends BaseActivity implements BaseListView.OnLoa
     public void onJubaoClick(Comment2View.CommentItem comment) {
         JubaoActivity.open(context,comment);
     }
+
+
+
 }

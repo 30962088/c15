@@ -57,9 +57,9 @@ public class CommentView extends FrameLayout{
     }
 
     public void setModel(Comment comment){
-        holder.username.setText(""+comment.getUsername());
+        holder.username.setText("" + comment.getUsername());
         ImageLoader.getInstance().displayImage(comment.getUserimgurl(), holder.avatar, DisplayOptions.IMG.getOptions());
-        holder.content.setText("" + Html.fromHtml(comment.getContent()));
+        holder.content.setText(Html.fromHtml(comment.getContent()));
         holder.date.setText(""+ RelativeDateFormat.format(comment.getDatetime()));
     }
 

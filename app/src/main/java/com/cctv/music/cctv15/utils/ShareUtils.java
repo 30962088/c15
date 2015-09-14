@@ -70,6 +70,8 @@ public class ShareUtils {
                 default:
                     mController.setAppWebSite(url);
                     mController.setShareContent(title + " " + url);
+                    mController.setShareImage(new UMImage(context,bitmap));
+
                     break;
             }
             mController.directShare(context, media, new SocializeListeners.SnsPostListener() {

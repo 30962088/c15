@@ -1,6 +1,7 @@
 package com.cctv.music.cctv15;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -24,6 +25,7 @@ import com.cctv.music.cctv15.ui.MyRatingbar;
 import com.cctv.music.cctv15.ui.PercentView;
 import com.cctv.music.cctv15.ui.SharePopup;
 import com.cctv.music.cctv15.utils.AnimUtils;
+import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
@@ -40,11 +42,27 @@ import java.util.TimerTask;
 
 public class PlayActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MyRatingbar.OnRateListener,CommentPublishView.OnPublishListener {
 
+
+    public static final int ACTION_REQUEST_COMMENT = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case ACTION_REQUEST_COMMENT:
+                if (resultCode == Activity.RESULT_OK) {
+                    Song song = (Song) data.getSerializableExtra("song");
+                    model.getCurrent().setComment_count(song.getComment_count());
+                    holder.comemntcount.setText(""+model.getCurrent().getComment_count());
+                }
+                break;
+        }
+    }
+
     @Override
     public void onshare() {
         Song song = model.getCurrent();
         File bitmapFile = ImageLoader.getInstance().getDiskCache().get(song.getSurfaceurl());
-        SharePopup.shareWebsite(context, "欢迎参与音乐频道官方客户端互动", song.getSongurl(), bitmapFile);
+        SharePopup.shareWebsite(context, "欢迎参与音乐频道官方客户端互动。"+song.getSongname(), AppConfig.getInstance().getHost()+"/voteview/MusicShare?songid="+song.getSid(), bitmapFile);
 
     }
 
@@ -64,6 +82,10 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
 
             @Override
             public void onSuccess(Object object) {
+                Song song = model.getCurrent();
+                song.setComment_count(song.getComment_count()+1);
+                holder.comemntcount.setText(""+song.getComment_count());
+
                 Utils.tip(context, "评论成功");
                 holder.publishview.clear();
             }
@@ -419,7 +441,9 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
                 onstar();
                 break;
             case R.id.comemntcount:
-                CommentSActivity.open(context,model.getCurrent());
+                Intent intent = new Intent(this, CommentSActivity.class);
+                intent.putExtra("song", model.getCurrent());
+                startActivityForResult(intent, ACTION_REQUEST_COMMENT);
                 break;
         }
     }

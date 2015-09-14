@@ -66,6 +66,9 @@ public class Song implements Serializable{
         return surfaceurl;
     }
 
+    public void setComment_count(long comment_count) {
+        this.comment_count = comment_count;
+    }
 
     public SliderFragment.Model toSliderModel(){
         return new SliderFragment.Model(null,getSurfaceurl(),getSingername()+"《"+getSongname()+"》");
