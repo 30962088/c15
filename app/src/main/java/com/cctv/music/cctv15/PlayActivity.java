@@ -10,6 +10,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -40,7 +41,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PlayActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MyRatingbar.OnRateListener,CommentPublishView.OnPublishListener {
+public class PlayActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MyRatingbar.OnRateListener,CommentPublishView.OnPublishListener,MediaPlayer.OnBufferingUpdateListener {
 
 
     public static final int ACTION_REQUEST_COMMENT = 1;
@@ -85,7 +86,6 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
                 Song song = model.getCurrent();
                 song.setComment_count(song.getComment_count()+1);
                 holder.comemntcount.setText(""+song.getComment_count());
-
                 Utils.tip(context, "评论成功");
                 holder.publishview.clear();
             }
@@ -99,6 +99,11 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
                 }
             }
         });
+    }
+
+    @Override
+    public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
+        Log.d("zzm","buffer"+i);
     }
 
     public static class Model implements Serializable{
@@ -140,8 +145,10 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         private MyRatingbar ratebar;
         private TextView comemntcount;
         private CommentPublishView publishview;
+        private View loading;
 
         public ViewHolder() {
+            loading = findViewById(R.id.loading);
             img = (ImageView) findViewById(R.id.img);
             container = findViewById(R.id.container);
             btn_play = findViewById(R.id.btn_play);
@@ -294,6 +301,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         isPrepared = true;
         mp.seekTo(0);
         holder.label.setText(Utils.formatTimer(mp.getCurrentPosition()) + " / " + Utils.formatTimer(mp.getDuration()));
+        holder.loading.setVisibility(View.GONE);
         onplay();
     }
 
@@ -304,9 +312,11 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setOnPreparedListener(this);
         player.setOnCompletionListener(this);
+        player.setOnBufferingUpdateListener(this);
     }
 
     private void start(String url) {
+        holder.loading.setVisibility(View.VISIBLE);
         releasePlay();
         initPlayer();
         stopTimer();

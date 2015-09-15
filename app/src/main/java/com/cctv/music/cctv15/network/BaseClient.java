@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.cctv.music.cctv15.MainActivity;
+import com.cctv.music.cctv15.db.OfflineDataField;
 import com.cctv.music.cctv15.utils.*;
 import com.loopj.android.http.*;
 import com.owengriffin.reflectionprism.IntrospectionException;
@@ -61,6 +62,7 @@ public abstract class BaseClient implements HttpResponseHandler {
             // TODO: 2015/8/5
             if (getURL().indexOf(AppConfig.getInstance().getHost()) != -1 && (getURL().indexOf("GetActivistDetails") == -1 && getURL().indexOf("isHaveUserName") == -1)) {
                 try {
+
                     JSONObject object = new JSONObject(str);
                     int result = object.getInt("result");
                     if (result != 1000) {
@@ -86,6 +88,7 @@ public abstract class BaseClient implements HttpResponseHandler {
                     e.printStackTrace();
                 }
             }
+
             requestHandler.onSuccess(handler.onSuccess(str));
             requestHandler.onComplete();
 
@@ -141,7 +144,27 @@ public abstract class BaseClient implements HttpResponseHandler {
 
     private RequestHandler requestHandler;
 
+    public String getOfflineHash() {
+        String hash = getURL();
+        RequestParams params = getParams();
+        if (params != null) {
+            hash += params.toString();
+        }
+        return "" + hash.hashCode();
+    }
+
     public void request(RequestHandler requestHandler) {
+
+        /*if (useOffline()) {
+
+            OfflineDataField dataField = OfflineDataField
+                    .getOffline(context,getOfflineHash());
+            if (dataField != null) {
+                requestHandler.onSuccess(onSuccess(dataField.getData()));
+                return;
+            }
+
+        }*/
 
         this.requestHandler = requestHandler;
 
@@ -213,7 +236,7 @@ public abstract class BaseClient implements HttpResponseHandler {
 
 
     protected boolean useOffline() {
-        return true;
+        return false;
     }
 
     public static RequestParams buildParams(Object object)  {
@@ -237,6 +260,8 @@ public abstract class BaseClient implements HttpResponseHandler {
 
         return params;
     }
+
+
 
 	/*static final Pattern reUnicode = Pattern.compile("\\\\\\\\u([0-9a-zA-Z]{4})");
 

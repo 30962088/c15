@@ -7,10 +7,14 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.cctv.music.cctv15.adapter.NewsAdapter;
+import com.cctv.music.cctv15.db.OfflineDataField;
 import com.cctv.music.cctv15.model.Content;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.ContentRequest;
 import com.cctv.music.cctv15.ui.BaseListView;
+import com.cctv.music.cctv15.utils.AppConfig;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +38,12 @@ public class NewsActivity extends BaseActivity implements BaseListView.OnLoadLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         BaseListView listView = (BaseListView)findViewById(R.id.listview);
+        OfflineDataField offlineDataField =  OfflineDataField.getOffline(context, AppConfig.getInstance().getHost() + "/cctv15/contents");
+        if(offlineDataField != null){
+            List<Content> list1 = new Gson().fromJson(offlineDataField.getData(),new TypeToken<List<Content>>(){}.getType());
+            list.addAll(list1);
+        }
+
         adapter = new NewsAdapter(this,list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
@@ -45,6 +55,7 @@ public class NewsActivity extends BaseActivity implements BaseListView.OnLoadLis
     public BaseClient onLoad(int offset, int limit) {
 
         ContentRequest request = new ContentRequest(this,new ContentRequest.Params(1,offset,limit));
+
 
         return request;
     }
@@ -80,5 +91,7 @@ public class NewsActivity extends BaseActivity implements BaseListView.OnLoadLis
         Content content = list.get(position - 1);
         NewsDetailActivity.open(this,content);
     }
+
+
 
 }

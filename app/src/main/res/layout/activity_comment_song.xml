@@ -34,21 +34,6 @@
             android:textColor="#000"
             android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/comemntcount"
-            android:layout_width="wrap_content"
-            android:layout_height="20.5dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="13dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:minWidth="35dp"
-            android:background="@drawable/bg_border2b_red"
-            android:gravity="center"
-            android:text="0123"
-            android:textColor="#b31f3b"
-            android:textSize="13.33sp" />
 
     </RelativeLayout>
 

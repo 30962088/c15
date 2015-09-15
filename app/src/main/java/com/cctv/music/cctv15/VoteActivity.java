@@ -7,11 +7,16 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.cctv.music.cctv15.adapter.VoteAdapter;
+import com.cctv.music.cctv15.db.OfflineDataField;
+import com.cctv.music.cctv15.model.Content;
 import com.cctv.music.cctv15.model.Vote;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.VoteRequest;
 import com.cctv.music.cctv15.ui.BaseListView;
+import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +46,11 @@ public class VoteActivity extends BaseActivity implements BaseListView.OnLoadLis
         listView.getRefreshableView().setHeaderDividersEnabled(false);
         listView.getRefreshableView().setFooterDividersEnabled(false);
         listView.getRefreshableView().setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        OfflineDataField offlineDataField =  OfflineDataField.getOffline(context, AppConfig.getInstance().getHost() + "/cctv15/vote");
+        if(offlineDataField != null){
+            List<Vote> list1 = new Gson().fromJson(offlineDataField.getData(),new TypeToken<List<Vote>>(){}.getType());
+            list.addAll(list1);
+        }
         adapter = new VoteAdapter(this,list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);

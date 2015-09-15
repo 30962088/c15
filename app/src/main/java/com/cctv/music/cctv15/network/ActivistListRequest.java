@@ -2,6 +2,7 @@ package com.cctv.music.cctv15.network;
 
 import android.content.Context;
 
+import com.cctv.music.cctv15.db.OfflineDataField;
 import com.cctv.music.cctv15.model.MyTicket;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -50,7 +51,12 @@ public class ActivistListRequest extends BaseClient{
 
     @Override
     public Object onSuccess(String str) {
-        return new Gson().fromJson(str,Result.class);
+
+        Result result = new Gson().fromJson(str,Result.class);
+
+        OfflineDataField.create(context,new OfflineDataField(getOfflineHash(), new Gson().toJson(result)));
+
+        return result;
     }
 
     @Override

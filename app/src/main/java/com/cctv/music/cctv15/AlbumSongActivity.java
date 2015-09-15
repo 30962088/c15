@@ -1,25 +1,22 @@
 package com.cctv.music.cctv15;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
 
 import com.cctv.music.cctv15.adapter.SongAlbumAdapter;
 
+import com.cctv.music.cctv15.db.OfflineDataField;
 import com.cctv.music.cctv15.model.Song;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.SongRequest;
 import com.cctv.music.cctv15.ui.BaseListView;
 import com.cctv.music.cctv15.ui.SliderFragment;
+import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +51,21 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
         View header = LayoutInflater.from(this).inflate(R.layout.slider_container, null);
 
         listView.getRefreshableView().addHeaderView(header);
+
+        OfflineDataField offlineDataField =  OfflineDataField.getOffline(context, AppConfig.getInstance().getHost() + "/cctv15/GetSongInfoList0");
+        if(offlineDataField != null){
+            List<Song> list1 = new Gson().fromJson(offlineDataField.getData(),new TypeToken<List<Song>>(){}.getType());
+            list.addAll(SongRequest.Result.getModels1(list1));
+            songList.addAll(list1);
+        }
+        OfflineDataField offlineDataField2 =  OfflineDataField.getOffline(context, AppConfig.getInstance().getHost() + "/cctv15/GetSongInfoList1");
+        if(offlineDataField2 != null){
+            List<Song> list1 = new Gson().fromJson(offlineDataField2.getData(),new TypeToken<List<Song>>(){}.getType());
+            sliderSongList = list1;
+            getSupportFragmentManager().beginTransaction().replace(R.id.slider_container, SliderFragment.newInstance(AlbumSongActivity.this, SongRequest.Result.toSliderList1(list1))).commit();
+        }
+
+
         adapter = new SongAlbumAdapter(this,list,this);
         listView.setAdapter(adapter);
         listView.setOnLoadListener(this);

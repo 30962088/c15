@@ -3,9 +3,12 @@ package com.cctv.music.cctv15.network;
 import android.content.Context;
 
 import com.cctv.music.cctv15.adapter.SongAlbumAdapter;
+import com.cctv.music.cctv15.db.OfflineDataField;
+import com.cctv.music.cctv15.model.Content;
 import com.cctv.music.cctv15.model.Song;
 import com.cctv.music.cctv15.ui.SliderFragment;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 
 import java.util.ArrayList;
@@ -38,6 +41,14 @@ public class SongRequest extends BaseClient{
         }
 
         public ArrayList<SliderFragment.Model> toSliderList(){
+            return toSliderList1(songlist);
+        }
+
+        public List<SongAlbumAdapter.Model> getModels(){
+            return getModels1(songlist);
+        }
+
+        public static ArrayList<SliderFragment.Model> toSliderList1(List<Song> songlist){
             ArrayList<SliderFragment.Model> list = new ArrayList<>();
             for(Song song : songlist){
                 list.add(song.toSliderModel());
@@ -45,7 +56,7 @@ public class SongRequest extends BaseClient{
             return list;
         }
 
-        public List<SongAlbumAdapter.Model> getModels(){
+        public static List<SongAlbumAdapter.Model> getModels1(List<Song> songlist){
             List<SongAlbumAdapter.Model> list = new ArrayList<>();
             SongAlbumAdapter.Model model = null;
             for(int i = 0;i<songlist.size();i++){
@@ -93,7 +104,24 @@ public class SongRequest extends BaseClient{
 
     @Override
     public Object onSuccess(String str) {
-        return new Gson().fromJson(str,Result.class);
+
+        OfflineDataField dataField = OfflineDataField.getOffline(context, getURL()+params.isrecommend);
+
+        List<Song> list;
+
+        if(dataField == null || params.pageno == 1){
+            list = new ArrayList<>();
+        }else{
+            list =new Gson().fromJson(dataField.getData(), new TypeToken<List<Song>>() {}.getType());
+        }
+
+        Result result = new Gson().fromJson(str,Result.class);
+
+        list.addAll(result.getSonglist());
+
+        OfflineDataField.create(context,new OfflineDataField(getURL()+params.isrecommend, new Gson().toJson(list)));
+
+        return result;
     }
 
     @Override

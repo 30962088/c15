@@ -99,6 +99,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+                <LinearLayout
+                    android:id="@+id/loading"
+                    android:background="@drawable/bg_play_loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
+
+                    <com.cctv.music.cctv15.ui.RotateLoadingView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/loading5"
+                        android:layout_centerInParent="true" />
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:text="正在缓冲"/>
+
+                </LinearLayout>
+
             </RelativeLayout>
 
 

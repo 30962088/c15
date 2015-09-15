@@ -2,10 +2,13 @@ package com.cctv.music.cctv15.network;
 
 import android.content.Context;
 
+import com.cctv.music.cctv15.db.OfflineDataField;
 import com.cctv.music.cctv15.model.Content;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContentRequest extends BaseClient{
@@ -58,9 +61,30 @@ public class ContentRequest extends BaseClient{
         return Method.GET;
     }
 
+
+
+
     @Override
     public Object onSuccess(String str) {
-        return new Gson().fromJson(str,Result.class);
+
+
+        OfflineDataField dataField = OfflineDataField.getOffline(context, getURL());
+
+        List<Content> list;
+
+        if(dataField == null || params.pageno == 1){
+            list = new ArrayList<>();
+        }else{
+            list =new Gson().fromJson(dataField.getData(), new TypeToken<List<Content>>() {}.getType());
+        }
+
+        Result result = new Gson().fromJson(str,Result.class);
+
+        list.addAll(result.getList());
+
+        OfflineDataField.create(context,new OfflineDataField(getURL(), new Gson().toJson(list)));
+
+        return result;
     }
 
 

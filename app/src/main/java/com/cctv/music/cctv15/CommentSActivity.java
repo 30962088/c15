@@ -56,15 +56,14 @@ public class CommentSActivity extends BaseActivity implements BaseListView.OnLoa
 
     private View container;
 
-    private TextView commentView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         song = (Song) getIntent().getSerializableExtra("song");
         setContentView(R.layout.activity_comment_song);
-        commentView = ((TextView)findViewById(R.id.comemntcount));
-        commentView.setText("" + song.getComment_count());
+
         ((TextView)findViewById(R.id.title)).setText(song.getSongname());
         container = findViewById(R.id.container);
         publishView = (CommentPublishView) findViewById(R.id.publishview);
@@ -153,7 +152,6 @@ public class CommentSActivity extends BaseActivity implements BaseListView.OnLoa
             public void onSuccess(Object object) {
 
                 song.setComment_count(song.getComment_count()+1);
-                commentView.setText(""+song.getComment_count());
 
                 Utils.tip(context,"评论成功");
                 publishView.clear();

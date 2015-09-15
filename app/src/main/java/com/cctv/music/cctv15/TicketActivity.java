@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cctv.music.cctv15.adapter.TicketAdapter;
+import com.cctv.music.cctv15.db.OfflineDataField;
 import com.cctv.music.cctv15.fragment.RankFragment;
 import com.cctv.music.cctv15.model.MyTicket;
 import com.cctv.music.cctv15.model.TicketItem;
@@ -19,6 +20,7 @@ import com.cctv.music.cctv15.ui.LoadingPopup;
 import com.cctv.music.cctv15.utils.DisplayOptions;
 import com.cctv.music.cctv15.utils.Preferences;
 import com.cctv.music.cctv15.utils.Utils;
+import com.google.gson.Gson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -71,7 +73,7 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
     private ViewHolder holder;
 
     private SlidingMenu menu;
-
+    private ActivistListRequest request;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +83,22 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
         holder.btn_rank.setOnClickListener(this);
         holder.listview.setOnItemClickListener(this);
         holder.count.setOnClickListener(this);
-        holder.listview.post(new Runnable() {
-            @Override
-            public void run() {
-                LoadingPopup.show(context);
-            }
-        });
+
+
+        request = new ActivistListRequest(this,new ActivistListRequest.Params(Preferences.getInstance().getUid()));
+
+        OfflineDataField dataField = OfflineDataField.getOffline(context,request.getOfflineHash());
+        if(dataField != null){
+            ActivistListRequest.Result result = new Gson().fromJson(dataField.getData(), ActivistListRequest.Result.class);
+            initTicket(result);
+        }else{
+            holder.listview.post(new Runnable() {
+                @Override
+                public void run() {
+                    LoadingPopup.show(context);
+                }
+            });
+        }
 
         initSidemenu();
 
@@ -95,7 +107,6 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
     @Override
     protected void onResume() {
         super.onResume();
-        ActivistListRequest request = new ActivistListRequest(this,new ActivistListRequest.Params(Preferences.getInstance().getUid()));
         request.request(this);
     }
 
@@ -134,6 +145,13 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
     @Override
     public void onSuccess(Object object) {
         ActivistListRequest.Result result = (ActivistListRequest.Result)object;
+
+        initTicket(result);
+
+
+    }
+
+    private void initTicket(ActivistListRequest.Result result){
         myTicket = result;
         holder.count.setText("" + result.getMyticket_count());
         if(!Preferences.getInstance().isLogin()){
@@ -157,8 +175,6 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
         holder.rank.setText("" + result.getMyranking());
         holder.score.setText("" + result.getMyscore());
         holder.listview.setAdapter(new TicketAdapter(this, result.getActivitylist()));
-
-
     }
 
     private void initSidemenu() {
