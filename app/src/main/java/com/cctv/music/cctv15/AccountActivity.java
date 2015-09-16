@@ -127,7 +127,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onGallerySelection(File file) {
         LoadingPopup.show(this);
-        AliyunUtils.getInstance().upload(CropImageUtils.cropImage(this, file, 300, 300), "cctv11", this);
+        AliyunUtils.getInstance().upload(CropImageUtils.cropImage(this, file, 300, 300), AliyunUtils.BUCKET_NAME, this);
 
     }
 

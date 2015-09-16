@@ -248,7 +248,7 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onGallerySelection(File file) {
         LoadingPopup.show(getActivity());
-        AliyunUtils.getInstance().upload(CropImageUtils.cropImage(getActivity(), file, 300, 300), "cctv11", this);
+        AliyunUtils.getInstance().upload(CropImageUtils.cropImage(getActivity(), file, 300, 300), AliyunUtils.BUCKET_NAME, this);
     }
 
     private AliyunUtils.UploadResult result;

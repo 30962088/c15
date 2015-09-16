@@ -19,7 +19,10 @@ public class AliyunUtils {
 	private static final String ACCESS_ID = "LYk8ljJ9J2fhZ4XX";
 	private static final String ACCESS_KEY = "yPRp9E5reO4aO3YtRkrgAlaAWe34YA";
 
-	private static final String OSS_ENDPOINT = "http://oss-cn-hangzhou.aliyuncs.com/";
+//	private static final String OSS_ENDPOINT = "http://oss-cn-hangzhou.aliyuncs.com/";
+	private static final String OSS_ENDPOINT = "http://oss-cn-qingdao.aliyuncs.com/";
+//public static final String BUCKET_NAME = "cctv11";
+	public static final String BUCKET_NAME = "cctv15cdn";
 
 	public static AliyunUtils instance;
 
