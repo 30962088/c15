@@ -165,7 +165,7 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
         holder.avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!Preferences.getInstance().isLogin()){
+                if (!Preferences.getInstance().isLogin()) {
                     LoginActivity.open(context);
                 }
 
@@ -174,7 +174,10 @@ public class TicketActivity extends BaseActivity implements BaseClient.RequestHa
 
         holder.rank.setText("" + result.getMyranking());
         holder.score.setText("" + result.getMyscore());
-        holder.listview.setAdapter(new TicketAdapter(this, result.getActivitylist()));
+        if(result.getActivitylist() != null){
+            holder.listview.setAdapter(new TicketAdapter(this, result.getActivitylist()));
+        }
+
     }
 
     private void initSidemenu() {

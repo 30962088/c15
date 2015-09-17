@@ -103,7 +103,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
-        Log.d("zzm","buffer"+i);
+//        Log.d("zzm","buffer"+i);
     }
 
     public static class Model implements Serializable{

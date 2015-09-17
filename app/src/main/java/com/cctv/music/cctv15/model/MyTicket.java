@@ -1,6 +1,7 @@
 package com.cctv.music.cctv15.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyTicket implements Serializable{
@@ -29,7 +30,7 @@ public class MyTicket implements Serializable{
 
     private String username;
 
-    private List<TicketItem> activitylist;
+    private List<TicketItem> activitylist = new ArrayList<>();
 
     public long getHighestscore() {
         return highestscore;

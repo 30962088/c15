@@ -37,6 +37,8 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
 
     private BaseListView listView;
 
+    private View sliderContainer;
+
     private int itemSize;
 
     private int windowWidth;
@@ -45,13 +47,14 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_rank);
+
         windowWidth = Utils.getScreenSize(this).x;
         itemSize = windowWidth/2-Utils.dpToPx(context, 26);
         listView = (BaseListView)findViewById(R.id.listview);
-        View header = LayoutInflater.from(this).inflate(R.layout.slider_container, null);
+        sliderContainer = LayoutInflater.from(this).inflate(R.layout.slider_container, null);
 
-        listView.getRefreshableView().addHeaderView(header);
-
+        listView.getRefreshableView().addHeaderView(sliderContainer);
+        sliderContainer.setVisibility(View.GONE);
         OfflineDataField offlineDataField =  OfflineDataField.getOffline(context, AppConfig.getInstance().getHost() + "/cctv15/GetSongInfoList0");
         if(offlineDataField != null){
             List<Song> list1 = new Gson().fromJson(offlineDataField.getData(),new TypeToken<List<Song>>(){}.getType());
@@ -62,7 +65,13 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
         if(offlineDataField2 != null){
             List<Song> list1 = new Gson().fromJson(offlineDataField2.getData(),new TypeToken<List<Song>>(){}.getType());
             sliderSongList = list1;
-            getSupportFragmentManager().beginTransaction().replace(R.id.slider_container, SliderFragment.newInstance(AlbumSongActivity.this, SongRequest.Result.toSliderList1(list1))).commit();
+            if(sliderSongList == null || sliderSongList.size() == 0){
+                sliderContainer.setVisibility(View.GONE);
+            }else{
+                sliderContainer.setVisibility(View.VISIBLE);
+                getSupportFragmentManager().beginTransaction().replace(R.id.slider_container, SliderFragment.newInstance(AlbumSongActivity.this, SongRequest.Result.toSliderList1(list1))).commit();
+            }
+
         }
 
 
@@ -100,7 +109,13 @@ public class AlbumSongActivity extends BaseActivity implements BaseListView.OnLo
             public void onSuccess(Object object) {
                 SongRequest.Result result = (SongRequest.Result) object;
                 sliderSongList = result.getSonglist();
-                getSupportFragmentManager().beginTransaction().replace(R.id.slider_container, SliderFragment.newInstance(AlbumSongActivity.this, result.toSliderList())).commit();
+                if(sliderSongList == null || sliderSongList.size() == 0){
+                    sliderContainer.setVisibility(View.GONE);
+                }else{
+                    sliderContainer.setVisibility(View.VISIBLE);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.slider_container, SliderFragment.newInstance(AlbumSongActivity.this, result.toSliderList())).commit();
+                }
+
             }
 
             @Override

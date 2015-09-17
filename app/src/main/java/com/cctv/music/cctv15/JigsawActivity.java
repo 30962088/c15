@@ -58,6 +58,10 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right:
+                if(gameImgs.size() == 0){
+                    Utils.tip(context,"没有拼图");
+                    return;
+                }
                 JigsawImgActivity.open(this, gameImgs.get(index).getGameimgurl());
                 break;
         }
@@ -168,7 +172,10 @@ public class JigsawActivity extends BaseActivity implements JigsawView.OnJigsawV
             public void onSuccess(Object object) {
                 GetGameImgListRequest.Result result = (GetGameImgListRequest.Result) object;
                 gameImgs = result.getGameimglist();
-                start(0);
+                if(gameImgs.size() > 0){
+                    start(0);
+                }
+
             }
 
             @Override
