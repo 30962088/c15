@@ -1,5 +1,6 @@
 package com.cctv.music.cctv15;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ import java.util.List;
 
 public class CommentActivity extends BaseActivity implements BaseListView.OnLoadListener,CommentPublishView.OnPublishListener,Comment2View.OnCommentViewListener,View.OnTouchListener {
 
-    public static void open(Context context, Content content) {
+  /*  public static void open(Context context, Content content) {
 
         Intent intent = new Intent(context, CommentActivity.class);
 
@@ -39,7 +40,7 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
 
         context.startActivity(intent);
 
-    }
+    }*/
 
     private Content content;
 
@@ -136,6 +137,7 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
             @Override
             public void onSuccess(Object object) {
                 Utils.tip(context,"评论成功");
+                content.setCommentcount(content.getCommentcount()+1);
                 publishView.clear();
                 listView.load(false);
             }
@@ -189,6 +191,15 @@ public class CommentActivity extends BaseActivity implements BaseListView.OnLoad
 
     @Override
     public void onJubaoClick(Comment2View.CommentItem comment) {
-        JubaoActivity.open(context,comment);
+        JubaoActivity.open(context, comment);
     }
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra("content", content);
+        setResult(Activity.RESULT_OK, intent);
+        super.finish();
+    }
+
 }

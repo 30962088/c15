@@ -1,6 +1,7 @@
 package com.cctv.music.cctv15;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ import java.util.List;
 
 public class NewsDetailActivity extends BaseActivity implements View.OnClickListener{
 
-    public static void open(Context context, Content content) {
+   /* public static void open(Context context, Content content) {
 
         Intent intent = new Intent(context, NewsDetailActivity.class);
 
@@ -41,7 +42,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
 
         context.startActivity(intent);
 
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -53,7 +54,20 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     private void oncomment() {
-        CommentActivity.open(this,content);
+        newsComment(content, new OnNewsCommentListener() {
+            @Override
+            public void onnewscomment(Content c) {
+                if(content.getContentsid() == c.getContentsid()){
+                    if(content.getCommentcount() != c.getCommentcount()){
+                        content.setCommentcount(c.getCommentcount());
+                        holder.comemntcount.setText(""+content.getCommentcount());
+                        requestComment();
+                    }
+
+                }
+            }
+        });
+
     }
 
     private class ViewHolder{
@@ -75,17 +89,17 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
                 @Override
                 public void onshare() {
                     File bitmapFile = ImageLoader.getInstance().getDiskCache().get(content.getAttachment().getAttachmentimgurl());
-                    SharePopup.shareWebsite(context,content.getContentstitle(),content.getShareUrl(),bitmapFile);
+                    SharePopup.shareWebsite(context, content.getContentstitle(), content.getShareUrl(), bitmapFile);
                 }
 
                 @Override
                 public void onsend(String text) {
-                    if(TextUtils.isEmpty(text)){
+                    if (TextUtils.isEmpty(text)) {
                         Utils.tip(context, "请输入要评论的内容");
                         return;
                     }
 
-                    InsertcommentRequest request = new InsertcommentRequest(context,new InsertcommentRequest.Params(""+content.getContentsid(),text, Preferences.getInstance().getUid(),"0","0",Preferences.getInstance().getPkey()));
+                    InsertcommentRequest request = new InsertcommentRequest(context, new InsertcommentRequest.Params("" + content.getContentsid(), text, Preferences.getInstance().getUid(), "0", "0", Preferences.getInstance().getPkey()));
 
 
                     LoadingPopup.show(context);
@@ -100,14 +114,17 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
                             Utils.tip(context, "评论成功");
                             publishview.clear();
                             requestComment();
+                            content.setCommentcount(content.getCommentcount() + 1);
+                            holder.comemntcount.setText("" + content.getCommentcount());
+
                         }
 
                         @Override
                         public void onError(int error, String msg) {
-                            if(error == 1025){
-                                Utils.tip(context,"频率过于频繁");
-                            }else{
-                                Utils.tip(context,"评论失败");
+                            if (error == 1025) {
+                                Utils.tip(context, "频率过于频繁");
+                            } else {
+                                Utils.tip(context, "评论失败");
                             }
                         }
                     });
@@ -220,10 +237,17 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra("content", content);
+        setResult(Activity.RESULT_OK, intent);
+        super.finish();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         holder.webview.loadUrl("about:blank");
-//        holder.webview = null;
     }
 
     @Override

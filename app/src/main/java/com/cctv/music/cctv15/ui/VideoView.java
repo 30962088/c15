@@ -33,6 +33,7 @@ import android.view.WindowManager;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.cctv.music.cctv15.R;
 
@@ -150,7 +151,7 @@ public class VideoView extends FrameLayout implements SurfaceHolder.Callback,
 		videoSurface.setVisibility(View.VISIBLE);
 		controller.setMediaPlayer(this);
 		controller
-				.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
+				.setAnchorView((ViewGroup) findViewById(R.id.videoSurfaceContainer));
 		
 		player.start();
 		loadingView.setVisibility(View.GONE);

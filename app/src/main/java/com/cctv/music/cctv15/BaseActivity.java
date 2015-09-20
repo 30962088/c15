@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
+import com.cctv.music.cctv15.model.Content;
 import com.cctv.music.cctv15.ui.PhotoSelectPopupWindow;
 import com.cctv.music.cctv15.utils.AppConfig;
 import com.cctv.music.cctv15.utils.Dirctionary;
@@ -165,6 +166,21 @@ public class BaseActivity extends FragmentActivity {
                     }
                 }
                 break;
+
+            case ACTION_REQUEST_NEWS_CONTENT:
+                if (resultCode == Activity.RESULT_OK) {
+                    if(onNewsContentListener != null){
+                        onNewsContentListener.onnewscotnent((Content) data.getSerializableExtra("content"));
+                    }
+                }
+                break;
+            case ACTION_REQUEST_NEWS_COMMENT:
+                if (resultCode == Activity.RESULT_OK) {
+                    if(onNewsCommentListener != null){
+                        onNewsCommentListener.onnewscomment((Content) data.getSerializableExtra("content"));
+                    }
+                }
+                break;
         }
     }
 
@@ -263,6 +279,8 @@ public class BaseActivity extends FragmentActivity {
         public void onModifyPhone(String phone);
     }
 
+
+
     private OnModifyPhoneListener onModifyPhoneListener;
 
     private static final int ACTION_REQUEST_MODIFY_PHONE = 5;
@@ -271,6 +289,36 @@ public class BaseActivity extends FragmentActivity {
         this.onModifyPhoneListener = onModifyPhoneListener;
         Intent intent = new Intent(this, ModifyPhoneActivity.class);
         startActivityForResult(intent, ACTION_REQUEST_MODIFY_PHONE);
+    }
+
+
+    public static interface OnNewsContentListener{
+        public void onnewscotnent(Content content);
+    }
+
+    public static interface OnNewsCommentListener{
+        public void onnewscomment(Content content);
+    }
+
+    private static final int ACTION_REQUEST_NEWS_CONTENT = 10;
+    private static final int ACTION_REQUEST_NEWS_COMMENT = 11;
+
+    private OnNewsContentListener onNewsContentListener;
+
+    private OnNewsCommentListener onNewsCommentListener;
+
+    public void newsDetail(Content content, OnNewsContentListener onNewsContentListener){
+        this.onNewsContentListener = onNewsContentListener;
+        Intent intent = new Intent(context, NewsDetailActivity.class);
+        intent.putExtra("content", content);
+        startActivityForResult(intent, ACTION_REQUEST_NEWS_CONTENT);
+    }
+
+    public void newsComment(Content content, OnNewsCommentListener onNewsCommentListener){
+        this.onNewsCommentListener = onNewsCommentListener;
+        Intent intent = new Intent(context, CommentActivity.class);
+        intent.putExtra("content", content);
+        startActivityForResult(intent, ACTION_REQUEST_NEWS_COMMENT);
     }
 
 }

@@ -11,6 +11,7 @@ import com.cctv.music.cctv15.db.OfflineDataField;
 import com.cctv.music.cctv15.model.Content;
 import com.cctv.music.cctv15.network.BaseClient;
 import com.cctv.music.cctv15.network.ContentRequest;
+import com.cctv.music.cctv15.network.DescriptionRequest;
 import com.cctv.music.cctv15.ui.BaseListView;
 import com.cctv.music.cctv15.utils.AppConfig;
 import com.google.gson.Gson;
@@ -82,6 +83,11 @@ public class NewsActivity extends BaseActivity implements BaseListView.OnLoadLis
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public BaseListView.Type getRequestType() {
         return BaseListView.Type.PAGE;
     }
@@ -89,7 +95,21 @@ public class NewsActivity extends BaseActivity implements BaseListView.OnLoadLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Content content = list.get(position - 1);
-        NewsDetailActivity.open(this,content);
+
+        newsDetail(content, new OnNewsContentListener() {
+            @Override
+            public void onnewscotnent(Content content) {
+                for (Content c : list){
+                    if(c.getContentsid() == content.getContentsid()){
+                        c.setCommentcount(content.getCommentcount());
+                        adapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
+        });
+
+
     }
 
 

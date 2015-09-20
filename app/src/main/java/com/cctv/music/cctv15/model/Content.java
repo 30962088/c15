@@ -78,4 +78,9 @@ public class Content implements Serializable{
     public String getVideositeurl() {
         return videositeurl;
     }
+
+
+    public void setCommentcount(int commentcount) {
+        this.commentcount = commentcount;
+    }
 }
