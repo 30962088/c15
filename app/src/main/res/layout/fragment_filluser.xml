@@ -89,7 +89,7 @@
                     android:background="#00000000"
                     android:gravity="left|center_vertical"
                     android:text=""
-                    android:hint="请填写昵称"
+                    android:hint="请设置用户名"
                     android:textColor="#000"
                     android:textSize="14sp" />
 

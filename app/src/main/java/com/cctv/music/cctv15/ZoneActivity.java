@@ -125,7 +125,7 @@ public class ZoneActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onSuccess(Object object) {
                 VoteRequest.Result result = (VoteRequest.Result) object;
-                if (result.getVotelist() != null && result.getVotelist().size() == 1) {
+                if (result.getVotelist() != null && result.getVotelist().size() == 1 && !result.getVotelist().get(0).isEnd()) {
                     holder.vote.setVisibility(View.VISIBLE);
                     holder.vote.setVote(result.getVotelist().get(0));
                 } else {

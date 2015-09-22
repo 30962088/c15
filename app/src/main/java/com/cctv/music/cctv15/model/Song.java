@@ -38,6 +38,10 @@ public class Song implements Serializable{
 
     private String surfaceurl;
 
+    private String recommendimgurl;
+
+    private String recommendimgguid;
+
     public int getSid() {
         return sid;
     }
@@ -71,10 +75,18 @@ public class Song implements Serializable{
     }
 
     public SliderFragment.Model toSliderModel(){
-        return new SliderFragment.Model(null,getSurfaceurl(),getSingername()+"《"+getSongname()+"》");
+        return new SliderFragment.Model(null,getRecommendimgurl(),getSingername()+"《"+getSongname()+"》");
     }
 
     public long getComment_count() {
         return comment_count;
+    }
+
+    public String getRecommendimgguid() {
+        return recommendimgguid;
+    }
+
+    public String getRecommendimgurl() {
+        return recommendimgurl;
     }
 }

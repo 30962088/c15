@@ -114,7 +114,9 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
         }
 
         public void fill(Model model) {
-            username.setText("" + model.username);
+            if(!TextUtils.isEmpty(model.username)){
+                username.setText("" + model.username);
+            }
             setCity(model.city);
             /*if(model.sex != Sex.UnKouwn){
                 setSex(model.sex);
@@ -180,7 +182,7 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
         }
         final String nickname = holder.username.getText().toString();
         if (TextUtils.isEmpty(nickname)) {
-            Utils.tip(getActivity(), "请填写昵称");
+            Utils.tip(getActivity(), "请填写用户名");
             return;
         }
         LoadingPopup.show(getActivity());
