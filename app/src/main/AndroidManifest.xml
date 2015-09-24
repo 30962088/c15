@@ -405,7 +405,7 @@
         </activity>
 
         <!--config-->
-       <!-- <meta-data
+       <!--<meta-data
             android:name="network_host"
             android:value="http://cctv15.1du1du.com" />-->
 

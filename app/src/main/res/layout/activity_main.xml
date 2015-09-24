@@ -28,15 +28,15 @@
     <View
         android:id="@+id/d1"
         android:layout_width="match_parent"
-        android:layout_height="82.5dp"
-        android:background="@drawable/icon_hd2"></View>
+        android:layout_height="96dp"
+        android:background="@drawable/icon_hd3"></View>
 
     <View
-        android:layout_width="123dp"
-        android:layout_height="45.5dp"
+        android:layout_width="135.6dp"
+        android:layout_height="52dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/bg_logo"></View>
+        android:layout_marginTop="2dp"
+        android:background="@drawable/bg_logo1"></View>
 
     <View
         android:id="@+id/kedu"
