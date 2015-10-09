@@ -28,8 +28,8 @@ public class IsHaveNickNameRequest extends BaseClient{
     protected RequestParams getParams() {
         RequestParams params = new RequestParams();
         params.add("method","isHaveNickName");
-        params.add("username",""+this.params.username);
-        params.add("usertype",""+this.params.usertype);
+        params.add("nickname",""+this.params.username);
+//        params.add("usertype",""+this.params.usertype);
         return params;
     }
 

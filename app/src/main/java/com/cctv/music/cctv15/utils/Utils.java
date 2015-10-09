@@ -22,6 +22,8 @@ import com.baidu.android.pushservice.PushManager;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
     public static String logStringCache = "";
@@ -140,6 +142,36 @@ public class Utils {
             return false;
         }
 
+    }
+
+    public static String getError(int code){
+        Map<Integer,String> map = new HashMap<>();
+        map.put(1001,"图片不存在");
+        map.put(1002,"生成图片错误");
+        map.put(1003,"上传图片错误");
+        map.put(1007,"提交投票时，该userid用户已参与过投票，请不要重复投票");
+        map.put(1008,"提交投票时，该phone用户已参与过投票，请不要重复投票");
+        map.put(1010,"昵称重复");
+        map.put(1011,"用户注册，该用户名已注册");
+        map.put(1013,"验证码短信发送失败");
+        map.put(1014,"您正在找回密码，但是该手机还没有注册，请先注册");
+        map.put(1015,"您正在注册CCTV11唱戏吧,该手机号码已注册，请不要重复注册");
+        map.put(1016,"您正在修改CCTV11唱戏吧手机号码,该手机号码已绑定其他用户，请更换其它手机号码绑定");
+        map.put(1017,"您正在修改CCTV11唱戏吧手机号码,该手机号码已绑定您的用户");
+        map.put(1018,"修改密码，原密码输入错误");
+        map.put(1019,"pkey已经过期，请重新登录");
+        map.put(1020,"请输入正确的手机号");
+        map.put(1021,"输入密码错误");
+        map.put(1022,"用户名不存在");
+        map.put(1023,"短信验证码输入错误！");
+        map.put(1024,"短信验证码已过期。");
+        map.put(1025,"操作过于频繁");
+        map.put(1026,"该用户已兑换过此活动的门票");
+        map.put(1027,"没有登录，请先登录");
+        map.put(1028,"该用户已为该歌曲打过评分");
+        map.put(9999,"系统异常");
+        map.put(1029,"该活动门票已抢完");
+        return map.get(code);
     }
 
 }

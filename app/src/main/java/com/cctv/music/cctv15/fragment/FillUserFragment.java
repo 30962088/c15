@@ -225,7 +225,7 @@ public class FillUserFragment extends BaseFragment implements View.OnClickListen
 
                     @Override
                     public void onError(int error, String msg) {
-                        Utils.tip(getActivity(),"注册失败");
+                        Utils.tip(getActivity(),Utils.getError(error));
                     }
                 });
 

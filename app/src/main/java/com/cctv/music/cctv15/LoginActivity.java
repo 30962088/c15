@@ -116,7 +116,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             public void onError(int error, String msg) {
-                Utils.tip(LoginActivity.this, "用户名或密码错误");
+                Utils.tip(LoginActivity.this, Utils.getError(error));
             }
         });
 

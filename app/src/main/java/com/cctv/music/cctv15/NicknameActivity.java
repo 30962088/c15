@@ -72,9 +72,7 @@ public class NicknameActivity extends BaseActivity implements OnClickListener {
 			
 			@Override
 			public void onError(int error, String msg) {
-				if(error == 1006){
-					Utils.tip(NicknameActivity.this, "昵称已存在");
-				}
+				Utils.tip(NicknameActivity.this, Utils.getError(error));
 				
 			}
 			

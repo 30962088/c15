@@ -405,13 +405,13 @@
         </activity>
 
         <!--config-->
-       <!--<meta-data
+       <meta-data
             android:name="network_host"
-            android:value="http://cctv15.1du1du.com" />-->
+            android:value="http://cctv15.1du1du.com" />
 
-        <meta-data
+        <!--<meta-data
             android:name="network_host"
-            android:value="http://music.1du1du.com" />
+            android:value="http://music.1du1du.com" />-->
 
         <meta-data
             android:name="push_api_key"
