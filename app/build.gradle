@@ -42,7 +42,18 @@ android {
             zipAlignEnabled true
         }
     }
+    //渠道Flavors，我这里写了一些常用的，你们自己改
     productFlavors {
+        360{}
+        baidu{}
+        yingyongbao{}
+        googleplay{}
+        wandoujia{}
+        xiaomi{}
+        androidmarket{}
+        anzhi{}
+        91{}
+        chinamobile{}
     }
 }
 
@@ -60,4 +71,20 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.+'
     compile project(':library')
     compile project(':umeng')
+}
+
+
+
+android.applicationVariants.all{ variant ->
+    println "${variant.productFlavors[0].name}"
+    variant.outputs.each{ output->
+        output.processManifest.doLast{
+            //${buildDir}是指./build文件夹
+            def manifestFile = "${buildDir}/intermediates/manifests/full/${variant.dirName}/AndroidManifest.xml"
+
+            //将字符串UMENG_CHANNEL_VALUE替换成flavor的名字
+            def updatedContent = new File(manifestFile).getText('UTF-8').replaceAll("development", "${variant.productFlavors[0].name}")
+            new File(manifestFile).write(updatedContent, 'UTF-8')
+        }
+    }
 }
