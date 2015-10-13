@@ -37,14 +37,10 @@ android {
             signingConfig signingConfigs.release
             zipAlignEnabled true
         }
-        debug {
-
-            zipAlignEnabled true
-        }
     }
     //渠道Flavors，我这里写了一些常用的，你们自己改
     productFlavors {
-        360{}
+        m360{}
         baidu{}
         yingyongbao{}
         googleplay{}
@@ -52,7 +48,7 @@ android {
         xiaomi{}
         androidmarket{}
         anzhi{}
-        91{}
+        m91{}
         chinamobile{}
     }
 }
